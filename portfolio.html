@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Our Work | Geek Studio - Arusha Graphic Design & Web Portfolio</title>
+    <meta name="description" content="Explore the elite portfolio of Geek Studio. View our best brand identities, custom SaaS web development projects, and marketing campaigns built in Arusha, Tanzania.">
+    
+    <link id="dynamic-favicon" rel="icon" type="image/png" href="logo-dark.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { charcoal: '#050507', geekRed: '#FF3B3F', geekOrange: '#FFD580' },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                        mono: ['IBM Plex Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@300;500;700&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        body { overflow-x: hidden; transition: background-color 0.4s ease, color 0.4s ease; opacity: 1; }
+        .page-transitioning { opacity: 0 !important; transition: opacity 0.5s cubic-bezier(0.65, 0, 0.35, 1) !important; }
+        .scroll-lock { overflow: hidden !important; height: 100vh !important; }
+        
+        @media (pointer: fine) { body { cursor: none; } }
+
+        .z-cursor { z-index: 99999; pointer-events: none; }
+        .z-nav { z-index: 500; }
+        .z-content { z-index: 10; position: relative; }
+
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; opacity: 0.05; mix-blend-mode: multiply;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        .dark .noise-overlay { opacity: 0.04; mix-blend-mode: screen; }
+
+        #cursor-glow {
+            position: fixed; top: 0; left: 0; width: 400px; height: 400px; 
+            background: radial-gradient(circle, rgba(255, 59, 63, 0.15) 0%, transparent 60%); 
+            transform: translate(-50%, -50%); will-change: transform; pointer-events: none;
+        }
+        .dark #cursor-glow { background: radial-gradient(circle, rgba(255, 59, 63, 0.2) 0%, transparent 60%); }
+        
+        #cursor-ring {
+            position: fixed; top: 0; left: 0; width: 16px; height: 16px; 
+            background-color: #FF3B3F; border-radius: 50%; 
+            transform: translate(-50%, -50%); will-change: transform; 
+            transition: width 0.2s, height 0.2s, background-color 0.2s; pointer-events: none;
+        }
+        @media (pointer: coarse) { #cursor-glow, #cursor-ring { display: none !important; } body { cursor: auto; } }
+        
+        .cursor-hover { 
+            width: 60px !important; height: 60px !important; 
+            background-color: rgba(255, 59, 63, 0.3) !important; 
+            border: 1px solid #FF3B3F;
+        }
+
+        .glass-card { 
+            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); 
+            border: 1px solid rgba(255, 255, 255, 0.8); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; 
+        }
+        .dark .glass-card { background: rgba(15, 15, 18, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        .glass-card:hover { background: rgba(255, 255, 255, 0.8); border-color: rgba(255, 59, 63, 0.3); transform: translateY(-8px); box-shadow: 0 20px 40px -10px rgba(255, 59, 63, 0.15); }
+        .dark .glass-card:hover { background: rgba(255, 255, 255, 0.05); }
+
+        .nav-container { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; transform: translateY(-20px); }
+        .nav-top { padding: 1.5rem 1rem; width: 100%; max-width: 80rem; }
+        .nav-scrolled { padding: 0.75rem 1.5rem; border-radius: 9999px; width: 95%; max-width: 60rem; box-shadow: 0 10px 40px rgba(0,0,0,0.08); background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(16px); }
+        .dark .nav-scrolled { box-shadow: 0 10px 40px rgba(0,0,0,0.8); background: rgba(5, 5, 7, 0.95); }
+        
+        #mobile-menu { transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out; }
+        .mobile-menu-active { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+
+        #loader-screen { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; z-index: 99999; }
+        .loader-bar-bg { width: 250px; height: 1px; overflow: hidden; position: relative; margin-top: 2rem;}
+        .loader-bar-fill { height: 100%; background: #FF3B3F; width: 0%; position: absolute; left: 0; top: 0; }
+        #loader-logo { opacity: 0; transform: scale(0.9); }
+
+        .filter-btn { transition: all 0.3s ease; }
+        .filter-btn.active { background-color: #FF3B3F; color: white; border-color: #FF3B3F; }
+        .dark .filter-btn.active { background-color: #FF3B3F; color: white; border-color: #FF3B3F; }
+
+        .img-placeholder { background: linear-gradient(45deg, rgba(150,150,150,0.05), rgba(150,150,150,0.1)); display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(150,150,150,0.3); color: rgba(150,150,150,0.5); font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; overflow: hidden; position: relative; }
+        .img-placeholder img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; opacity: 0; transition: opacity 0.5s; }
+        .img-placeholder img[src] { opacity: 1; }
+    </style>
+    
+    <script>
+        function applyTheme(isDark) {
+            const favicon = document.getElementById('dynamic-favicon');
+            if (isDark) { 
+                document.documentElement.classList.add('dark'); 
+                favicon.href = 'logo-light.png'; 
+            } else { 
+                document.documentElement.classList.remove('dark'); 
+                favicon.href = 'logo-dark.png'; 
+            }
+        }
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && prefersDark.matches)) { applyTheme(true); } 
+        else { applyTheme(false); }
+        prefersDark.addEventListener('change', (e) => { if (!localStorage.getItem('theme')) { applyTheme(e.matches); } });
+    </script>
+</head>
+<body class="bg-[#F8F9FA] text-slate-900 dark:bg-charcoal dark:text-zinc-200 transition-colors duration-500 selection:bg-geekRed selection:text-white relative scroll-lock">
+
+    <div id="loader-screen" class="bg-[#F8F9FA] dark:bg-charcoal">
+        <div id="loader-logo">
+            <img src="logo-dark.png" alt="Geek Studio" class="w-48 md:w-72 block dark:hidden">
+            <img src="logo-light.png" alt="Geek Studio" class="w-48 md:w-72 hidden dark:block">
+        </div>
+        <div class="loader-text font-mono text-[10px] md:text-xs uppercase tracking-[0.4em] text-geekRed mt-6 animate-pulse">Accessing Archives</div>
+        <div class="loader-bar-bg bg-slate-300 dark:bg-white/10"><div class="loader-bar-fill"></div></div>
+    </div>
+
+    <div class="fixed top-0 right-0 h-screen w-[150vw] md:w-[60vw] pointer-events-none z-0 flex items-center justify-end translate-x-[25%] translate-y-[15%] md:translate-y-[25%] perspective-[1000px] overflow-hidden">
+        <div id="watermark-container" class="w-full will-change-transform opacity-30 dark:opacity-20 drop-shadow-2xl">
+            <img src="logo-dark.png" alt="Watermark" class="w-full -rotate-12 block dark:hidden object-contain select-none">
+            <img src="logo-light.png" alt="Watermark" class="w-full -rotate-12 hidden dark:block object-contain select-none">
+        </div>
+    </div>
+    
+    <div class="noise-overlay"></div>
+    <div id="cursor-glow" class="z-cursor"></div>
+    <div id="cursor-ring" class="z-cursor"></div>
+    
+    <div class="fixed top-0 left-0 w-full flex justify-center pt-4 z-[500] pointer-events-none">
+        <nav id="main-nav" class="nav-container nav-top pointer-events-auto flex justify-between items-center border border-transparent">
+            <div class="flex items-center gap-3 md:gap-4">
+                <a href="index.html" class="page-link cursor-pointer interactive block">
+                    <img src="nav-logo-dark.png" alt="Geek Studio Arusha" class="h-6 md:h-8 w-auto object-contain block dark:hidden">
+                    <img src="nav-logo-light.png" alt="Geek Studio Arusha" class="h-6 md:h-8 w-auto object-contain hidden dark:block">
+                </a>
+                <div class="hidden items-center gap-2">
+                    <div class="w-2 h-2 bg-geekRed rounded-full animate-pulse shadow-[0_0_15px_#FF3B3F]"></div>
+                    <span class="font-display font-bold tracking-[0.1em] text-xs md:text-sm uppercase text-slate-900 dark:text-white">Geek Studio</span>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex gap-8 text-[11px] uppercase tracking-[0.2em] text-slate-500 dark:text-zinc-400 font-mono font-bold">
+                <a href="index.html#story" class="page-link hover:text-geekRed dark:hover:text-white transition-all interactive">Agency</a>
+                <a href="index.html#services" class="page-link hover:text-geekRed dark:hover:text-white transition-all interactive">Capabilities</a>
+                <a href="#" class="text-geekRed transition-all interactive" onclick="window.scrollTo(0,0)">Work</a>
+                <a href="index.html#contact" class="page-link hover:text-geekRed dark:hover:text-white transition-all interactive">Start Project</a>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button id="theme-toggle" class="p-2 rounded-full bg-slate-200 dark:bg-white/10 text-slate-600 dark:text-white hover:bg-slate-300 dark:hover:bg-white/20 transition-all interactive">
+                    <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                    <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
+                </button>
+
+                <a href="https://wa.me/255684200859" target="_blank" class="hidden md:flex group items-center gap-2 px-4 py-2 bg-slate-900 dark:bg-white/5 border border-slate-900 dark:border-white/10 rounded-full text-[10px] uppercase tracking-widest text-white hover:bg-geekRed hover:border-geekRed transition-all duration-300 interactive">
+                    <span>Let's Talk</span>
+                    <i data-lucide="arrow-right" class="w-3 h-3 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-900 dark:text-white interactive">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <div id="mobile-menu" class="fixed inset-0 bg-[#F8F9FA]/95 dark:bg-charcoal/95 backdrop-blur-xl z-[600] flex flex-col items-center justify-center opacity-0 pointer-events-none invisible">
+        <button id="close-menu-btn" class="absolute top-6 right-6 p-2 text-slate-900 dark:text-white interactive">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+        <div class="flex flex-col gap-8 text-center font-display text-3xl font-bold text-slate-900 dark:text-white overflow-hidden">
+            <div class="mobile-link-wrapper translate-y-8 opacity-0"><a href="index.html#story" class="page-link mobile-link hover:text-geekRed transition-colors interactive">Agency</a></div>
+            <div class="mobile-link-wrapper translate-y-8 opacity-0"><a href="index.html#services" class="page-link mobile-link hover:text-geekRed transition-colors interactive">Capabilities</a></div>
+            <div class="mobile-link-wrapper translate-y-8 opacity-0"><a href="#" onclick="window.scrollTo(0,0)" class="mobile-link hover:text-geekRed transition-colors interactive">Work</a></div>
+            <div class="mobile-link-wrapper translate-y-8 opacity-0"><a href="index.html#contact" class="page-link mobile-link hover:text-geekRed transition-colors interactive">Start Project</a></div>
+        </div>
+        <div class="mobile-link-wrapper translate-y-8 opacity-0">
+            <a href="https://wa.me/255684200859" class="mt-12 px-8 py-4 bg-geekRed text-white rounded-full font-mono text-xs uppercase tracking-widest font-bold interactive block">Let's Talk</a>
+        </div>
+    </div>
+
+    <div id="smooth-wrapper" class="relative z-10 min-h-screen flex flex-col transition-transform duration-700 ease-[cubic-bezier(0.65,0,0.35,1)]">
+        <div id="smooth-content" class="flex-grow">
+
+            <section class="pt-32 pb-16 md:pt-48 md:pb-24 px-6 relative" id="hero-section">
+                <div class="max-w-7xl mx-auto w-full hero-content will-change-transform z-10 text-center">
+                    <div class="overflow-hidden mb-4 flex justify-center">
+                        <h2 class="hero-line font-mono text-geekRed text-[10px] md:text-xs uppercase tracking-[0.3em] md:tracking-[0.4em] opacity-0 translate-y-10">The Archives</h2>
+                    </div>
+                    
+                    <h1 class="font-display text-4xl sm:text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight mb-6 text-slate-900 dark:text-white">
+                        <div class="overflow-hidden"><span class="hero-line block opacity-0 translate-y-10">SELECTED WORKS &</span></div>
+                        <div class="overflow-hidden"><span class="hero-line block opacity-0 translate-y-10">DIGITAL DEPLOYMENTS</span></div>
+                    </h1>
+
+                    <div class="flex justify-center mt-6">
+                        <div class="overflow-hidden">
+                            <p class="hero-line max-w-2xl text-slate-600 dark:text-zinc-300 text-sm md:text-base font-light leading-relaxed opacity-0 translate-y-10 mx-auto">
+                                We don't just build pretty things. We engineer tools, brands, and campaigns designed to dominate the market. Explore our recent footprint.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="pb-32 px-6 relative z-10" id="portfolio-grid-section">
+                <div class="max-w-7xl mx-auto">
+                    
+                    <div class="flex flex-wrap justify-center gap-3 mb-12 hero-line opacity-0 translate-y-10">
+                        <button class="filter-btn active px-5 py-2 rounded-full border border-slate-300 dark:border-white/20 text-[10px] md:text-xs font-mono uppercase tracking-widest text-slate-700 dark:text-zinc-300 hover:border-geekRed interactive" data-filter="all">All Projects</button>
+                        <button class="filter-btn px-5 py-2 rounded-full border border-slate-300 dark:border-white/20 text-[10px] md:text-xs font-mono uppercase tracking-widest text-slate-700 dark:text-zinc-300 hover:border-geekRed interactive" data-filter="branding">Brand Identity</button>
+                        <button class="filter-btn px-5 py-2 rounded-full border border-slate-300 dark:border-white/20 text-[10px] md:text-xs font-mono uppercase tracking-widest text-slate-700 dark:text-zinc-300 hover:border-geekRed interactive" data-filter="tech">Web & SaaS</button>
+                        <button class="filter-btn px-5 py-2 rounded-full border border-slate-300 dark:border-white/20 text-[10px] md:text-xs font-mono uppercase tracking-widest text-slate-700 dark:text-zinc-300 hover:border-geekRed interactive" data-filter="marketing">Marketing</button>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10" id="portfolio-grid">
+                        
+                        <div class="portfolio-item group interactive text-reveal" data-category="branding">
+                            <div class="h-64 md:h-80 w-full rounded-2xl img-placeholder overflow-hidden mb-5">
+                                <span>[Upload 'port-brand1.jpg']</span>
+                                <img src="port-brand1.jpg" alt="Brand Identity Project" class="group-hover:scale-105 transition-transform duration-1000">
+                                <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
+                                    <span class="text-white font-mono text-xs uppercase tracking-widest border border-white/30 px-4 py-2 rounded-full">View Case Study</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-display font-bold text-lg md:text-xl text-slate-900 dark:text-white mb-1">Nunua Groceries</h4>
+                                    <p class="text-[10px] md:text-xs text-slate-500 font-mono uppercase tracking-wider">Brand Identity & Strategy</p>
+                                </div>
+                                <i data-lucide="arrow-up-right" class="w-5 h-5 text-slate-400 group-hover:text-geekRed group-hover:translate-x-1 group-hover:-translate-y-1 transition-all"></i>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-item group interactive text-reveal" data-category="tech">
+                            <div class="h-64 md:h-80 w-full rounded-2xl img-placeholder overflow-hidden mb-5">
+                                <span>[Upload 'port-tech1.jpg']</span>
+                                <img src="port-tech1.jpg" alt="SaaS Development Project" class="group-hover:scale-105 transition-transform duration-1000">
+                                <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
+                                    <span class="text-white font-mono text-xs uppercase tracking-widest border border-white/30 px-4 py-2 rounded-full">View Case Study</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-display font-bold text-lg md:text-xl text-slate-900 dark:text-white mb-1">Stock Portfolio Tracker</h4>
+                                    <p class="text-[10px] md:text-xs text-slate-500 font-mono uppercase tracking-wider">Custom Web Application</p>
+                                </div>
+                                <i data-lucide="arrow-up-right" class="w-5 h-5 text-slate-400 group-hover:text-geekRed group-hover:translate-x-1 group-hover:-translate-y-1 transition-all"></i>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-item group interactive text-reveal" data-category="marketing">
+                            <div class="h-64 md:h-80 w-full rounded-2xl img-placeholder overflow-hidden mb-5">
+                                <span>[Upload 'port-market1.jpg']</span>
+                                <img src="port-market1.jpg" alt="Marketing Campaign" class="group-hover:scale-105 transition-transform duration-1000">
+                                <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
+                                    <span class="text-white font-mono text-xs uppercase tracking-widest border border-white/30 px-4 py-2 rounded-full">View Case Study</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-display font-bold text-lg md:text-xl text-slate-900 dark:text-white mb-1">Ramadan 2026 Campaign</h4>
+                                    <p class="text-[10px] md:text-xs text-slate-500 font-mono uppercase tracking-wider">Social Media Marketing</p>
+                                </div>
+                                <i data-lucide="arrow-up-right" class="w-5 h-5 text-slate-400 group-hover:text-geekRed group-hover:translate-x-1 group-hover:-translate-y-1 transition-all"></i>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-item group interactive text-reveal" data-category="tech">
+                            <div class="h-64 md:h-80 w-full rounded-2xl img-placeholder overflow-hidden mb-5">
+                                <span>[Upload 'port-tech2.jpg']</span>
+                                <img src="port-tech2.jpg" alt="Web Development" class="group-hover:scale-105 transition-transform duration-1000">
+                                <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
+                                    <span class="text-white font-mono text-xs uppercase tracking-widest border border-white/30 px-4 py-2 rounded-full">View Case Study</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-display font-bold text-lg md:text-xl text-slate-900 dark:text-white mb-1">East Africa CRM</h4>
+                                    <p class="text-[10px] md:text-xs text-slate-500 font-mono uppercase tracking-wider">SaaS & Software Systems</p>
+                                </div>
+                                <i data-lucide="arrow-up-right" class="w-5 h-5 text-slate-400 group-hover:text-geekRed group-hover:translate-x-1 group-hover:-translate-y-1 transition-all"></i>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-item group interactive text-reveal" data-category="branding">
+                            <div class="h-64 md:h-80 w-full rounded-2xl img-placeholder overflow-hidden mb-5">
+                                <span>[Upload 'port-brand2.jpg']</span>
+                                <img src="port-brand2.jpg" alt="Packaging Design" class="group-hover:scale-105 transition-transform duration-1000">
+                                <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
+                                    <span class="text-white font-mono text-xs uppercase tracking-widest border border-white/30 px-4 py-2 rounded-full">View Case Study</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-display font-bold text-lg md:text-xl text-slate-900 dark:text-white mb-1">Premium Coffee Roasters</h4>
+                                    <p class="text-[10px] md:text-xs text-slate-500 font-mono uppercase tracking-wider">Packaging & Print Design</p>
+                                </div>
+                                <i data-lucide="arrow-up-right" class="w-5 h-5 text-slate-400 group-hover:text-geekRed group-hover:translate-x-1 group-hover:-translate-y-1 transition-all"></i>
+                            </div>
+                        </div>
+
+                        <div class="portfolio-item group interactive text-reveal" data-category="marketing">
+                            <div class="h-64 md:h-80 w-full rounded-2xl img-placeholder overflow-hidden mb-5">
+                                <span>[Upload 'port-market2.jpg']</span>
+                                <img src="port-market2.jpg" alt="Ad Campaign" class="group-hover:scale-105 transition-transform duration-1000">
+                                <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
+                                    <span class="text-white font-mono text-xs uppercase tracking-widest border border-white/30 px-4 py-2 rounded-full">View Case Study</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-display font-bold text-lg md:text-xl text-slate-900 dark:text-white mb-1">Tanzania Safari Tours</h4>
+                                    <p class="text-[10px] md:text-xs text-slate-500 font-mono uppercase tracking-wider">Google & Meta Ads Strategy</p>
+                                </div>
+                                <i data-lucide="arrow-up-right" class="w-5 h-5 text-slate-400 group-hover:text-geekRed group-hover:translate-x-1 group-hover:-translate-y-1 transition-all"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-24 px-6 bg-slate-50/95 dark:bg-charcoal/95 backdrop-blur-md border-t border-slate-200 dark:border-white/5 relative z-10 text-reveal">
+                <div class="max-w-4xl mx-auto text-center glass-card p-12 md:p-20 rounded-[40px]">
+                    <span class="font-mono text-geekRed text-[10px] md:text-xs uppercase tracking-[0.4em] block mb-4">Start Your Engine</span>
+                    <h2 class="font-display text-4xl md:text-6xl font-bold mb-8 text-slate-900 dark:text-white leading-tight">
+                        Ready to dominate<br>your market?
+                    </h2>
+                    <a href="index.html#contact" class="page-link inline-flex items-center gap-3 px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-black hover:bg-geekRed dark:hover:bg-geekRed hover:text-white dark:hover:text-white font-bold font-display text-sm uppercase tracking-widest transition-all rounded-full interactive group">
+                        <span>Initiate Sequence</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+        
+        <footer class="text-reveal py-10 md:py-12 flex flex-col items-center justify-center text-center bg-[#F8F9FA]/95 dark:bg-charcoal/95 backdrop-blur-md border-t border-slate-200 dark:border-white/5 transition-colors relative z-10">
+            <a href="index.html" class="page-link mb-4 md:mb-6 cursor-pointer interactive block">
+                <img src="nav-logo-dark.png" alt="Geek Studio Design Agency" class="h-6 md:h-8 w-auto opacity-80 hover:opacity-100 transition-opacity block dark:hidden">
+                <img src="nav-logo-light.png" alt="Geek Studio Design Agency" class="h-6 md:h-8 w-auto opacity-50 hover:opacity-100 transition-opacity hidden dark:block">
+            </a>
+            <span class="font-mono text-[8px] md:text-[10px] text-slate-500 dark:text-zinc-700 tracking-[0.2em] md:tracking-[0.3em] block px-4">
+                © 2026 GEEK STUDIO // VISUAL SOUL & DIGITAL SYSTEM // ARUSHA
+            </span>
+        </footer>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+        gsap.registerPlugin(ScrollTrigger);
+
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+        themeToggleBtn.addEventListener('click', () => { 
+            const isNowDark = !htmlElement.classList.contains('dark');
+            applyTheme(isNowDark);
+            localStorage.setItem('theme', isNowDark ? 'dark' : 'light');
+        });
+
+        // Smooth Mobile Menu Logic with GSAP Staggers
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinksWrappers = document.querySelectorAll('.mobile-link-wrapper');
+
+        function openMenu() { 
+            mobileMenu.classList.add('mobile-menu-active'); 
+            gsap.to(mobileLinksWrappers, { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power3.out", delay: 0.2 });
+        }
+        function closeMenu() { 
+            gsap.to(mobileLinksWrappers, { y: 20, opacity: 0, duration: 0.4, stagger: -0.05, ease: "power2.in", onComplete: () => mobileMenu.classList.remove('mobile-menu-active') });
+        }
+        
+        mobileMenuBtn.addEventListener('click', openMenu);
+        closeMenuBtn.addEventListener('click', closeMenu);
+        document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', () => {
+            if(!link.classList.contains('page-link')) closeMenu();
+        }));
+
+        // Safe Loader & Navbar Sequence
+        document.addEventListener('DOMContentLoaded', () => {
+            const tl = gsap.timeline();
+            
+            tl.to('#loader-logo', { opacity: 1, scale: 1, duration: 1.2, ease: "power2.out" })
+              .to('.loader-bar-fill', { width: "100%", duration: 1.5, ease: "power2.inOut" }, "-=0.5")
+              .to(['.loader-text', '.loader-bar-bg'], { opacity: 0, duration: 0.5 }, "+=0.3")
+              .to('#loader-logo', { opacity: 0, scale: 1.1, duration: 0.6, ease: "power2.inOut" })
+              .to('#loader-screen', { 
+                  opacity: 0, duration: 0.8, ease: "power2.inOut",
+                  onComplete: () => {
+                      document.getElementById('loader-screen').style.display = 'none';
+                      document.body.classList.remove('scroll-lock'); 
+                      
+                      requestAnimationFrame(() => {
+                          ScrollTrigger.refresh(); 
+                          playHeroEntry();
+                          gsap.to(".nav-container", { y: 0, opacity: 1, duration: 1.2, ease: "power3.out" });
+                      });
+                  }
+              }, "-=0.2");
+        });
+
+        function playHeroEntry() {
+            gsap.to(".hero-line", { y: 0, opacity: 1, duration: 1.8, stagger: 0.15, ease: "expo.out" });
+        }
+
+        // Smooth Page Exit Transitions
+        document.querySelectorAll('.page-link').forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                const target = link.href;
+                document.body.classList.add('page-transitioning');
+                document.getElementById('smooth-wrapper').style.transform = "translateY(20px)";
+                setTimeout(() => { window.location.href = target; }, 500);
+            });
+        });
+
+        gsap.to(".hero-content", {
+            scrollTrigger: { trigger: "#hero-section", start: "top top", end: "bottom top", scrub: 1, invalidateOnRefresh: true },
+            y: 50, opacity: 0, ease: "none"
+        });
+
+        const nav = document.getElementById('main-nav');
+        ScrollTrigger.create({
+            start: "top -10", 
+            onUpdate: (self) => {
+                if (self.direction === 1) { 
+                    nav.classList.remove('nav-top', 'border-transparent'); nav.classList.add('nav-scrolled');
+                } else if (self.scroll() < 10) { 
+                    nav.classList.add('nav-top', 'border-transparent'); nav.classList.remove('nav-scrolled');
+                }
+            }
+        });
+
+        document.querySelectorAll('.text-reveal').forEach((el) => {
+            gsap.fromTo(el, 
+                { y: 20, opacity: 0 }, 
+                {
+                    scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play reverse play reverse" },
+                    y: 0, opacity: 1, duration: 1.4, ease: "power3.out"
+                }
+            );
+        });
+
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                gsap.to(portfolioItems, {
+                    scale: 0.95, opacity: 0, duration: 0.3, stagger: 0.05,
+                    onComplete: () => {
+                        portfolioItems.forEach(item => {
+                            if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                                item.style.display = 'block';
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+                        
+                        ScrollTrigger.refresh();
+
+                        const visibleItems = Array.from(portfolioItems).filter(item => item.style.display === 'block');
+                        gsap.fromTo(visibleItems, 
+                            { scale: 0.95, opacity: 0, y: 20 }, 
+                            { scale: 1, opacity: 1, y: 0, duration: 0.5, stagger: 0.05, ease: "power3.out" }
+                        );
+                    }
+                });
+            });
+        });
+
+        if (window.matchMedia("(pointer: fine)").matches) {
+            const cursorGlow = document.getElementById('cursor-glow');
+            const cursorRing = document.getElementById('cursor-ring');
+            const interactives = document.querySelectorAll('.interactive, a, button, input, textarea, select');
+            
+            let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
+            let glowX = mouseX, glowY = mouseY;
+            let ringX = mouseX, ringY = mouseY;
+
+            document.addEventListener('mousemove', e => { 
+                mouseX = e.clientX; mouseY = e.clientY; 
+                const xOffset = (mouseX / window.innerWidth - 0.5) * 30; const yOffset = (mouseY / window.innerHeight - 0.5) * -30; 
+                gsap.to("#watermark-container", { rotationY: xOffset, rotationX: yOffset, x: mouseX * -0.05, y: mouseY * -0.05, duration: 1, ease: "power2.out" });
+            });
+
+            interactives.forEach(el => {
+                el.addEventListener('mouseenter', () => cursorRing.classList.add('cursor-hover'));
+                el.addEventListener('mouseleave', () => cursorRing.classList.remove('cursor-hover'));
+            });
+
+            function animateCursor() {
+                glowX += (mouseX - glowX) * 0.15; glowY += (mouseY - glowY) * 0.15;
+                cursorGlow.style.transform = `translate3d(${glowX}px, ${glowY}px, 0) translate(-50%, -50%)`;
+                ringX += (mouseX - ringX) * 0.4; ringY += (mouseY - ringY) * 0.4;
+                cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+                requestAnimationFrame(animateCursor);
+            }
+            animateCursor();
+        }
+    </script>
+</body>
+</html>
