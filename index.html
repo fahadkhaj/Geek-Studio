@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Geek Studio | Graphic Design, Web Development & Marketing in Arusha, Tanzania</title>
+    <meta name="description" content="Geek Studio is Arusha's premier creative agency specializing in elite graphic design, brand identity, SaaS web development, and social media marketing in Tanzania.">
+    
+    <link id="dynamic-favicon" rel="icon" type="image/png" href="logo-dark.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { charcoal: '#050507', geekRed: '#FF3B3F', geekOrange: '#FFD580' },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                        mono: ['IBM Plex Mono', 'monospace'],
+                    },
+                    animation: {
+                        'scroll-bounce': 'scrollBounce 2s cubic-bezier(0.6, -0.28, 0.735, 0.045) infinite',
+                    },
+                    keyframes: {
+                        scrollBounce: {
+                            '0%, 100%': { transform: 'translateY(-10px)', opacity: '0.3' },
+                            '50%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@300;500;700&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
+
+    <style>
+        body { overflow-x: hidden; transition: background-color 0.4s ease, color 0.4s ease; opacity: 1; }
+        .page-transitioning { opacity: 0 !important; transition: opacity 0.5s cubic-bezier(0.65, 0, 0.35, 1) !important; }
+        .scroll-lock { overflow: hidden !important; height: 100vh !important; }
+        
+        @media (pointer: fine) { body { cursor: none; } }
+
+        .z-cursor { z-index: 99999; pointer-events: none; }
+        .z-nav { z-index: 500; }
+        .z-content { z-index: 10; position: relative; }
+
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; opacity: 0.05; mix-blend-mode: multiply;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        .dark .noise-overlay { opacity: 0.04; mix-blend-mode: screen; }
+
+        #cursor-glow {
+            position: fixed; top: 0; left: 0; width: 400px; height: 400px; 
+            background: radial-gradient(circle, rgba(255, 59, 63, 0.15) 0%, transparent 60%); 
+            transform: translate(-50%, -50%); will-change: transform; pointer-events: none;
+        }
+        .dark #cursor-glow { background: radial-gradient(circle, rgba(255, 59, 63, 0.2) 0%, transparent 60%); }
+        
+        #cursor-ring {
+            position: fixed; top: 0; left: 0; width: 16px; height: 16px; 
+            background-color: #FF3B3F; border-radius: 50%; 
+            transform: translate(-50%, -50%); will-change: transform; 
+            transition: width 0.2s, height 0.2s, background-color 0.2s; pointer-events: none;
+        }
+        @media (pointer: coarse) { #cursor-glow, #cursor-ring { display: none !important; } body { cursor: auto; } }
+        
+        .cursor-hover { 
+            width: 60px !important; height: 60px !important; 
+            background-color: rgba(255, 59, 63, 0.3) !important; 
+            border: 1px solid #FF3B3F;
+        }
+
+        .glass-card { 
+            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); 
+            border: 1px solid rgba(255, 255, 255, 0.8); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; 
+        }
+        .dark .glass-card { background: rgba(15, 15, 18, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        .glass-card:hover { background: rgba(255, 255, 255, 0.8); border-color: rgba(255, 59, 63, 0.3); transform: translateY(-8px); box-shadow: 0 20px 40px -10px rgba(255, 59, 63, 0.15); }
+        .dark .glass-card:hover { background: rgba(255, 255, 255, 0.05); }
+
+        .nav-container { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; transform: translateY(-20px); }
+        .nav-top { padding: 1.5rem 1rem; width: 100%; max-width: 80rem; }
+        .nav-scrolled { padding: 0.75rem 1.5rem; border-radius: 9999px; width: 95%; max-width: 60rem; box-shadow: 0 10px 40px rgba(0,0,0,0.08); background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(16px); }
+        .dark .nav-scrolled { box-shadow: 0 10px 40px rgba(0,0,0,0.8); background: rgba(5, 5, 7, 0.95); }
+        
+        #mobile-menu { transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out; }
+        .mobile-menu-active { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+
+        .marquee-wrapper { position: relative; width: 100%; overflow: hidden; mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); padding: 2rem 0; }
+        .marquee-content { display: flex; width: max-content; gap: 4rem; animation: scroll 40s linear infinite; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        #loader-screen { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; z-index: 99999; }
+        .loader-bar-bg { width: 250px; height: 1px; overflow: hidden; position: relative; margin-top: 2rem;}
+        .loader-bar-fill { height: 100%; background: #FF3B3F; width: 0%; position: absolute; left: 0; top: 0; }
+        #loader-logo { opacity: 0; transform: scale(0.9); }
+
+        .Typewriter__cursor { color: #FF3B3F; font-weight: bold; }
+        .geek-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(150, 150, 150, 0.3); padding: 15px 0; font-family: 'Inter', sans-serif; font-size: 16px; outline: none; transition: all 0.3s; }
+        .dark .geek-input { border-bottom-color: rgba(255, 255, 255, 0.2); color: white; }
+        .geek-input:focus { border-bottom-color: #FF3B3F; }
+
+        .img-placeholder { background: linear-gradient(45deg, rgba(150,150,150,0.05), rgba(150,150,150,0.1)); display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(150,150,150,0.3); color: rgba(150,150,150,0.5); font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; overflow: hidden; position: relative; }
+        .img-placeholder img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; opacity: 0; transition: opacity 0.5s; }
+        .img-placeholder img[src] { opacity: 1; }
+    </style>
+    
+    <script>
+        function applyTheme(isDark) {
+            const favicon = document.getElementById('dynamic-favicon');
+            if (isDark) { 
+                document.documentElement.classList.add('dark'); 
+                favicon.href = 'logo-light.png'; 
+            } else { 
+                document.documentElement.classList.remove('dark'); 
+                favicon.href = 'logo-dark.png'; 
+            }
+        }
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && prefersDark.matches)) { applyTheme(true); } 
+        else { applyTheme(false); }
+        prefersDark.addEventListener('change', (e) => { if (!localStorage.getItem('theme')) { applyTheme(e.matches); } });
+    </script>
+</head>
+<body class="bg-[#F8F9FA] text-slate-900 dark:bg-charcoal dark:text-zinc-200 transition-colors duration-500 selection:bg-geekRed selection:text-white relative scroll-lock" id="main-body">
+
+    <div id="loader-screen" class="bg-[#F8F9FA] dark:bg-charcoal">
+        <div id="loader-logo">
+            <img src="logo-dark.png" alt="Geek Studio" class="w-48 md:w-72 block dark:hidden">
+            <img src="logo-light.png" alt="Geek Studio" class="w-48 md:w-72 hidden dark:block">
+        </div>
+        <div class="loader-text font-mono text-[10px] md:text-xs uppercase tracking-[0.4em] text-geekRed mt-6 animate-pulse">Initializing System</div>
+        <div class="loader-bar-bg bg-slate-300 dark:bg-white/10"><div class="loader-bar-fill"></div></div>
+    </div>
+
+    <div class="fixed top-0 right-0 h-screen w-[150vw] md:w-[60vw] pointer-events-none z-0 flex items-center justify-end translate-x-[25%] translate-y-[15%] md:translate-y-[25%] perspective-[1000px] overflow-hidden">
+        <div id="watermark-container" class="w-full will-change-transform opacity-30 dark:opacity-20 drop-shadow-2xl">
+            <img src="logo-dark.png" alt="Watermark" class="w-full -rotate-12 block dark:hidden object-contain select-none">
+            <img src="logo-light.png" alt="Watermark" class="w-full -rotate-12 hidden dark:block object-contain select-none">
+        </div>
+    </div>
+    
+    <div class="noise-overlay"></div>
+    <div id="cursor-glow" class="z-cursor"></div>
+    <div id="cursor-ring" class="z-cursor"></div>
+    
+    <div class="fixed top-0 left-0 w-full flex justify-center pt-4 z-[500] pointer-events-none">
+        <nav id="main-nav" class="nav-container nav-top pointer-events-auto flex justify-between items-center border border-transparent">
+            <div class="flex items-center gap-3 md:gap-4">
+                <div class="cursor-pointer interactive" onclick="window.scrollTo(0,0)">
+                    <img src="nav-logo-dark.png" alt="Geek Studio Arusha" class="h-6 md:h-8 w-auto object-contain block dark:hidden">
+                    <img src="nav-logo-light.png" alt="Geek Studio Arusha" class="h-6 md:h-8 w-auto object-contain hidden dark:block">
+                </div>
+                <div class="hidden items-center gap-2">
+                    <div class="w-2 h-2 bg-geekRed rounded-full animate-pulse shadow-[0_0_15px_#FF3B3F]"></div>
+                    <span class="font-display font-bold tracking-[0.1em] text-xs md:text-sm uppercase text-slate-900 dark:text-white">Geek Studio</span>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex gap-8 text-[11px] uppercase tracking-[0.2em] text-slate-500 dark:text-zinc-400 font-mono font-bold">
+                <a href="#story" class="hover:text-geekRed dark:hover:text-white transition-all interactive">Agency</a>
+                <a href="#services" class="hover:text-geekRed dark:hover:text-white transition-all interactive">Capabilities</a>
+                <a href="portfolio.html" class="page-link hover:text-geekRed dark:hover:text-white transition-all interactive">Work</a>
+                <a href="#contact" class="hover:text-geekRed dark:hover:text-white transition-all interactive">Start Project</a>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button id="theme-toggle" class="p-2 rounded-full bg-slate-200 dark:bg-white/10 text-slate-600 dark:text-white hover:bg-slate-300 dark:hover:bg-white/20 transition-all interactive">
+                    <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                    <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
+                </button>
+                <a href="https://wa.me/255684200859" target="_blank" class="hidden md:flex group items-center gap-2 px-4 py-2 bg-slate-900 dark:bg-white/5 border border-slate-900 dark:border-white/10 rounded-full text-[10px] uppercase tracking-widest text-white hover:bg-geekRed hover:border-geekRed transition-all duration-300 interactive">
+                    <span>Let's Talk</span>
+                    <i data-lucide="arrow-right" class="w-3 h-3 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-900 dark:text-white interactive">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <div id="mobile-menu" class="fixed inset-0 bg-[#F8F9FA]/95 dark:bg-charcoal/95 backdrop-blur-xl z-[600] flex flex-col items-center justify-center opacity-0 pointer-events-none invisible">
+        <button id="close-menu-btn" class="absolute top-6 right-6 p-2 text-slate-900 dark:text-white interactive">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+        <div class="flex flex-col gap-8 text-center font-display text-3xl font-bold text-slate-900 dark:text-white overflow-hidden">
+            <div class="mobile-link-wrapper translate-y-8 opacity-0"><a href="#story" class="mobile-link hover:text-geekRed transition-colors interactive">Agency</a></div>
+            <div class="mobile-link-wrapper translate-y-8 opacity-0"><a href="#services" class="mobile-link hover:text-geekRed transition-colors interactive">Capabilities</a></div>
+            <div class="mobile-link-wrapper translate-y-8 opacity-0"><a href="portfolio.html" class="page-link mobile-link hover:text-geekRed transition-colors interactive">Work</a></div>
+            <div class="mobile-link-wrapper translate-y-8 opacity-0"><a href="#contact" class="mobile-link hover:text-geekRed transition-colors interactive">Start Project</a></div>
+        </div>
+        <div class="mobile-link-wrapper translate-y-8 opacity-0">
+            <a href="https://wa.me/255684200859" class="mt-12 px-8 py-4 bg-geekRed text-white rounded-full font-mono text-xs uppercase tracking-widest font-bold interactive block">Let's Talk</a>
+        </div>
+    </div>
+
+    <div id="smooth-wrapper" class="relative z-10 transition-transform duration-700 ease-[cubic-bezier(0.65,0,0.35,1)]">
+        <div id="smooth-content">
+
+            <section class="min-h-[100svh] flex flex-col pt-[20vh] md:justify-center px-6 relative pb-24 md:pt-40 md:pb-32" id="hero-section">
+                <div class="max-w-7xl mx-auto w-full hero-content will-change-transform z-10">
+                    <div class="overflow-hidden mb-4 md:mb-6">
+                        <h2 class="hero-line font-mono text-geekRed text-[10px] md:text-xs uppercase tracking-[0.3em] md:tracking-[0.4em] opacity-0 translate-y-10">Arusha, Tanzania • Creative Agency</h2>
+                    </div>
+                    
+                    <h1 class="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.05] tracking-tight mb-6 md:mb-8 text-slate-900 dark:text-white">
+                        <div class="overflow-hidden"><span class="hero-line block opacity-0 translate-y-10">ELITE GRAPHIC DESIGN</span></div>
+                        <div class="overflow-hidden"><span class="hero-line block opacity-0 translate-y-10">& DIGITAL SYSTEMS</span></div>
+                        <div class="overflow-hidden h-[1.2em] text-slate-500 dark:text-zinc-500 italic">
+                            <span id="typing-text" class="hero-line block opacity-0 translate-y-10"></span>
+                        </div>
+                    </h1>
+
+                    <div class="flex flex-col md:flex-row gap-4 md:gap-8 items-start mt-6 md:mt-10">
+                        <div class="overflow-hidden">
+                            <p class="hero-line max-w-md text-slate-600 dark:text-zinc-300 text-sm md:text-base font-light leading-relaxed opacity-0 translate-y-10">
+                                We blend elite Graphic Design, Social Media Marketing, and custom Web & SaaS Development. Built in East Africa, engineered for founders ready to dominate.
+                            </p>
+                        </div>
+                        <div class="hero-line h-px w-20 bg-geekRed mt-3 hidden md:block opacity-0"></div>
+                    </div>
+                </div>
+
+                <div class="absolute bottom-10 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 hero-line opacity-0 translate-y-10 z-0">
+                    <span class="text-[9px] font-mono uppercase tracking-[0.4em] text-slate-400 dark:text-zinc-500">Scroll</span>
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-geekRed animate-scroll-bounce"></i>
+                </div>
+            </section>
+
+            <section class="relative overflow-hidden bg-slate-200/50 dark:bg-[#08080A]/80 backdrop-blur-sm border-y border-slate-300 dark:border-white/5 py-4">
+                <div class="text-center mb-2"><span class="font-mono text-[9px] uppercase tracking-[0.3em] text-slate-500">Trusted By Brands in East Africa</span></div>
+                <div class="marquee-wrapper py-2">
+                    <div class="marquee-content opacity-60 hover:opacity-100 transition-opacity duration-500">
+                        <img src="client1.png" alt="Client Logo 1" class="h-8 md:h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all" onerror="this.outerHTML='<span class=\'tech-tag font-display text-xl font-bold text-slate-400 dark:text-white/20\'>CLIENT LOGO 1</span>'">
+                        <img src="client2.png" alt="Client Logo 2" class="h-8 md:h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all" onerror="this.outerHTML='<span class=\'tech-tag font-display text-xl font-bold text-slate-400 dark:text-white/20\'>CLIENT LOGO 2</span>'">
+                        <img src="client3.png" alt="Client Logo 3" class="h-8 md:h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all" onerror="this.outerHTML='<span class=\'tech-tag font-display text-xl font-bold text-slate-400 dark:text-white/20\'>CLIENT LOGO 3</span>'">
+                        <img src="client1.png" alt="Client Logo 1" class="h-8 md:h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all" onerror="this.outerHTML='<span class=\'tech-tag font-display text-xl font-bold text-slate-400 dark:text-white/20\'>CLIENT LOGO 1</span>'">
+                        <img src="client2.png" alt="Client Logo 2" class="h-8 md:h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all" onerror="this.outerHTML='<span class=\'tech-tag font-display text-xl font-bold text-slate-400 dark:text-white/20\'>CLIENT LOGO 2</span>'">
+                        <img src="client3.png" alt="Client Logo 3" class="h-8 md:h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all" onerror="this.outerHTML='<span class=\'tech-tag font-display text-xl font-bold text-slate-400 dark:text-white/20\'>CLIENT LOGO 3</span>'">
+                    </div>
+                </div>
+            </section>
+
+            <section id="story" class="py-24 md:py-32 px-6 bg-slate-50/95 dark:bg-charcoal/95 backdrop-blur-md relative transition-colors duration-500">
+                <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+                    <div>
+                        <div class="text-reveal">
+                            <span class="font-mono text-geekRed text-xs uppercase tracking-widest mb-6 block">The Philosophy</span>
+                            <h2 class="font-display text-3xl md:text-5xl font-bold mb-6 md:mb-8 text-slate-900 dark:text-white leading-tight">
+                                "Design without System is just Art.<br> System without Design is just a Robot."
+                            </h2>
+                        </div>
+                        <div class="space-y-6 text-base md:text-lg text-slate-600 dark:text-zinc-400 font-light leading-relaxed">
+                            <p class="text-reveal">Most agencies make things look pretty but forget to make them convert. Tech shops make things work but forget to give them a soul.</p>
+                            <p class="text-reveal text-slate-900 dark:text-white font-medium">Geek Studio is the bridge. We are the Designers who code. The Marketers who automate. The Geeks with style.</p>
+                        </div>
+                    </div>
+                    <div class="text-reveal h-[300px] md:h-[600px] w-full rounded-[2rem] img-placeholder group interactive overflow-hidden shadow-2xl">
+                        <span>[Upload 'philosophy.jpg']</span>
+                        <img src="philosophy.jpg" alt="Geek Studio Philosophy" class="group-hover:scale-105 transition-transform duration-1000">
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-24 md:py-32 px-6 bg-white/95 dark:bg-[#08080A]/95 backdrop-blur-md relative transition-colors duration-500" id="playbook">
+                <div class="max-w-7xl mx-auto">
+                    <div class="text-center mb-10 md:mb-12">
+                        <span class="pb-title font-mono text-geekRed text-[10px] md:text-xs uppercase tracking-[0.3em] block mb-4">The Playbook</span>
+                        <h2 class="pb-title font-display text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">How We Dominate.</h2>
+                    </div>
+                    
+                    <div class="hidden md:block relative w-full max-w-4xl mx-auto h-[1px] bg-slate-200 dark:bg-white/10 mb-12 pb-line-wrapper opacity-0">
+                        <div class="playbook-line-fill absolute top-0 left-0 h-full bg-geekRed w-0"></div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 relative pb-container">
+                        
+                        <div class="block md:hidden absolute left-7 top-8 bottom-8 w-[2px] bg-slate-200 dark:bg-white/10 z-0 pb-mobile-line-wrapper">
+                            <div class="playbook-line-fill-mobile absolute top-0 left-0 w-full bg-geekRed h-0"></div>
+                        </div>
+
+                        <div class="pb-step relative z-10 flex flex-row md:flex-col items-start md:items-center gap-6 md:gap-4 w-full md:text-center">
+                            <div class="pb-icon shrink-0 w-14 h-14 md:w-20 md:h-20 bg-white dark:bg-[#0c0c0f] border border-slate-200 dark:border-white/10 rounded-full flex items-center justify-center text-geekRed font-mono text-lg md:text-xl shadow-lg relative z-10 mx-0 md:mx-auto">01</div>
+                            <div class="pt-2 md:pt-0">
+                                <h3 class="font-display text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-2 md:mb-3">Discover & Audit</h3>
+                                <p class="text-slate-600 dark:text-zinc-400 text-sm">We analyze your brand, competitors, and systems to find exactly where you are losing money and attention.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="pb-step relative z-10 flex flex-row md:flex-col items-start md:items-center gap-6 md:gap-4 w-full md:text-center">
+                            <div class="pb-icon shrink-0 w-14 h-14 md:w-20 md:h-20 bg-white dark:bg-[#0c0c0f] border border-slate-200 dark:border-white/10 rounded-full flex items-center justify-center text-geekRed font-mono text-lg md:text-xl shadow-lg relative z-10 mx-0 md:mx-auto">02</div>
+                            <div class="pt-2 md:pt-0">
+                                <h3 class="font-display text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-2 md:mb-3">Design & Build</h3>
+                                <p class="text-slate-600 dark:text-zinc-400 text-sm">We craft elite visuals, structure winning marketing campaigns, and code the CRM or SaaS systems you need.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="pb-step relative z-10 flex flex-row md:flex-col items-start md:items-center gap-6 md:gap-4 w-full md:text-center">
+                            <div class="pb-icon shrink-0 w-14 h-14 md:w-20 md:h-20 bg-white dark:bg-[#0c0c0f] border border-slate-200 dark:border-white/10 rounded-full flex items-center justify-center text-geekRed font-mono text-lg md:text-xl shadow-lg relative z-10 mx-0 md:mx-auto">03</div>
+                            <div class="pt-2 md:pt-0">
+                                <h3 class="font-display text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-2 md:mb-3">Deploy & Scale</h3>
+                                <p class="text-slate-600 dark:text-zinc-400 text-sm">We launch your new engine to the market, monitor the data, and scale up the systems to drive growth.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section id="services" class="py-24 px-6 bg-slate-50/95 dark:bg-charcoal/95 backdrop-blur-md transition-colors">
+                <div class="max-w-7xl mx-auto">
+                    <div class="text-center mb-12 md:mb-16">
+                        <span class="text-reveal font-mono text-geekRed text-[10px] uppercase tracking-[0.4em] block">Our Core</span>
+                        <h2 class="text-reveal font-display text-3xl md:text-5xl font-bold mt-4 text-slate-900 dark:text-white">Three Pillars. One Engine.</h2>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-6 md:gap-8 core-container">
+                        <div class="glass-card p-6 md:p-10 rounded-2xl interactive geek-card">
+                            <div class="w-10 h-10 md:w-12 md:h-12 bg-slate-100 dark:bg-white/5 rounded-2xl flex items-center justify-center mb-4 md:mb-6 text-slate-900 dark:text-white transition-colors">
+                                <i data-lucide="palette" class="w-5 h-5 md:w-6 md:h-6"></i>
+                            </div>
+                            <h3 class="font-display text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-3 md:mb-4">The Visual Soul</h3>
+                            <p class="text-xs md:text-sm text-slate-600 dark:text-zinc-300 leading-relaxed mb-6">Elite Graphic Design, Branding, and Identity. We make your business look expensive, trusted, and impossible to ignore.</p>
+                            <div class="border-t border-slate-200 dark:border-white/10 pt-4">
+                                <span class="block text-[10px] font-mono text-geekRed uppercase tracking-widest mb-2">Capabilities</span>
+                                <ul class="space-y-1 text-[11px] md:text-xs text-slate-600 dark:text-zinc-400 font-mono">
+                                    <li>+ Brand Identity & Logos</li>
+                                    <li>+ Print & Packaging</li>
+                                    <li>+ Visual Guidelines</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-6 md:p-10 rounded-2xl interactive geek-card">
+                            <div class="w-10 h-10 md:w-12 md:h-12 bg-slate-100 dark:bg-white/5 rounded-2xl flex items-center justify-center mb-4 md:mb-6 text-slate-900 dark:text-white transition-colors">
+                                <i data-lucide="megaphone" class="w-5 h-5 md:w-6 md:h-6"></i>
+                            </div>
+                            <h3 class="font-display text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-3 md:mb-4">The Loud Voice</h3>
+                            <p class="text-xs md:text-sm text-slate-600 dark:text-zinc-300 leading-relaxed mb-6">A great brand needs to be heard. We handle your Social Media, Content Creation, and Paid Ads to dominate your market.</p>
+                            <div class="border-t border-slate-200 dark:border-white/10 pt-4">
+                                <span class="block text-[10px] font-mono text-geekRed uppercase tracking-widest mb-2">Capabilities</span>
+                                <ul class="space-y-1 text-[11px] md:text-xs text-slate-600 dark:text-zinc-400 font-mono">
+                                    <li>+ SMM (Insta/TikTok)</li>
+                                    <li>+ Content Strategy</li>
+                                    <li>+ Meta & Google Ads</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-6 md:p-10 rounded-2xl interactive geek-card">
+                            <div class="w-10 h-10 md:w-12 md:h-12 bg-slate-100 dark:bg-white/5 rounded-2xl flex items-center justify-center mb-4 md:mb-6 text-slate-900 dark:text-white transition-colors">
+                                <i data-lucide="cpu" class="w-5 h-5 md:w-6 md:h-6"></i>
+                            </div>
+                            <h3 class="font-display text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-3 md:mb-4">The Silent Brain</h3>
+                            <p class="text-xs md:text-sm text-slate-600 dark:text-zinc-300 leading-relaxed mb-6">The extra edge. We build SaaS tools, Websites, and CRM systems that automate the chaos. While you sleep, our systems sell.</p>
+                            <div class="border-t border-slate-200 dark:border-white/10 pt-4">
+                                <span class="block text-[10px] font-mono text-geekRed uppercase tracking-widest mb-2">Capabilities</span>
+                                <ul class="space-y-1 text-[11px] md:text-xs text-slate-600 dark:text-zinc-400 font-mono">
+                                    <li>+ Custom SaaS Dev</li>
+                                    <li>+ Website Development</li>
+                                    <li>+ Zoho CRM / Automation</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="work" class="py-24 px-6 bg-white/95 dark:bg-[#08080A]/95 backdrop-blur-md">
+                <div class="max-w-7xl mx-auto">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 md:mb-12">
+                        <div class="text-reveal">
+                            <span class="font-mono text-geekRed text-[10px] uppercase tracking-[0.4em] block mb-2">Showcase</span>
+                            <h2 class="font-display text-3xl md:text-5xl font-bold text-slate-900 dark:text-white">Featured Work.</h2>
+                        </div>
+                        <a href="portfolio.html" class="page-link text-reveal mt-4 md:mt-0 text-[10px] md:text-xs font-mono uppercase tracking-widest text-slate-500 hover:text-geekRed transition-colors interactive">View All Projects <i data-lucide="arrow-right" class="inline w-3 h-3"></i></a>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="text-reveal group interactive" onclick="window.location='portfolio.html'">
+                            <div class="h-56 md:h-80 w-full rounded-2xl img-placeholder overflow-hidden mb-4">
+                                <span>[Upload 'work1.jpg']</span>
+                                <img src="work1.jpg" alt="Portfolio 1" class="group-hover:scale-105 transition-transform duration-1000">
+                            </div>
+                            <h4 class="font-display font-bold text-base md:text-lg text-slate-900 dark:text-white">Brand Identity</h4>
+                            <p class="text-[10px] md:text-xs text-slate-500 font-mono uppercase">Graphic Design</p>
+                        </div>
+                        <div class="text-reveal group interactive" onclick="window.location='portfolio.html'">
+                            <div class="h-56 md:h-80 w-full rounded-2xl img-placeholder overflow-hidden mb-4">
+                                <span>[Upload 'work2.jpg']</span>
+                                <img src="work2.jpg" alt="Portfolio 2" class="group-hover:scale-105 transition-transform duration-1000">
+                            </div>
+                            <h4 class="font-display font-bold text-base md:text-lg text-slate-900 dark:text-white">Custom SaaS Platform</h4>
+                            <p class="text-[10px] md:text-xs text-slate-500 font-mono uppercase">Development</p>
+                        </div>
+                        <div class="text-reveal group interactive hidden lg:block" onclick="window.location='portfolio.html'">
+                            <div class="h-56 md:h-80 w-full rounded-2xl img-placeholder overflow-hidden mb-4">
+                                <span>[Upload 'work3.jpg']</span>
+                                <img src="work3.jpg" alt="Portfolio 3" class="group-hover:scale-105 transition-transform duration-1000">
+                            </div>
+                            <h4 class="font-display font-bold text-base md:text-lg text-slate-900 dark:text-white">Social Media Campaign</h4>
+                            <p class="text-[10px] md:text-xs text-slate-500 font-mono uppercase">Marketing</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact" class="py-24 px-4 md:px-6 bg-slate-50/95 dark:bg-charcoal/95 backdrop-blur-md">
+                <div class="max-w-7xl mx-auto">
+                    <div class="glass-card rounded-[24px] md:rounded-[40px] p-6 md:p-16">
+                        <div class="grid md:grid-cols-2 gap-12 md:gap-16 items-start">
+                            <div class="text-reveal order-2 md:order-1">
+                                <h3 class="font-mono text-[10px] md:text-xs uppercase tracking-widest text-geekRed mb-6">Initiate Sequence</h3>
+                                <form action="https://formspree.io/f/mqedwwjw" method="POST" class="space-y-5 md:space-y-6">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div><input type="text" name="name" placeholder="Your Name" required class="geek-input text-sm md:text-base interactive text-slate-900"></div>
+                                        <div><input type="text" name="company" placeholder="Company Name" class="geek-input text-sm md:text-base interactive text-slate-900"></div>
+                                    </div>
+                                    <div><input type="email" name="email" placeholder="Your Email Address" required class="geek-input text-sm md:text-base interactive text-slate-900"></div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <select name="type" required class="geek-input text-sm md:text-base interactive text-slate-600 cursor-pointer">
+                                                <option value="" disabled selected>Service Needed</option>
+                                                <option value="Branding" class="text-slate-900 dark:bg-charcoal">Brand Identity</option>
+                                                <option value="Marketing" class="text-slate-900 dark:bg-charcoal">Marketing & Ads</option>
+                                                <option value="Tech" class="text-slate-900 dark:bg-charcoal">SaaS / Web / CRM</option>
+                                                <option value="All" class="text-slate-900 dark:bg-charcoal">Full Scale Engine</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <select name="timeline" required class="geek-input text-sm md:text-base interactive text-slate-600 cursor-pointer">
+                                                <option value="" disabled selected>Expected Timeline</option>
+                                                <option value="ASAP" class="text-slate-900 dark:bg-charcoal">ASAP (Urgent)</option>
+                                                <option value="1-3 Months" class="text-slate-900 dark:bg-charcoal">1-3 Months</option>
+                                                <option value="3+ Months" class="text-slate-900 dark:bg-charcoal">3+ Months</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div><textarea name="details" rows="3" placeholder="Tell us about your project goals and vision..." required class="geek-input text-sm md:text-base interactive text-slate-900 resize-none pt-4"></textarea></div>
+                                    <input type="text" name="_gotcha" style="display:none" />
+                                    <button type="submit" class="mt-4 w-full py-4 bg-slate-900 dark:bg-white text-white dark:text-black hover:bg-geekRed dark:hover:bg-geekRed hover:text-white dark:hover:text-white font-bold font-display text-sm uppercase tracking-widest transition-all rounded-lg interactive">
+                                        Submit Brief
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div class="text-reveal flex flex-col justify-between h-full order-1 md:order-2">
+                                <div>
+                                    <h2 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-none mb-4 md:mb-6 text-slate-900 dark:text-white">Let's Create.</h2>
+                                    <p class="text-slate-600 dark:text-zinc-400 max-w-sm text-xs md:text-sm font-light leading-relaxed">
+                                        Ready to stop playing small? Tell us your vision, and we will engineer the exact brand, marketing, and systems to get you there.
+                                    </p>
+                                </div>
+                                <div class="mt-8 md:mt-12 space-y-6 md:space-y-8">
+                                    <div>
+                                        <span class="text-[10px] font-mono text-slate-500 dark:text-zinc-600 uppercase tracking-widest block mb-1">Founder / Lead Architect</span>
+                                        <p class="text-base md:text-xl font-display font-bold text-slate-900 dark:text-white">Fahad Khaji</p>
+                                    </div>
+                                    <div class="space-y-1 md:space-y-2">
+                                        <span class="text-[10px] font-mono text-slate-500 dark:text-zinc-600 uppercase tracking-widest block">HQ & Direct Lines</span>
+                                        <p class="text-xs md:text-sm text-slate-900 dark:text-white">Arusha, Tanzania, Africa</p>
+                                        <p class="text-xs md:text-sm text-slate-600 dark:text-zinc-400 hover:text-geekRed transition-colors interactive"><a href="mailto:info@geekstudio.tz">info@geekstudio.tz</a></p>
+                                        <p class="text-xs md:text-sm text-slate-600 dark:text-zinc-400 hover:text-geekRed transition-colors interactive"><a href="tel:+255684200859">+255 684 200 859</a></p>
+                                    </div>
+                                    <div class="flex gap-4">
+                                        <a href="https://www.instagram.com/geekstudio.tz/" target="_blank" class="p-3 border border-slate-300 dark:border-white/10 rounded-full hover:border-geekRed hover:bg-geekRed hover:text-white transition-colors group interactive">
+                                            <i data-lucide="instagram" class="w-4 h-4 text-slate-900 dark:text-white group-hover:text-white"></i>
+                                        </a>
+                                        <a href="https://wa.me/255684200859" target="_blank" class="p-3 border border-slate-300 dark:border-white/10 rounded-full hover:border-geekRed hover:bg-geekRed hover:text-white transition-colors group interactive">
+                                            <i data-lucide="phone" class="w-4 h-4 text-slate-900 dark:text-white group-hover:text-white"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="text-reveal py-10 md:py-12 flex flex-col items-center justify-center text-center bg-[#F8F9FA]/95 dark:bg-charcoal/95 backdrop-blur-md border-t border-slate-200 dark:border-white/5 transition-colors">
+                <div class="mb-4 md:mb-6 cursor-pointer interactive" onclick="window.scrollTo(0,0)">
+                    <img src="nav-logo-dark.png" alt="Geek Studio Design Agency" class="h-6 md:h-8 w-auto opacity-80 hover:opacity-100 transition-opacity block dark:hidden">
+                    <img src="nav-logo-light.png" alt="Geek Studio Design Agency" class="h-6 md:h-8 w-auto opacity-50 hover:opacity-100 transition-opacity hidden dark:block">
+                </div>
+                <span class="font-mono text-[8px] md:text-[10px] text-slate-500 dark:text-zinc-700 tracking-[0.2em] md:tracking-[0.3em] block px-4">
+                    © 2026 GEEK STUDIO // VISUAL SOUL & DIGITAL SYSTEM // ARUSHA
+                </span>
+            </footer>
+
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        gsap.registerPlugin(ScrollTrigger);
+
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+        themeToggleBtn.addEventListener('click', () => { 
+            const isNowDark = !htmlElement.classList.contains('dark');
+            applyTheme(isNowDark);
+            localStorage.setItem('theme', isNowDark ? 'dark' : 'light');
+        });
+
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinksWrappers = document.querySelectorAll('.mobile-link-wrapper');
+
+        function openMenu() { 
+            mobileMenu.classList.add('mobile-menu-active'); 
+            gsap.to(mobileLinksWrappers, { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power3.out", delay: 0.2 });
+        }
+        function closeMenu() { 
+            gsap.to(mobileLinksWrappers, { y: 20, opacity: 0, duration: 0.4, stagger: -0.05, ease: "power2.in", onComplete: () => mobileMenu.classList.remove('mobile-menu-active') });
+        }
+        
+        mobileMenuBtn.addEventListener('click', openMenu);
+        closeMenuBtn.addEventListener('click', closeMenu);
+        document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', () => {
+            if(!link.classList.contains('page-link')) closeMenu();
+        }));
+
+        const app = document.getElementById('typing-text');
+        const typewriter = new Typewriter(app, { loop: true, delay: 60, cursor: '|' });
+        typewriter.typeString('BUILT IN ARUSHA.').pauseFor(2500).deleteAll()
+                  .typeString('FOR GLOBAL BRANDS.').pauseFor(2500).deleteAll()
+                  .typeString('THAT DRIVE GROWTH.').pauseFor(2500).start();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const tl = gsap.timeline();
+            
+            tl.to('#loader-logo', { opacity: 1, scale: 1, duration: 1.2, ease: "power2.out" })
+              .to('.loader-bar-fill', { width: "100%", duration: 1.5, ease: "power2.inOut" }, "-=0.5")
+              .to(['.loader-text', '.loader-bar-bg'], { opacity: 0, duration: 0.5 }, "+=0.3")
+              .to('#loader-logo', { opacity: 0, scale: 1.1, duration: 0.6, ease: "power2.inOut" })
+              .to('#loader-screen', { 
+                  opacity: 0, duration: 0.8, ease: "power2.inOut",
+                  onComplete: () => {
+                      document.getElementById('loader-screen').style.display = 'none';
+                      document.body.classList.remove('scroll-lock'); 
+                      
+                      requestAnimationFrame(() => {
+                          ScrollTrigger.refresh(); 
+                          playHeroEntry();
+                          gsap.to(".nav-container", { y: 0, opacity: 1, duration: 1.2, ease: "power3.out" });
+                      });
+                  }
+              }, "-=0.2");
+        });
+
+        function playHeroEntry() {
+            gsap.to(".hero-line", { y: 0, opacity: 1, duration: 1.8, stagger: 0.15, ease: "expo.out" });
+        }
+
+        document.querySelectorAll('.page-link').forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                const target = link.href;
+                document.body.classList.add('page-transitioning');
+                document.getElementById('smooth-wrapper').style.transform = "translateY(20px)";
+                setTimeout(() => { window.location.href = target; }, 500);
+            });
+        });
+
+        gsap.to(".hero-content", {
+            scrollTrigger: { trigger: "#hero-section", start: "top top", end: "bottom top", scrub: 1, invalidateOnRefresh: true },
+            y: 50, opacity: 0, ease: "none"
+        });
+
+        const nav = document.getElementById('main-nav');
+        ScrollTrigger.create({
+            start: "top -10", 
+            onUpdate: (self) => {
+                if (self.direction === 1) { 
+                    nav.classList.remove('nav-top', 'border-transparent'); nav.classList.add('nav-scrolled');
+                } else if (self.scroll() < 10) { 
+                    nav.classList.add('nav-top', 'border-transparent'); nav.classList.remove('nav-scrolled');
+                }
+            }
+        });
+
+        const playbookTl = gsap.timeline({ scrollTrigger: { trigger: "#playbook", start: "top 75%", toggleActions: "play reverse play reverse" } });
+        playbookTl.fromTo(".pb-title", { y: -20, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, stagger: 0.1, ease: "power3.out" })
+                  .to(".pb-line-wrapper", { opacity: 1, duration: 0.4 }, "-=0.4")
+                  .fromTo([".playbook-line-fill", ".playbook-line-fill-mobile"], { width: "0%", height: "0%" }, { width: "100%", height: "100%", duration: 1.4, ease: "power2.inOut" }, "-=0.2")
+                  .fromTo(".pb-step", { y: -20, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, stagger: 0.15, ease: "power3.out" }, "-=0.6")
+                  .fromTo(".pb-icon", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.0, stagger: 0.15, ease: "power4.out" }, "-=0.7");
+
+        gsap.fromTo(".geek-card", { y: 20, opacity: 0 }, { scrollTrigger: { trigger: ".core-container", start: "top 80%", toggleActions: "play reverse play reverse" }, y: 0, opacity: 1, duration: 1.4, stagger: 0.15, ease: "power3.out" });
+
+        document.querySelectorAll('.text-reveal').forEach((el) => {
+            gsap.fromTo(el, { y: 20, opacity: 0 }, { scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play reverse play reverse" }, y: 0, opacity: 1, duration: 1.4, ease: "power3.out" });
+        });
+
+        if (window.matchMedia("(pointer: fine)").matches) {
+            const cursorGlow = document.getElementById('cursor-glow');
+            const cursorRing = document.getElementById('cursor-ring');
+            const interactives = document.querySelectorAll('.interactive, a, button, input, textarea, select');
+            let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
+            let glowX = mouseX, glowY = mouseY;
+            let ringX = mouseX, ringY = mouseY;
+
+            document.addEventListener('mousemove', e => { 
+                mouseX = e.clientX; mouseY = e.clientY; 
+                const xOffset = (mouseX / window.innerWidth - 0.5) * 30; const yOffset = (mouseY / window.innerHeight - 0.5) * -30; 
+                gsap.to("#watermark-container", { rotationY: xOffset, rotationX: yOffset, x: mouseX * -0.05, y: mouseY * -0.05, duration: 1, ease: "power2.out" });
+            });
+            interactives.forEach(el => {
+                el.addEventListener('mouseenter', () => cursorRing.classList.add('cursor-hover'));
+                el.addEventListener('mouseleave', () => cursorRing.classList.remove('cursor-hover'));
+            });
+            function animateCursor() {
+                glowX += (mouseX - glowX) * 0.15; glowY += (mouseY - glowY) * 0.15;
+                cursorGlow.style.transform = `translate3d(${glowX}px, ${glowY}px, 0) translate(-50%, -50%)`;
+                ringX += (mouseX - ringX) * 0.4; ringY += (mouseY - ringY) * 0.4;
+                cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+                requestAnimationFrame(animateCursor);
+            }
+            animateCursor();
+        }
+    </script>
+</body>
+</html>
