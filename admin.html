@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geek Studio | Command Center</title>
+    
+    <link id="dynamic-favicon" rel="icon" type="image/png" href="logo-light.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { charcoal: '#050507', geekRed: '#FF3B3F' },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                        mono: ['IBM Plex Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@300;500;700&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        body { background-color: #050507; color: #e4e4e7; overflow-x: hidden; }
+        .glass-panel { background: rgba(15, 15, 18, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .geek-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding: 12px 0; font-family: 'Inter', sans-serif; font-size: 14px; color: white; outline: none; transition: all 0.3s; }
+        .geek-input:focus { border-bottom-color: #FF3B3F; }
+        
+        /* Centered Modal Architecture */
+        #data-modal { transition: opacity 0.4s ease, visibility 0.4s; }
+        .modal-active { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+    </style>
+</head>
+<body class="selection:bg-geekRed selection:text-white flex h-screen overflow-hidden">
+
+    <div id="auth-screen" class="fixed inset-0 z-[999] bg-charcoal flex flex-col items-center justify-center p-6">
+        <div class="glass-panel p-10 rounded-3xl w-full max-w-md relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-geekRed"></div>
+            <div class="text-center mb-8">
+                <span class="font-mono text-[10px] uppercase tracking-[0.4em] text-geekRed block mb-2">Restricted Access</span>
+                <h2 class="font-display text-3xl font-bold text-white">System Login.</h2>
+            </div>
+            <form id="login-form" class="space-y-6">
+                <input type="email" id="email" placeholder="Admin Email" required class="geek-input">
+                <input type="password" id="password" placeholder="Password" required class="geek-input">
+                <button type="submit" class="w-full py-4 bg-white text-black hover:bg-geekRed hover:text-white font-bold font-display text-xs uppercase tracking-widest transition-all rounded-xl mt-4">Authenticate</button>
+                <p id="auth-error" class="text-geekRed text-xs font-mono hidden text-center mt-4">Access Denied. Check your email or password.</p>
+            </form>
+        </div>
+    </div>
+
+    <div id="data-modal" class="fixed inset-0 bg-charcoal/90 backdrop-blur-xl z-[500] flex items-center justify-center opacity-0 invisible pointer-events-none p-4">
+        <button id="close-modal" class="absolute top-8 right-8 p-3 text-white hover:text-geekRed transition-colors">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+        <div class="glass-panel w-full max-w-xl p-10 rounded-3xl relative transform translate-y-8" id="modal-content">
+            <div class="text-center mb-8">
+                <span class="font-mono text-[10px] uppercase tracking-[0.4em] text-geekRed block mb-2">Database Update</span>
+                <h2 class="font-display text-3xl font-bold text-white" id="modal-title">Add New Project.</h2>
+            </div>
+            <form id="project-form" class="space-y-6">
+                <input type="text" id="proj-title" placeholder="Project Title (e.g., Saadka Logistics)" required class="geek-input">
+                <input type="text" id="proj-category" placeholder="Category (e.g., High-Fidelity UI/UX)" required class="geek-input">
+                <input type="url" id="proj-media" placeholder="Media URL (Image Link)" required class="geek-input">
+                <select id="proj-type" class="geek-input cursor-pointer text-zinc-400">
+                    <option value="portfolio">Portfolio Showcase</option>
+                </select>
+                <button type="submit" class="w-full py-4 bg-geekRed text-white font-bold font-display text-xs uppercase tracking-widest transition-all rounded-xl mt-4 hover:scale-[1.02]">
+                    Deploy to Live Site
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <aside class="w-64 border-r border-white/5 bg-[#08080A] flex flex-col justify-between p-6 z-10">
+        <div>
+            <div class="mb-12">
+                <img src="nav-logo-light.png" alt="Geek Studio" class="h-6 w-auto opacity-80" onerror="this.style.display='none'">
+                <span class="font-mono text-[9px] text-geekRed uppercase tracking-widest block mt-3">Command Center</span>
+            </div>
+            <nav class="space-y-2 font-mono text-xs uppercase tracking-widest text-zinc-500">
+                <button class="w-full flex items-center gap-3 p-3 rounded-lg bg-white/5 text-white hover:bg-white/10 transition-colors text-left">
+                    <i data-lucide="layout-grid" class="w-4 h-4"></i> Live Projects
+                </button>
+            </nav>
+        </div>
+        <button id="logout-btn" class="flex items-center gap-3 text-zinc-500 font-mono text-xs uppercase tracking-widest hover:text-geekRed transition-colors">
+            <i data-lucide="log-out" class="w-4 h-4"></i> Disconnect
+        </button>
+    </aside>
+
+    <main class="flex-1 bg-charcoal p-10 overflow-y-auto z-10 relative">
+        <div class="max-w-6xl mx-auto">
+            <header class="flex justify-between items-end mb-12 border-b border-white/5 pb-6">
+                <div>
+                    <h1 class="font-display text-4xl font-bold text-white mb-2">Live Deployment.</h1>
+                    <p class="font-mono text-xs text-zinc-500 uppercase tracking-widest">Manage your digital ecosystem.</p>
+                </div>
+                <button id="open-add-modal" class="flex items-center gap-2 px-6 py-3 bg-white text-black hover:bg-geekRed hover:text-white rounded-full font-display font-bold text-[10px] uppercase tracking-widest transition-colors shadow-lg">
+                    <i data-lucide="plus" class="w-4 h-4"></i> New Entry
+                </button>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
+                </div>
+        </div>
+    </main>
+
+   <script>
+        lucide.createIcons();
+
+        // --- CORE CONNECTION ---
+        const SUPABASE_URL = 'https://epdzpxglpggdcdpekpxk.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVwZHpweGdscGdnZGNkcGVrcHhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxMTcyNjMsImV4cCI6MjA5MjY5MzI2M30.BORs11g3Mq1Z8_E4nfcSL_BoNJX72yE5UP5lYOXIvX4';
+        
+        // Use 'db' to prevent naming conflicts with the library
+        const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // UI Logic: Modal Toggle
+        const modal = document.getElementById('data-modal');
+        const modalContent = document.getElementById('modal-content');
+        
+        document.getElementById('open-add-modal').addEventListener('click', () => {
+            modal.classList.add('modal-active');
+            gsap.to(modalContent, { y: 0, duration: 0.5, ease: "expo.out" });
+        });
+        
+        document.getElementById('close-modal').addEventListener('click', () => {
+            gsap.to(modalContent, { y: 20, duration: 0.3, ease: "power2.in" });
+            modal.classList.remove('modal-active');
+        });
+
+        // Authentication: Login Logic
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            const { data, error } = await db.auth.signInWithPassword({ email, password });
+            
+            if (error) {
+                console.error("Auth Error:", error.message);
+                document.getElementById('auth-error').classList.remove('hidden');
+                document.getElementById('auth-error').innerText = "Access Denied: " + error.message;
+            } else {
+                gsap.to('#auth-screen', { y: '-100%', duration: 0.8, ease: "expo.inOut", onComplete: () => {
+                    document.getElementById('auth-screen').style.display = 'none';
+                    fetchProjects();
+                }});
+            }
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            await db.auth.signOut();
+            location.reload();
+        });
+
+        // Dashboard: Fetch Projects
+        async function fetchProjects() {
+            const { data, error } = await db.from('geek_content').select('*').order('created_at', { ascending: false });
+            if (error) return console.error('Fetch Error:', error);
+            
+            const grid = document.getElementById('projects-grid');
+            grid.innerHTML = ''; 
+
+            data.forEach(item => {
+                grid.innerHTML += `
+                    <div class="glass-panel p-6 rounded-2xl group">
+                        <div class="h-40 w-full bg-[#0c0c0f] rounded-xl overflow-hidden mb-4 relative">
+                            <img src="${item.media_url}" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity">
+                            <button onclick="deleteProject('${item.id}')" class="absolute top-2 right-2 p-2 bg-charcoal/80 text-white hover:text-geekRed rounded-lg backdrop-blur-md">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <h4 class="font-display font-bold text-white text-lg">${item.title}</h4>
+                        <p class="text-[10px] text-zinc-500 font-mono uppercase tracking-widest mt-1">${item.category}</p>
+                    </div>`;
+            });
+            lucide.createIcons();
+        }
+
+        // Dashboard: Add New Entry
+        document.getElementById('project-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const payload = {
+                title: document.getElementById('proj-title').value,
+                category: document.getElementById('proj-category').value,
+                media_url: document.getElementById('proj-media').value,
+                type: 'portfolio'
+            };
+
+            const { error } = await db.from('geek_content').insert([payload]);
+            
+            if (!error) {
+                document.getElementById('project-form').reset();
+                modal.classList.remove('modal-active');
+                fetchProjects();
+            } else {
+                alert('Deployment Failed: ' + error.message);
+            }
+        });
+
+        // Dashboard: Delete Entry
+        window.deleteProject = async function(id) {
+            if(confirm("Confirm deletion?")) {
+                await db.from('geek_content').delete().eq('id', id);
+                fetchProjects();
+            }
+        };
+
+        // Check Session on Start
+        (async () => {
+            const { data: { session } } = await db.auth.getSession();
+            if (session) {
+                document.getElementById('auth-screen').style.display = 'none';
+                fetchProjects();
+            }
+        })();
+    </script>
+</body>
+</html>
