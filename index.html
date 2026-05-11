@@ -1,635 +1,1598 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Geek Studio | Graphic Design, Web Development & Marketing in Arusha, Tanzania</title>
-    <meta name="description" content="Geek Studio is Arusha's premier creative agency specializing in elite graphic design, brand identity, SaaS web development, and social media marketing in Tanzania.">
-    
-    <link id="dynamic-favicon" rel="icon" type="image/png" href="logo-dark.png">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: { charcoal: '#050507', geekRed: '#FF3B3F', geekOrange: '#FFD580' },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Space Grotesk', 'sans-serif'],
-                        mono: ['IBM Plex Mono', 'monospace'],
-                    },
-                    animation: {
-                        'scroll-bounce': 'scrollBounce 2s cubic-bezier(0.6, -0.28, 0.735, 0.045) infinite',
-                    },
-                    keyframes: {
-                        scrollBounce: {
-                            '0%, 100%': { transform: 'translateY(-10px)', opacity: '0.3' },
-                            '50%': { transform: 'translateY(0)', opacity: '1' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@300;500;700&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geek Studio | Brand Identity · Videography · Digital Systems — Arusha, Tanzania</title>
+<meta name="description" content="Geek Studio — Arusha's most sophisticated creative agency. Brand identity, cinematic videography, web development, and marketing for Tanzania's boldest businesses.">
+<meta property="og:title" content="Geek Studio | Creative Agency — Arusha, Tanzania">
+<meta property="og:description" content="From Kilimanjaro to global markets. Elite branding, cinematic production, and digital systems.">
+<link id="dynamic-favicon" rel="icon" type="image/png" href="logo-dark.png">
 
-    <style>
-        body { overflow-x: hidden; transition: background-color 0.4s ease, color 0.4s ease; opacity: 1; }
-        .page-transitioning { opacity: 0 !important; transition: opacity 0.5s cubic-bezier(0.65, 0, 0.35, 1) !important; }
-        .scroll-lock { overflow: hidden !important; height: 100vh !important; }
-        
-        @media (pointer: fine) { body { cursor: none; } }
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-        .z-cursor { z-index: 99999; pointer-events: none; }
-        .z-nav { z-index: 500; }
-        .z-content { z-index: 10; position: relative; }
+<!-- GSAP + Lucide -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
 
-        .noise-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; opacity: 0.05; mix-blend-mode: multiply;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
-        .dark .noise-overlay { opacity: 0.04; mix-blend-mode: screen; }
+<style>
+/* ═══════════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════════ */
+:root {
+  --red: #E8302A;
+  --red-soft: rgba(232,48,42,0.12);
+  --red-glow: rgba(232,48,42,0.22);
 
-        #cursor-glow {
-            position: fixed; top: 0; left: 0; width: 400px; height: 400px; 
-            background: radial-gradient(circle, rgba(255, 59, 63, 0.15) 0%, transparent 60%); 
-            transform: translate(-50%, -50%); will-change: transform; pointer-events: none;
-        }
-        .dark #cursor-glow { background: radial-gradient(circle, rgba(255, 59, 63, 0.2) 0%, transparent 60%); }
-        
-        #cursor-ring {
-            position: fixed; top: 0; left: 0; width: 16px; height: 16px; 
-            background-color: #FF3B3F; border-radius: 50%; 
-            transform: translate(-50%, -50%); will-change: transform; 
-            transition: width 0.2s, height 0.2s, background-color 0.2s; pointer-events: none;
-        }
-        @media (pointer: coarse) { #cursor-glow, #cursor-ring { display: none !important; } body { cursor: auto; } }
-        
-        .cursor-hover { 
-            width: 60px !important; height: 60px !important; 
-            background-color: rgba(255, 59, 63, 0.3) !important; 
-            border: 1px solid #FF3B3F;
-        }
+  /* LIGHT MODE */
+  --bg: #F7F5F0;
+  --bg-2: #EFECE5;
+  --bg-card: rgba(255,255,255,0.85);
+  --text: #0D0C0A;
+  --text-2: #4A4845;
+  --text-3: #9A9692;
+  --border: rgba(0,0,0,0.08);
+  --border-strong: rgba(0,0,0,0.14);
+  --nav-scrolled: rgba(247,245,240,0.94);
+  --shadow: 0 4px 24px rgba(0,0,0,0.07);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.12);
+  --noise-blend: multiply;
+  --noise-opacity: 0.04;
 
-        .glass-card { 
-            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); 
-            border: 1px solid rgba(255, 255, 255, 0.8); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; 
-        }
-        .dark .glass-card { background: rgba(15, 15, 18, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
-        .glass-card:hover { background: rgba(255, 255, 255, 0.8); border-color: rgba(255, 59, 63, 0.3); transform: translateY(-8px); box-shadow: 0 20px 40px -10px rgba(255, 59, 63, 0.15); }
-        .dark .glass-card:hover { background: rgba(255, 255, 255, 0.05); }
+  --f-display: 'Playfair Display', serif;
+  --f-body: 'Manrope', sans-serif;
+  --f-mono: 'JetBrains Mono', monospace;
+  --ease: cubic-bezier(0.16,1,0.3,1);
+  --ease-io: cubic-bezier(0.65,0,0.35,1);
+}
 
-        .nav-container { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; transform: translateY(-20px); }
-        .nav-top { padding: 1.5rem 1rem; width: 100%; max-width: 80rem; }
-        .nav-scrolled { padding: 0.75rem 1.5rem; border-radius: 9999px; width: 95%; max-width: 60rem; box-shadow: 0 10px 40px rgba(0,0,0,0.08); background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(16px); }
-        .dark .nav-scrolled { box-shadow: 0 10px 40px rgba(0,0,0,0.8); background: rgba(5, 5, 7, 0.95); }
-        
-        #mobile-menu { transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out; }
-        .mobile-menu-active { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+html.dark {
+  --bg: #080807;
+  --bg-2: #111110;
+  --bg-card: rgba(20,19,17,0.9);
+  --text: #F2EFE8;
+  --text-2: #A8A5A0;
+  --text-3: #5A5855;
+  --border: rgba(255,255,255,0.07);
+  --border-strong: rgba(255,255,255,0.12);
+  --nav-scrolled: rgba(8,8,7,0.94);
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.6);
+  --noise-blend: screen;
+  --noise-opacity: 0.035;
+}
 
-        .marquee-wrapper { position: relative; width: 100%; overflow: hidden; mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); padding: 2rem 0; }
-        .marquee-content { display: flex; width: max-content; gap: 4rem; animation: scroll 40s linear infinite; }
-        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+/* ═══════════════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: var(--f-body);
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.45s var(--ease-io), color 0.45s var(--ease-io);
+}
+body.scroll-lock { overflow: hidden; height: 100svh; }
+body.exiting { opacity: 0; transform: translateY(18px); transition: opacity 0.45s var(--ease-io), transform 0.45s var(--ease-io); }
+::selection { background: var(--red); color: #fff; }
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+button { cursor: pointer; }
 
-        #loader-screen { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; z-index: 99999; }
-        .loader-bar-bg { width: 250px; height: 1px; overflow: hidden; position: relative; margin-top: 2rem;}
-        .loader-bar-fill { height: 100%; background: #FF3B3F; width: 0%; position: absolute; left: 0; top: 0; }
-        #loader-logo { opacity: 0; transform: scale(0.9); }
+/* ═══════════════════════════════════════════════════════
+   NOISE
+═══════════════════════════════════════════════════════ */
+.noise {
+  position: fixed; inset: 0; pointer-events: none; z-index: 60;
+  opacity: var(--noise-opacity); mix-blend-mode: var(--noise-blend);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  transition: opacity 0.45s, mix-blend-mode 0.45s;
+}
 
-        .Typewriter__cursor { color: #FF3B3F; font-weight: bold; }
-        .geek-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(150, 150, 150, 0.3); padding: 15px 0; font-family: 'Inter', sans-serif; font-size: 16px; outline: none; transition: all 0.3s; }
-        .dark .geek-input { border-bottom-color: rgba(255, 255, 255, 0.2); color: white; }
-        .geek-input:focus { border-bottom-color: #FF3B3F; }
+/* ═══════════════════════════════════════════════════════
+   CURSOR
+═══════════════════════════════════════════════════════ */
+@media (pointer: fine) { body { cursor: none; } }
+#cursor-glow, #cursor-dot {
+  position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999; will-change: transform;
+}
+#cursor-glow {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, var(--red-glow) 0%, transparent 65%);
+  transform: translate(-50%,-50%);
+}
+#cursor-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--red); transform: translate(-50%,-50%);
+  transition: width .22s var(--ease), height .22s var(--ease), background .22s, border .22s;
+}
+#cursor-dot.hovered {
+  width: 52px; height: 52px;
+  background: var(--red-soft);
+  border: 1.5px solid var(--red);
+}
+@media (pointer: coarse) { #cursor-glow, #cursor-dot { display: none !important; } body { cursor: auto !important; } }
 
-        .img-placeholder { background: linear-gradient(45deg, rgba(150,150,150,0.05), rgba(150,150,150,0.1)); display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(150,150,150,0.3); color: rgba(150,150,150,0.5); font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; overflow: hidden; position: relative; }
-        .img-placeholder img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; opacity: 0; transition: opacity 0.5s; }
-        .img-placeholder img[src] { opacity: 1; }
-    </style>
-    
-    <script>
-        function applyTheme(isDark) {
-            const favicon = document.getElementById('dynamic-favicon');
-            if (isDark) { 
-                document.documentElement.classList.add('dark'); 
-                favicon.href = 'logo-light.png'; 
-            } else { 
-                document.documentElement.classList.remove('dark'); 
-                favicon.href = 'logo-dark.png'; 
-            }
-        }
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && prefersDark.matches)) { applyTheme(true); } 
-        else { applyTheme(false); }
-        prefersDark.addEventListener('change', (e) => { if (!localStorage.getItem('theme')) { applyTheme(e.matches); } });
-    </script>
+/* ═══════════════════════════════════════════════════════
+   LOADER
+═══════════════════════════════════════════════════════ */
+#loader {
+  position: fixed; inset: 0; z-index: 999999;
+  background: var(--bg);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  transition: background 0.3s;
+}
+.loader-logo-wrap { position: relative; }
+.loader-logo-wrap img {
+  width: clamp(100px, 22vw, 180px);
+  opacity: 0; transform: scale(0.88);
+  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+}
+.loader-logo-wrap img.show { opacity: 1; transform: scale(1); }
+.loader-sub {
+  font-family: var(--f-mono); font-size: 9px;
+  text-transform: uppercase; letter-spacing: .45em;
+  color: var(--red); margin-top: 2.5rem;
+  opacity: 0; animation: pulse 1.6s ease infinite;
+}
+.loader-sub.show { opacity: 1; }
+.loader-track {
+  width: 180px; height: 1px;
+  background: var(--border-strong);
+  margin-top: 1.5rem; overflow: hidden;
+  opacity: 0; transition: opacity .4s;
+}
+.loader-track.show { opacity: 1; }
+.loader-fill { height: 100%; width: 0%; background: var(--red); transition: width .05s linear; }
+@keyframes pulse { 0%,100%{opacity:.25} 50%{opacity:1} }
+
+/* ═══════════════════════════════════════════════════════
+   WATERMARK
+═══════════════════════════════════════════════════════ */
+#watermark {
+  position: fixed; top: 0; right: -10%;
+  width: 55vw; height: 100vh;
+  display: flex; align-items: center;
+  pointer-events: none; z-index: 0;
+  overflow: hidden;
+}
+#watermark img {
+  width: 100%; object-fit: contain;
+  opacity: 0.055; transform: rotate(-8deg) scale(1.1);
+  filter: grayscale(1);
+}
+html.dark #watermark img { opacity: 0.04; }
+
+/* ═══════════════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════════════ */
+#nav-outer {
+  position: fixed; top: 0; left: 0; width: 100%;
+  display: flex; justify-content: center;
+  padding: 1.2rem 1rem; z-index: 500;
+  pointer-events: none;
+}
+#nav-outer.ready { pointer-events: auto; }
+#main-nav {
+  width: 100%; max-width: 1340px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .9rem 1.5rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: all .5s var(--ease);
+  opacity: 0; transform: translateY(-20px);
+}
+#main-nav.visible { opacity: 1; transform: translateY(0); }
+#main-nav.scrolled {
+  background: var(--nav-scrolled);
+  backdrop-filter: blur(24px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow);
+  width: 90%; max-width: 980px;
+  padding: .7rem 1.4rem;
+}
+.nav-logo img { height: 26px; width: auto; object-fit: contain; }
+.nav-logo img.light-logo { display: block; }
+.nav-logo img.dark-logo { display: none; }
+html.dark .nav-logo img.light-logo { display: none; }
+html.dark .nav-logo img.dark-logo { display: block; }
+
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  font-family: var(--f-mono); font-size: 10px;
+  text-transform: uppercase; letter-spacing: .22em;
+  color: var(--text-2); transition: color .2s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--red); }
+
+.nav-right { display: flex; align-items: center; gap: .75rem; }
+.theme-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--bg-2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-2); transition: all .25s;
+}
+.theme-btn:hover { border-color: var(--red); color: var(--red); }
+.theme-btn .sun-icon { display: none; }
+.theme-btn .moon-icon { display: block; }
+html.dark .theme-btn .sun-icon { display: block; }
+html.dark .theme-btn .moon-icon { display: none; }
+
+.nav-cta {
+  font-family: var(--f-mono); font-size: 10px;
+  text-transform: uppercase; letter-spacing: .15em;
+  padding: .6rem 1.4rem; border-radius: 999px;
+  background: var(--text); color: var(--bg);
+  border: 1px solid var(--text);
+  transition: all .25s;
+  display: inline-flex; align-items: center; gap: .4rem;
+}
+.nav-cta:hover { background: var(--red); border-color: var(--red); color: #fff; transform: translateY(-1px); }
+
+#hamburger {
+  display: none; background: none; border: none;
+  color: var(--text); padding: .4rem;
+}
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  #hamburger { display: flex; }
+  .nav-cta { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE MENU
+═══════════════════════════════════════════════════════ */
+#mob-menu {
+  position: fixed; inset: 0; background: var(--bg);
+  z-index: 600; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 2rem;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .4s var(--ease-io), visibility .4s;
+}
+#mob-menu.open { opacity: 1; visibility: visible; pointer-events: auto; }
+.mob-link {
+  font-family: var(--f-display); font-size: clamp(2.2rem, 7vw, 3.5rem);
+  font-weight: 700; color: var(--text);
+  opacity: 0; transform: translateY(22px);
+  transition: color .2s;
+}
+.mob-link:hover { color: var(--red); }
+#mob-menu.open .mob-link { animation: mobIn .5s var(--ease) forwards; }
+#mob-menu.open .mob-link:nth-child(2){animation-delay:.05s}
+#mob-menu.open .mob-link:nth-child(3){animation-delay:.11s}
+#mob-menu.open .mob-link:nth-child(4){animation-delay:.17s}
+#mob-menu.open .mob-link:nth-child(5){animation-delay:.23s}
+@keyframes mobIn { to { opacity:1; transform:translateY(0); } }
+#mob-close {
+  position: absolute; top: 1.4rem; right: 1.4rem;
+  background: none; border: none; color: var(--text); font-size: 1.5rem;
+}
+
+/* ═══════════════════════════════════════════════════════
+   LAYOUT HELPERS
+═══════════════════════════════════════════════════════ */
+.wrap { max-width: 1340px; margin: 0 auto; padding: 0 2rem; }
+.label {
+  font-family: var(--f-mono); font-size: 9px;
+  text-transform: uppercase; letter-spacing: .42em;
+  color: var(--red); display: flex; align-items: center; gap: .75rem;
+  margin-bottom: 1.2rem;
+}
+.label::after { content:''; width:28px; height:1px; background:var(--red); }
+
+/* reveal */
+.r { opacity: 0; transform: translateY(24px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+.r.v { opacity: 1; transform: translateY(0); }
+.r.d1{transition-delay:.08s} .r.d2{transition-delay:.16s} .r.d3{transition-delay:.24s} .r.d4{transition-delay:.32s}
+
+/* buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: .55rem;
+  font-family: var(--f-mono); font-size: 10px;
+  text-transform: uppercase; letter-spacing: .18em;
+  padding: .9rem 2.2rem; border-radius: 999px;
+  transition: all .28s; white-space: nowrap;
+}
+.btn-solid { background: var(--text); color: var(--bg); border: 1px solid var(--text); }
+.btn-solid:hover { background: var(--red); border-color: var(--red); color: #fff; transform: translateY(-2px); box-shadow: 0 12px 30px var(--red-soft); }
+.btn-ghost { background: transparent; color: var(--text-2); border: 1px solid var(--border-strong); }
+.btn-ghost:hover { border-color: var(--text); color: var(--text); transform: translateY(-2px); }
+.btn-red { background: var(--red); color: #fff; border: 1px solid var(--red); }
+.btn-red:hover { background: #c8211c; border-color: #c8211c; transform: translateY(-2px); box-shadow: 0 12px 30px var(--red-soft); }
+
+/* card */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  backdrop-filter: blur(16px);
+  transition: all .4s var(--ease);
+  box-shadow: var(--shadow);
+}
+.card:hover {
+  border-color: rgba(232,48,42,.25);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* marquee */
+.mq-wrap { overflow: hidden; mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
+.mq-track { display: flex; width: max-content; gap: 3.5rem; animation: mq 38s linear infinite; }
+@keyframes mq { to { transform: translateX(-50%); } }
+
+/* ═══════════════════════════════════════════════════════
+   SECTION: HERO
+═══════════════════════════════════════════════════════ */
+#hero {
+  min-height: 100svh; position: relative;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding-bottom: 6rem; overflow: hidden;
+  background: var(--bg);
+}
+
+/* BIG editorial background text */
+.hero-bg-text {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--f-display); font-weight: 900;
+  font-size: clamp(120px, 22vw, 280px);
+  white-space: nowrap; line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--border-strong);
+  pointer-events: none; z-index: 0; user-select: none;
+  letter-spacing: -.03em;
+}
+
+.hero-inner { position: relative; z-index: 2; }
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-family: var(--f-mono); font-size: 10px;
+  text-transform: uppercase; letter-spacing: .32em;
+  color: var(--text-3);
+  background: var(--bg-2); border: 1px solid var(--border);
+  padding: .48rem 1.1rem; border-radius: 999px;
+  margin-bottom: 2.5rem;
+}
+.dot-live { width: 6px; height: 6px; border-radius: 50%; background: var(--red); animation: livePulse 2s ease infinite; }
+@keyframes livePulse { 0%,100%{box-shadow:0 0 0 0 var(--red-glow)} 50%{box-shadow:0 0 0 8px transparent} }
+
+.hero-h1 {
+  font-family: var(--f-display);
+  font-size: clamp(3.8rem, 8.5vw, 8.5rem);
+  font-weight: 900; line-height: 1.0;
+  letter-spacing: -.025em;
+  color: var(--text); margin-bottom: 2rem;
+}
+.hero-h1 .italic { font-style: italic; }
+.hero-h1 .red { color: var(--red); }
+.hero-h1 .outline {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--text);
+}
+html.dark .hero-h1 .outline { -webkit-text-stroke-color: var(--text); }
+
+.hero-sub {
+  font-size: clamp(.95rem, 1.8vw, 1.15rem);
+  color: var(--text-2); max-width: 520px;
+  line-height: 1.75; font-weight: 400;
+  margin-bottom: 2.5rem;
+}
+
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 4rem; }
+
+.hero-scroll {
+  display: flex; align-items: center; gap: 1rem;
+  font-family: var(--f-mono); font-size: 9px;
+  text-transform: uppercase; letter-spacing: .35em;
+  color: var(--text-3);
+}
+.scroll-bar { width: 36px; height: 1px; background: var(--text-3); animation: scrollAnim 2s ease infinite; }
+@keyframes scrollAnim { 0%,100%{width:36px} 50%{width:14px} }
+
+/* Hero right column — cinematic reel */
+.hero-reel {
+  position: absolute; right: 0; top: 0; bottom: 0;
+  width: 42%; overflow: hidden; z-index: 1;
+}
+.hero-reel-inner {
+  width: 100%; height: 100%;
+  position: relative;
+}
+.hero-reel-img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+}
+.hero-reel-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, var(--bg) 0%, transparent 35%),
+              linear-gradient(to top, var(--bg) 0%, transparent 30%);
+}
+
+/* Hero floating stats */
+.hero-stats-row {
+  position: absolute; bottom: 6rem; right: 2rem;
+  display: flex; flex-direction: column; gap: .85rem;
+  z-index: 3;
+}
+.hero-stat-pill {
+  display: flex; align-items: center; gap: .75rem;
+  padding: .75rem 1.2rem; border-radius: 14px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  backdrop-filter: blur(12px); box-shadow: var(--shadow);
+}
+.hero-stat-pill .n { font-family: var(--f-display); font-weight: 700; font-size: 1.4rem; color: var(--text); line-height: 1; }
+.hero-stat-pill .l { font-family: var(--f-mono); font-size: 8px; text-transform: uppercase; letter-spacing: .2em; color: var(--text-3); margin-top: .1rem; }
+
+@media (max-width: 900px) {
+  .hero-reel { display: none; }
+  .hero-stats-row { position: static; flex-direction: row; flex-wrap: wrap; margin-top: 2rem; padding: 0; }
+  .hero-h1 { font-size: clamp(3rem, 11vw, 5rem); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   MARQUEE STRIP
+═══════════════════════════════════════════════════════ */
+.mq-section {
+  padding: 1.8rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-2);
+}
+.mq-item { font-family: var(--f-display); font-size: 1.1rem; font-weight: 700; color: var(--text-3); white-space: nowrap; letter-spacing: .01em; }
+.mq-sep { color: var(--red); font-size: .7rem; align-self: center; }
+
+/* ═══════════════════════════════════════════════════════
+   SECTION: STORY
+═══════════════════════════════════════════════════════ */
+#story { padding: 8rem 0; background: var(--bg); }
+.story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+.story-img { position: relative; }
+.story-photo {
+  width: 100%; aspect-ratio: 3/4; object-fit: cover;
+  border-radius: 24px; display: block;
+}
+.story-photo-bg {
+  width: 100%; height: 100%; aspect-ratio: 3/4;
+  border-radius: 24px; overflow: hidden;
+  background: var(--bg-2); border: 1px solid var(--border);
+  position: relative;
+}
+.story-photo-bg img {
+  width: 100%; height: 100%; object-fit: cover;
+  border-radius: 24px;
+}
+.story-badge {
+  position: absolute; bottom: -1.5rem; right: -1.5rem;
+  background: var(--red); color: #fff;
+  padding: 1.2rem 1.5rem; border-radius: 18px;
+  font-family: var(--f-mono); font-size: 9px;
+  text-transform: uppercase; letter-spacing: .22em;
+  text-align: center; line-height: 1.5;
+  box-shadow: 0 12px 32px var(--red-soft);
+}
+.story-badge .big { font-size: 1.8rem; font-family: var(--f-display); font-weight: 900; display: block; letter-spacing: 0; }
+.story-h2 { font-family: var(--f-display); font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem; }
+.story-h2 .italic { font-style: italic; color: var(--text-2); }
+.story-body { color: var(--text-2); line-height: 1.8; font-size: .96rem; margin-bottom: 1.25rem; font-weight: 400; }
+.story-pills { display: flex; gap: .6rem; flex-wrap: wrap; margin: 1.8rem 0; }
+.pill {
+  font-family: var(--f-mono); font-size: 9px;
+  text-transform: uppercase; letter-spacing: .18em;
+  padding: .45rem .9rem; border-radius: 999px;
+  border: 1px solid var(--border-strong); color: var(--text-2);
+  background: var(--bg-2);
+}
+@media (max-width: 800px) {
+  .story-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .story-badge { bottom: -1rem; right: 1rem; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION: SERVICES
+═══════════════════════════════════════════════════════ */
+#services { padding: 8rem 0; background: var(--bg-2); }
+.svc-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem; flex-wrap: wrap; gap: 1.5rem; }
+.svc-h2 { font-family: var(--f-display); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; line-height: 1.05; }
+.svc-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
+.svc-card { padding: 2.5rem; border-radius: 20px; display: flex; flex-direction: column; gap: .65rem; }
+.svc-icon-wrap {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: var(--red-soft); display: flex;
+  align-items: center; justify-content: center;
+  margin-bottom: .5rem; color: var(--red);
+}
+.svc-num { font-family: var(--f-mono); font-size: 9px; letter-spacing: .28em; color: var(--red); text-transform: uppercase; }
+.svc-card h3 { font-family: var(--f-display); font-size: 1.35rem; font-weight: 700; line-height: 1.15; }
+.svc-card p { color: var(--text-2); font-size: .875rem; line-height: 1.75; flex: 1; }
+.svc-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .5rem; }
+.svc-tag {
+  font-family: var(--f-mono); font-size: 8.5px;
+  text-transform: uppercase; letter-spacing: .12em;
+  padding: .3rem .7rem; border-radius: 999px;
+  background: var(--bg); border: 1px solid var(--border);
+  color: var(--text-3);
+}
+@media (max-width: 900px) { .svc-grid { grid-template-columns: 1fr; } }
+
+/* ═══════════════════════════════════════════════════════
+   SECTION: VIDEOGRAPHY (CINEMATIC)
+═══════════════════════════════════════════════════════ */
+#video-section {
+  padding: 0; position: relative; overflow: hidden;
+  background: var(--text); /* dark bg always for drama */
+}
+.video-hero {
+  position: relative; min-height: 90vh;
+  display: flex; align-items: flex-end;
+  padding-bottom: 5rem;
+}
+.video-hero-bg {
+  position: absolute; inset: 0;
+}
+.video-hero-bg img {
+  width: 100%; height: 100%; object-fit: cover; opacity: .55;
+}
+.video-hero-bg::after {
+  content:''; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(8,8,7,.95) 0%, rgba(8,8,7,.3) 60%, transparent 100%);
+}
+.video-inner { position: relative; z-index: 2; }
+.video-eyebrow {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-family: var(--f-mono); font-size: 9px;
+  text-transform: uppercase; letter-spacing: .38em;
+  color: rgba(255,255,255,.5);
+  border: 1px solid rgba(255,255,255,.15);
+  padding: .45rem 1rem; border-radius: 999px;
+  margin-bottom: 2rem;
+}
+.video-h2 {
+  font-family: var(--f-display);
+  font-size: clamp(3rem, 7vw, 7rem);
+  font-weight: 900; line-height: 1.0;
+  color: #fff; margin-bottom: 1.5rem;
+  letter-spacing: -.025em;
+}
+.video-h2 .italic { font-style: italic; color: rgba(255,255,255,.55); }
+.video-sub { color: rgba(255,255,255,.6); font-size: .95rem; line-height: 1.75; max-width: 480px; margin-bottom: 2.5rem; }
+.video-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-white { background: #fff; color: #0D0C0A; border: 1px solid #fff; }
+.btn-white:hover { background: var(--red); border-color: var(--red); color: #fff; }
+.btn-ghost-white { background: transparent; color: rgba(255,255,255,.75); border: 1px solid rgba(255,255,255,.25); }
+.btn-ghost-white:hover { border-color: #fff; color: #fff; }
+
+/* Video reel cards */
+.video-reel-section {
+  background: var(--text); padding: 5rem 0;
+}
+.reel-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1rem; }
+.reel-card {
+  border-radius: 16px; overflow: hidden;
+  position: relative; cursor: pointer;
+}
+.reel-card .reel-img {
+  width: 100%; height: 100%;
+  object-fit: cover; transition: transform .7s var(--ease);
+}
+.reel-card:hover .reel-img { transform: scale(1.05); }
+.reel-card--tall { aspect-ratio: 9/14; }
+.reel-card--sq { aspect-ratio: 4/5; }
+.reel-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.85) 0%, transparent 55%);
+  padding: 1.5rem;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.reel-play {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1rem; color: #fff;
+  transition: background .25s;
+}
+.reel-card:hover .reel-play { background: var(--red); border-color: var(--red); }
+.reel-cat { font-family: var(--f-mono); font-size: 8px; text-transform: uppercase; letter-spacing: .28em; color: var(--red); }
+.reel-title { font-family: var(--f-display); font-size: 1.1rem; font-weight: 700; color: #fff; margin-top: .3rem; }
+
+.video-services { background: var(--text); padding: 0 0 6rem; }
+.vsvc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.vsvc-item {
+  padding: 1.8rem; border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.03);
+  transition: all .4s var(--ease);
+}
+.vsvc-item:hover { border-color: var(--red-soft); background: rgba(232,48,42,.05); transform: translateY(-4px); }
+.vsvc-item h4 { font-family: var(--f-display); font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: .5rem; }
+.vsvc-item p { font-size: .82rem; color: rgba(255,255,255,.4); line-height: 1.65; }
+
+@media (max-width: 900px) {
+  .reel-grid { grid-template-columns: 1fr 1fr; }
+  .reel-card--tall { grid-column: 1/-1; aspect-ratio: 16/9; }
+  .vsvc-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .reel-grid { grid-template-columns: 1fr; }
+  .vsvc-grid { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION: PLAYBOOK
+═══════════════════════════════════════════════════════ */
+#playbook { padding: 8rem 0; background: var(--bg); }
+.pb-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
+.pb-step { padding: 0 2.5rem 0 0; border-right: 1px solid var(--border); }
+.pb-step:first-child { padding-left: 0; }
+.pb-step:last-child { border-right: none; }
+.pb-num {
+  font-family: var(--f-display); font-size: 3.5rem;
+  font-weight: 900; color: var(--border-strong); line-height: 1;
+  margin-bottom: 1.2rem; display: block;
+}
+.pb-step h3 { font-family: var(--f-display); font-size: 1.15rem; font-weight: 700; margin-bottom: .7rem; }
+.pb-step p { color: var(--text-2); font-size: .86rem; line-height: 1.75; }
+@media (max-width: 900px) {
+  .pb-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+  .pb-step { border-right: none; padding: 0; border-bottom: 1px solid var(--border); padding-bottom: 2rem; }
+  .pb-step:last-child { border-bottom: none; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION: WORK PREVIEW
+═══════════════════════════════════════════════════════ */
+#work { padding: 8rem 0; background: var(--bg-2); }
+.work-grid {
+  display: grid;
+  grid-template-columns: 1.55fr 1fr 1fr;
+  grid-template-rows: 500px;
+  gap: 1.25rem;
+}
+.work-card { border-radius: 20px; overflow: hidden; position: relative; display: block; cursor: pointer; }
+.work-card .wi { width: 100%; height: 100%; object-fit: cover; transition: transform .7s var(--ease); }
+.work-card:hover .wi { transform: scale(1.05); }
+.work-ov {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10,9,7,.88) 0%, transparent 50%);
+  padding: 1.75rem;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  opacity: 0; transition: opacity .4s;
+}
+.work-card:hover .work-ov { opacity: 1; }
+.wcat { font-family: var(--f-mono); font-size: 9px; text-transform: uppercase; letter-spacing: .25em; color: var(--red); }
+.wtitle { font-family: var(--f-display); font-size: 1.25rem; font-weight: 700; color: #fff; margin-top: .3rem; }
+.wlink { font-family: var(--f-mono); font-size: 9px; text-transform: uppercase; letter-spacing: .15em; color: rgba(255,255,255,.5); margin-top: .75rem; }
+/* placeholder bg for work cards */
+.wbg { width:100%;height:100%;background:var(--bg);border:1px solid var(--border); }
+@media (max-width:900px) {
+  .work-grid { grid-template-columns:1fr; grid-template-rows:auto; }
+  .work-card { height: 280px; }
+  .work-ov { opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION: TESTIMONIALS
+═══════════════════════════════════════════════════════ */
+#testimonials { padding: 8rem 0; background: var(--bg); }
+.testi-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.25rem; }
+.testi-card { padding: 2.25rem; border-radius: 20px; }
+.testi-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
+.testi-av {
+  width: 52px; height: 52px; border-radius: 50%;
+  overflow: hidden; flex-shrink: 0;
+  background: var(--bg-2); border: 1px solid var(--border);
+}
+.testi-av img { width:100%;height:100%;object-fit:cover; }
+.testi-name { font-family: var(--f-display); font-weight: 700; font-size: .95rem; line-height: 1.2; }
+.testi-role { font-family: var(--f-mono); font-size: 8.5px; text-transform: uppercase; letter-spacing: .15em; color: var(--text-3); margin-top: .2rem; }
+.testi-stars { display: flex; gap: 2px; color: var(--red); margin-left: auto; }
+.testi-body { color: var(--text-2); font-size: .9rem; line-height: 1.8; font-style: italic; }
+.testi-body::before { content: '"'; color: var(--red); font-family: var(--f-display); font-size: 2rem; line-height: 0; vertical-align: -.4rem; margin-right: .2rem; }
+@media (max-width: 700px) { .testi-grid { grid-template-columns: 1fr; } }
+
+/* ═══════════════════════════════════════════════════════
+   STATS BAND
+═══════════════════════════════════════════════════════ */
+.stats-band { background: var(--red); padding: 4rem 0; }
+.stats-inner { display: flex; align-items: center; justify-content: space-evenly; flex-wrap: wrap; gap: 2rem; }
+.stat-item { text-align: center; }
+.stat-n { font-family: var(--f-display); font-size: clamp(3rem,6vw,5rem); font-weight: 900; color: #fff; line-height: 1; }
+.stat-l { font-family: var(--f-mono); font-size: 9px; text-transform: uppercase; letter-spacing: .3em; color: rgba(255,255,255,.65); margin-top: .4rem; }
+.stat-div { width: 1px; height: 60px; background: rgba(255,255,255,.25); }
+@media (max-width: 600px) { .stat-div { display: none; } }
+
+/* ═══════════════════════════════════════════════════════
+   FAQ
+═══════════════════════════════════════════════════════ */
+#faq { padding: 8rem 0; background: var(--bg-2); }
+.faq-layout { display: grid; grid-template-columns: 300px 1fr; gap: 6rem; align-items: start; }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-q {
+  width: 100%; background: none; border: none; color: var(--text);
+  display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+  padding: 1.5rem 0; font-family: var(--f-body); font-size: 1rem; font-weight: 600;
+  text-align: left; cursor: pointer; transition: color .2s;
+}
+.faq-q:hover, .faq-item.open .faq-q { color: var(--red); }
+.faq-q svg { flex-shrink: 0; transition: transform .35s var(--ease); }
+.faq-item.open .faq-q svg { transform: rotate(45deg); }
+.faq-body { max-height: 0; overflow: hidden; transition: max-height .42s var(--ease); }
+.faq-body p { padding-bottom: 1.5rem; color: var(--text-2); font-size: .9rem; line-height: 1.8; }
+@media (max-width: 800px) { .faq-layout { grid-template-columns: 1fr; gap: 3rem; } }
+
+/* ═══════════════════════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════════════════════ */
+#contact { padding: 8rem 0; background: var(--bg); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+.contact-h2 { font-family: var(--f-display); font-size: clamp(2.5rem,5vw,4.5rem); font-weight: 900; line-height: 1.05; margin-bottom: 1.5rem; }
+.contact-info-row { display: flex; flex-direction: column; gap: .75rem; margin-top: 2rem; }
+.cinfo { display: flex; align-items: center; gap: .75rem; font-size: .9rem; color: var(--text-2); transition: color .2s; }
+.cinfo:hover { color: var(--red); }
+.cinfo svg { color: var(--red); flex-shrink: 0; }
+.socials-row { display: flex; gap: .65rem; margin-top: 2rem; }
+.soc-btn {
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 1px solid var(--border); color: var(--text-2);
+  display: flex; align-items: center; justify-content: center;
+  transition: all .25s;
+}
+.soc-btn:hover { border-color: var(--red); background: var(--red); color: #fff; }
+
+/* form */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+.fg { display: flex; flex-direction: column; gap: .35rem; margin-bottom: 1rem; }
+.fg label { font-family: var(--f-mono); font-size: 8.5px; text-transform: uppercase; letter-spacing: .22em; color: var(--text-3); }
+.fg input, .fg select, .fg textarea {
+  width: 100%; background: var(--bg-2); border: 1px solid var(--border);
+  border-radius: 10px; padding: .85rem 1.1rem;
+  font-family: var(--f-body); font-size: .9rem; color: var(--text);
+  outline: none; transition: border-color .2s, background .2s;
+  -webkit-appearance: none;
+}
+.fg input::placeholder, .fg textarea::placeholder { color: var(--text-3); }
+.fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--red); background: var(--bg); }
+.fg select option { background: var(--bg-2); }
+.fg textarea { resize: none; }
+#form-ok { display:none; text-align:center; color:#22c55e; font-family:var(--f-mono); font-size:11px; letter-spacing:.1em; margin-top:1rem; }
+@media (max-width: 900px) {
+  .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .form-row { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════ */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 3rem 2rem;
+  background: var(--bg);
+}
+.footer-inner {
+  max-width: 1340px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;
+}
+.footer-logo img { height: 24px; }
+.footer-logo img.light-logo { display: block; }
+.footer-logo img.dark-logo { display: none; }
+html.dark .footer-logo img.light-logo { display: none; }
+html.dark .footer-logo img.dark-logo { display: block; }
+.footer-copy { font-family: var(--f-mono); font-size: 8.5px; text-transform: uppercase; letter-spacing: .28em; color: var(--text-3); }
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a { font-family: var(--f-mono); font-size: 8.5px; text-transform: uppercase; letter-spacing: .2em; color: var(--text-3); transition: color .2s; }
+.footer-links a:hover { color: var(--red); }
+</style>
+
+<!-- Theme detection BEFORE render -->
+<script>
+(function(){
+  const stored = localStorage.getItem('gs-theme');
+  const dark = stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (dark) document.documentElement.classList.add('dark');
+  // default is LIGHT as requested — only add dark if stored/system preference
+})();
+</script>
 </head>
-<body class="bg-[#F8F9FA] text-slate-900 dark:bg-charcoal dark:text-zinc-200 transition-colors duration-500 selection:bg-geekRed selection:text-white relative scroll-lock" id="main-body">
 
-    <div id="loader-screen" class="bg-[#F8F9FA] dark:bg-charcoal">
-        <div id="loader-logo">
-            <img src="logo-dark.png" alt="Geek Studio" class="w-48 md:w-72 block dark:hidden">
-            <img src="logo-light.png" alt="Geek Studio" class="w-48 md:w-72 hidden dark:block">
-        </div>
-        <div class="loader-text font-mono text-[10px] md:text-xs uppercase tracking-[0.4em] text-geekRed mt-6 animate-pulse">Initializing System</div>
-        <div class="loader-bar-bg bg-slate-300 dark:bg-white/10"><div class="loader-bar-fill"></div></div>
+<body class="scroll-lock">
+
+<!-- CURSOR -->
+<div id="cursor-glow"></div>
+<div id="cursor-dot"></div>
+<div class="noise"></div>
+
+<!-- WATERMARK -->
+<div id="watermark">
+  <img src="nav-logo-dark.png" alt="" class="light-logo" id="wm-light">
+  <img src="nav-logo-light.png" alt="" class="dark-logo" id="wm-dark" style="display:none;">
+</div>
+
+<!-- ══ LOADER ══════════════════════════════════════════ -->
+<div id="loader">
+  <!-- Logo WITHOUT background — just the transparent PNG -->
+  <div class="loader-logo-wrap">
+    <img src="logo-dark.png" alt="Geek Studio" id="ll-dark">
+    <img src="logo-light.png" alt="Geek Studio" id="ll-light" style="display:none;">
+  </div>
+  <div class="loader-sub" id="loader-sub">Arusha · Tanzania</div>
+  <div class="loader-track" id="loader-track"><div class="loader-fill" id="loader-fill"></div></div>
+</div>
+
+<!-- ══ NAV ═════════════════════════════════════════════ -->
+<div id="nav-outer">
+  <nav id="main-nav">
+    <a href="index.html" class="nav-logo">
+      <img src="nav-logo-dark.png" alt="Geek Studio" class="light-logo">
+      <img src="nav-logo-light.png" alt="Geek Studio" class="dark-logo">
+    </a>
+    <ul class="nav-links">
+      <li><a href="#story">Agency</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#video-section">Videography</a></li>
+      <li><a href="portfolio.html" class="page-exit">Work</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="theme-btn" id="theme-btn" aria-label="Toggle theme">
+        <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a href="https://wa.me/255684200859" target="_blank" class="nav-cta">
+        Let's Talk <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <button id="hamburger" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </nav>
+</div>
+
+<!-- ══ MOBILE MENU ══════════════════════════════════════ -->
+<div id="mob-menu">
+  <button id="mob-close">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <a href="#story" class="mob-link">Agency</a>
+  <a href="#services" class="mob-link">Services</a>
+  <a href="#video-section" class="mob-link">Videography</a>
+  <a href="portfolio.html" class="mob-link page-exit">Work</a>
+  <a href="#contact" class="mob-link">Contact</a>
+  <a href="https://wa.me/255684200859" target="_blank" class="btn btn-red" style="margin-top:1.5rem;">WhatsApp Us</a>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-bg-text" id="hero-bg-text">GEEK</div>
+
+  <!-- Right side: editorial image -->
+  <div class="hero-reel">
+    <div class="hero-reel-inner">
+      <img
+        src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1200&auto=format&fit=crop&q=85"
+        alt="Arusha aerial"
+        class="hero-reel-img"
+        id="hero-reel-img"
+      >
+      <div class="hero-reel-overlay"></div>
+    </div>
+  </div>
+
+  <div class="wrap hero-inner" style="position:relative;z-index:2;padding-top:clamp(6rem,18vh,12rem);">
+    <div class="hero-eyebrow r" id="h-ey">
+      <span class="dot-live"></span>
+      Arusha, Tanzania &nbsp;·&nbsp; Est. 2022
     </div>
 
-    <div class="fixed top-0 right-0 h-screen w-[150vw] md:w-[60vw] pointer-events-none z-0 flex items-center justify-end translate-x-[25%] translate-y-[15%] md:translate-y-[25%] perspective-[1000px] overflow-hidden">
-        <div id="watermark-container" class="w-full will-change-transform opacity-30 dark:opacity-20 drop-shadow-2xl">
-            <img src="logo-dark.png" alt="Watermark" class="w-full -rotate-12 block dark:hidden object-contain select-none">
-            <img src="logo-light.png" alt="Watermark" class="w-full -rotate-12 hidden dark:block object-contain select-none">
-        </div>
+    <h1 class="hero-h1">
+      <span class="hl" id="hl0">Elite Graphic</span>
+      <span class="hl italic" id="hl1">&amp; Cinematic</span>
+      <span class="hl outline" id="hl2">Studio.</span>
+    </h1>
+
+    <p class="hero-sub r" style="transition-delay:.2s">
+      Geek Studio engineers brand identities, cinematic productions, and digital systems for Tanzania's most ambitious founders — from Arusha to the world.
+    </p>
+
+    <div class="hero-actions r" style="transition-delay:.3s">
+      <a href="#contact" class="btn btn-solid">Start a Project</a>
+      <a href="portfolio.html" class="btn btn-ghost page-exit">View Work</a>
     </div>
-    
-    <div class="noise-overlay"></div>
-    <div id="cursor-glow" class="z-cursor"></div>
-    <div id="cursor-ring" class="z-cursor"></div>
-    
-    <div class="fixed top-0 left-0 w-full flex justify-center pt-4 z-[500] pointer-events-none">
-        <nav id="main-nav" class="nav-container nav-top pointer-events-auto flex justify-between items-center border border-transparent">
-            <div class="flex items-center gap-3 md:gap-4">
-                <div class="cursor-pointer interactive" onclick="window.scrollTo(0,0)">
-                    <img src="nav-logo-dark.png" alt="Geek Studio Arusha" class="h-6 md:h-8 w-auto object-contain block dark:hidden">
-                    <img src="nav-logo-light.png" alt="Geek Studio Arusha" class="h-6 md:h-8 w-auto object-contain hidden dark:block">
-                </div>
-                <div class="hidden items-center gap-2">
-                    <div class="w-2 h-2 bg-geekRed rounded-full animate-pulse shadow-[0_0_15px_#FF3B3F]"></div>
-                    <span class="font-display font-bold tracking-[0.1em] text-xs md:text-sm uppercase text-slate-900 dark:text-white">Geek Studio</span>
-                </div>
+
+    <div class="hero-scroll r" style="transition-delay:.4s">
+      <div class="scroll-bar"></div>
+      <span>Scroll to explore</span>
+    </div>
+  </div>
+
+  <!-- Floating stat pills (desktop) -->
+  <div class="hero-stats-row" id="hero-stats">
+    <div class="hero-stat-pill r">
+      <div><div class="n" data-count="48" data-suffix="+">48+</div><div class="l">Brands Built</div></div>
+    </div>
+    <div class="hero-stat-pill r d1">
+      <div><div class="n" data-count="98" data-suffix="%">98%</div><div class="l">Retention</div></div>
+    </div>
+    <div class="hero-stat-pill r d2">
+      <div><div class="n" data-count="3" data-suffix="yr">3yr</div><div class="l">In Arusha</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MARQUEE ═══════════════════════════════════════════ -->
+<div class="mq-section">
+  <div class="mq-wrap">
+    <div class="mq-track">
+      <span class="mq-item">Safari Njema Tours</span><span class="mq-sep">✦</span>
+      <span class="mq-item">JamiiConnect</span><span class="mq-sep">✦</span>
+      <span class="mq-item">Baobab Wellness</span><span class="mq-sep">✦</span>
+      <span class="mq-item">MkoaPay</span><span class="mq-sep">✦</span>
+      <span class="mq-item">Kilimanjaro Breweries</span><span class="mq-sep">✦</span>
+      <span class="mq-item">Serengeti Media</span><span class="mq-sep">✦</span>
+      <span class="mq-item">Nyota Digital</span><span class="mq-sep">✦</span>
+      <span class="mq-item">Arusha Tech Hub</span><span class="mq-sep">✦</span>
+      <span class="mq-item">Safari Njema Tours</span><span class="mq-sep">✦</span>
+      <span class="mq-item">JamiiConnect</span><span class="mq-sep">✦</span>
+      <span class="mq-item">Baobab Wellness</span><span class="mq-sep">✦</span>
+      <span class="mq-item">MkoaPay</span><span class="mq-sep">✦</span>
+      <span class="mq-item">Kilimanjaro Breweries</span><span class="mq-sep">✦</span>
+      <span class="mq-item">Serengeti Media</span><span class="mq-sep">✦</span>
+      <span class="mq-item">Nyota Digital</span><span class="mq-sep">✦</span>
+      <span class="mq-item">Arusha Tech Hub</span><span class="mq-sep">✦</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ STORY ══════════════════════════════════════════════ -->
+<section id="story">
+  <div class="wrap">
+    <div class="story-grid">
+      <div class="story-img r">
+        <div class="story-photo-bg">
+          <img
+            src="https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?w=900&auto=format&fit=crop&q=85"
+            alt="Arusha Tanzania"
+          >
+        </div>
+        <div class="story-badge r d2">
+          <span class="big">3+</span>
+          Years Shaping<br>East Africa
+        </div>
+      </div>
+      <div>
+        <div class="label r">Our Story</div>
+        <h2 class="story-h2 r d1">
+          Born in Arusha.<br>
+          <span class="italic">Built for the World.</span>
+        </h2>
+        <p class="story-body r d2">
+          Founded by Fahad Khaji in 2022, Geek Studio sits at the crossroads of Kilimanjaro and the Serengeti — and operates at the intersection of great design and hard results. We saw Tanzanian businesses brimming with potential but underrepresented in the global visual economy.
+        </p>
+        <p class="story-body r d2">
+          So we built the agency we wished existed: one that combines elite graphic design, cinematic videography, and engineered digital systems — all under one roof, right here in Arusha.
+        </p>
+        <div class="story-pills r d3">
+          <span class="pill">🇹🇿 100% Local</span>
+          <span class="pill">🌍 Global Standard</span>
+          <span class="pill">🎬 Cinematic Production</span>
+          <span class="pill">🦅 Founder-Led</span>
+        </div>
+        <div style="margin-top:2.5rem;" class="r d3">
+          <a href="#contact" class="btn btn-solid">Work With Us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SERVICES ═══════════════════════════════════════════ -->
+<section id="services">
+  <div class="wrap">
+    <div class="svc-header">
+      <div>
+        <div class="label r">What We Do</div>
+        <h2 class="svc-h2 r d1">Three disciplines.<br><em style="font-style:italic;color:var(--text-2)">One vision.</em></h2>
+      </div>
+      <a href="portfolio.html" class="btn btn-ghost r page-exit">See All Work</a>
+    </div>
+    <div class="svc-grid">
+
+      <div class="card svc-card r">
+        <div class="svc-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <span class="svc-num">01 / Brand Identity</span>
+        <h3>The Visual Soul</h3>
+        <p>Strategy-first branding that goes beyond a logo. We craft complete visual systems — identity, typography, colour, packaging, and motion — that make your brand unmissable in every room.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Logo Design</span>
+          <span class="svc-tag">Brand System</span>
+          <span class="svc-tag">Packaging</span>
+          <span class="svc-tag">Brand Voice</span>
+          <span class="svc-tag">Print</span>
+        </div>
+      </div>
+
+      <div class="card svc-card r d1">
+        <div class="svc-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+        </div>
+        <span class="svc-num">02 / Videography</span>
+        <h3>Cinematic Production</h3>
+        <p>Drone aerials, brand films, product showcases, and social reels. We produce visuals that stop the scroll and tell your story with a cinematic voice — shot across Arusha and East Africa.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Drone Aerials</span>
+          <span class="svc-tag">Brand Films</span>
+          <span class="svc-tag">Social Reels</span>
+          <span class="svc-tag">Product Video</span>
+          <span class="svc-tag">Event Coverage</span>
+        </div>
+      </div>
+
+      <div class="card svc-card r d2">
+        <div class="svc-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <span class="svc-num">03 / Digital Systems</span>
+        <h3>The Loud Brain</h3>
+        <p>Websites, SaaS platforms, and marketing systems that work while you sleep. Built for East Africa's connectivity reality — fast, mobile-first, and engineered to convert from day one.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Landing Pages</span>
+          <span class="svc-tag">SaaS Dev</span>
+          <span class="svc-tag">Social Media</span>
+          <span class="svc-tag">Meta / Google Ads</span>
+          <span class="svc-tag">SEO</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ VIDEOGRAPHY SECTION ════════════════════════════════ -->
+<section id="video-section">
+  <!-- Big hero banner -->
+  <div class="video-hero">
+    <div class="video-hero-bg">
+      <img
+        src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1800&auto=format&fit=crop&q=85"
+        alt="Kilimanjaro aerial cinematic"
+      >
+    </div>
+    <div class="wrap video-inner">
+      <div class="video-eyebrow">
+        <span class="dot-live" style="background:#fff;"></span>
+        Cinematic Production — Arusha, Tanzania
+      </div>
+      <h2 class="video-h2">
+        We Shoot<br>
+        <span class="italic">East Africa.</span>
+      </h2>
+      <p class="video-sub">
+        Drone aerials over Kilimanjaro. Brand films shot in the Serengeti. Product reels crafted in our Arusha studio. We create visual stories that position your business at the highest level.
+      </p>
+      <div class="video-actions">
+        <a href="#contact" class="btn btn-white">Book a Shoot</a>
+        <a href="#video-reel" class="btn btn-ghost-white">View Reel</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reel cards -->
+  <div class="video-reel-section" id="video-reel">
+    <div class="wrap">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem;">
+        <p style="font-family:var(--f-mono);font-size:9px;text-transform:uppercase;letter-spacing:.38em;color:rgba(255,255,255,.35);">Selected Reel</p>
+        <a href="portfolio.html" class="page-exit" style="font-family:var(--f-mono);font-size:9px;text-transform:uppercase;letter-spacing:.22em;color:rgba(255,255,255,.4);transition:color .2s;" onmouseenter="this.style.color='#E8302A'" onmouseleave="this.style.color='rgba(255,255,255,.4)'">All Productions →</a>
+      </div>
+      <div class="reel-grid">
+        <div class="reel-card reel-card--tall">
+          <img class="reel-img" src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800&auto=format&fit=crop&q=80" alt="Aerial Arusha">
+          <div class="reel-overlay">
+            <div class="reel-play">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             </div>
-            
-            <div class="hidden md:flex gap-8 text-[11px] uppercase tracking-[0.2em] text-slate-500 dark:text-zinc-400 font-mono font-bold">
-                <a href="#story" class="hover:text-geekRed dark:hover:text-white transition-all interactive">Agency</a>
-                <a href="#services" class="hover:text-geekRed dark:hover:text-white transition-all interactive">Capabilities</a>
-                <a href="portfolio.html" class="page-link hover:text-geekRed dark:hover:text-white transition-all interactive">Work</a>
-                <a href="#contact" class="hover:text-geekRed dark:hover:text-white transition-all interactive">Start Project</a>
+            <span class="reel-cat">Aerial / Drone</span>
+            <div class="reel-title">Arusha From Above</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:1rem;">
+          <div class="reel-card reel-card--sq">
+            <img class="reel-img" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&auto=format&fit=crop&q=80" alt="Kilimanjaro">
+            <div class="reel-overlay">
+              <div class="reel-play">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+              <span class="reel-cat">Landscape</span>
+              <div class="reel-title">Kili Sunrise</div>
             </div>
-
-            <div class="flex items-center gap-3">
-                <button id="theme-toggle" class="p-2 rounded-full bg-slate-200 dark:bg-white/10 text-slate-600 dark:text-white hover:bg-slate-300 dark:hover:bg-white/20 transition-all interactive">
-                    <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
-                    <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
-                </button>
-                <a href="https://wa.me/255684200859" target="_blank" class="hidden md:flex group items-center gap-2 px-4 py-2 bg-slate-900 dark:bg-white/5 border border-slate-900 dark:border-white/10 rounded-full text-[10px] uppercase tracking-widest text-white hover:bg-geekRed hover:border-geekRed transition-all duration-300 interactive">
-                    <span>Let's Talk</span>
-                    <i data-lucide="arrow-right" class="w-3 h-3 group-hover:translate-x-1 transition-transform"></i>
-                </a>
-                <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-900 dark:text-white interactive">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
+          </div>
+          <div class="reel-card reel-card--sq">
+            <img class="reel-img" src="https://images.unsplash.com/photo-1598971861713-54ad16a7e72e?w=700&auto=format&fit=crop&q=80" alt="Brand film">
+            <div class="reel-overlay">
+              <div class="reel-play">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+              <span class="reel-cat">Brand Film</span>
+              <div class="reel-title">Product Showcase</div>
             </div>
-        </nav>
-    </div>
-
-    <div id="mobile-menu" class="fixed inset-0 bg-[#F8F9FA]/95 dark:bg-charcoal/95 backdrop-blur-xl z-[600] flex flex-col items-center justify-center opacity-0 pointer-events-none invisible">
-        <button id="close-menu-btn" class="absolute top-6 right-6 p-2 text-slate-900 dark:text-white interactive">
-            <i data-lucide="x" class="w-8 h-8"></i>
-        </button>
-        <div class="flex flex-col gap-8 text-center font-display text-3xl font-bold text-slate-900 dark:text-white overflow-hidden">
-            <div class="mobile-link-wrapper translate-y-8 opacity-0"><a href="#story" class="mobile-link hover:text-geekRed transition-colors interactive">Agency</a></div>
-            <div class="mobile-link-wrapper translate-y-8 opacity-0"><a href="#services" class="mobile-link hover:text-geekRed transition-colors interactive">Capabilities</a></div>
-            <div class="mobile-link-wrapper translate-y-8 opacity-0"><a href="portfolio.html" class="page-link mobile-link hover:text-geekRed transition-colors interactive">Work</a></div>
-            <div class="mobile-link-wrapper translate-y-8 opacity-0"><a href="#contact" class="mobile-link hover:text-geekRed transition-colors interactive">Start Project</a></div>
+          </div>
         </div>
-        <div class="mobile-link-wrapper translate-y-8 opacity-0">
-            <a href="https://wa.me/255684200859" class="mt-12 px-8 py-4 bg-geekRed text-white rounded-full font-mono text-xs uppercase tracking-widest font-bold interactive block">Let's Talk</a>
-        </div>
+      </div>
     </div>
+  </div>
 
-    <div id="smooth-wrapper" class="relative z-10 transition-transform duration-700 ease-[cubic-bezier(0.65,0,0.35,1)]">
-        <div id="smooth-content">
-
-            <section class="min-h-[100svh] flex flex-col pt-[20vh] md:justify-center px-6 relative pb-24 md:pt-40 md:pb-32" id="hero-section">
-                <div class="max-w-7xl mx-auto w-full hero-content will-change-transform z-10">
-                    <div class="overflow-hidden mb-4 md:mb-6">
-                        <h2 class="hero-line font-mono text-geekRed text-[10px] md:text-xs uppercase tracking-[0.3em] md:tracking-[0.4em] opacity-0 translate-y-10">Arusha, Tanzania • Creative Agency</h2>
-                    </div>
-                    
-                    <h1 class="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.05] tracking-tight mb-6 md:mb-8 text-slate-900 dark:text-white">
-                        <div class="overflow-hidden"><span class="hero-line block opacity-0 translate-y-10">ELITE GRAPHIC DESIGN</span></div>
-                        <div class="overflow-hidden"><span class="hero-line block opacity-0 translate-y-10">& DIGITAL SYSTEMS</span></div>
-                        <div class="overflow-hidden h-[1.2em] text-slate-500 dark:text-zinc-500 italic">
-                            <span id="typing-text" class="hero-line block opacity-0 translate-y-10"></span>
-                        </div>
-                    </h1>
-
-                    <div class="flex flex-col md:flex-row gap-4 md:gap-8 items-start mt-6 md:mt-10">
-                        <div class="overflow-hidden">
-                            <p class="hero-line max-w-md text-slate-600 dark:text-zinc-300 text-sm md:text-base font-light leading-relaxed opacity-0 translate-y-10">
-                                We blend elite Graphic Design, Social Media Marketing, and custom Web & SaaS Development. Built in East Africa, engineered for founders ready to dominate.
-                            </p>
-                        </div>
-                        <div class="hero-line h-px w-20 bg-geekRed mt-3 hidden md:block opacity-0"></div>
-                    </div>
-                </div>
-
-                <div class="absolute bottom-10 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 hero-line opacity-0 translate-y-10 z-0">
-                    <span class="text-[9px] font-mono uppercase tracking-[0.4em] text-slate-400 dark:text-zinc-500">Scroll</span>
-                    <i data-lucide="chevron-down" class="w-4 h-4 text-geekRed animate-scroll-bounce"></i>
-                </div>
-            </section>
-
-            <section class="relative overflow-hidden bg-slate-200/50 dark:bg-[#08080A]/80 backdrop-blur-sm border-y border-slate-300 dark:border-white/5 py-4">
-                <div class="text-center mb-2"><span class="font-mono text-[9px] uppercase tracking-[0.3em] text-slate-500">Trusted By Brands in East Africa</span></div>
-                <div class="marquee-wrapper py-2">
-                    <div class="marquee-content opacity-60 hover:opacity-100 transition-opacity duration-500">
-                        <img src="client1.png" alt="Client Logo 1" class="h-8 md:h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all" onerror="this.outerHTML='<span class=\'tech-tag font-display text-xl font-bold text-slate-400 dark:text-white/20\'>CLIENT LOGO 1</span>'">
-                        <img src="client2.png" alt="Client Logo 2" class="h-8 md:h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all" onerror="this.outerHTML='<span class=\'tech-tag font-display text-xl font-bold text-slate-400 dark:text-white/20\'>CLIENT LOGO 2</span>'">
-                        <img src="client3.png" alt="Client Logo 3" class="h-8 md:h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all" onerror="this.outerHTML='<span class=\'tech-tag font-display text-xl font-bold text-slate-400 dark:text-white/20\'>CLIENT LOGO 3</span>'">
-                        <img src="client1.png" alt="Client Logo 1" class="h-8 md:h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all" onerror="this.outerHTML='<span class=\'tech-tag font-display text-xl font-bold text-slate-400 dark:text-white/20\'>CLIENT LOGO 1</span>'">
-                        <img src="client2.png" alt="Client Logo 2" class="h-8 md:h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all" onerror="this.outerHTML='<span class=\'tech-tag font-display text-xl font-bold text-slate-400 dark:text-white/20\'>CLIENT LOGO 2</span>'">
-                        <img src="client3.png" alt="Client Logo 3" class="h-8 md:h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all" onerror="this.outerHTML='<span class=\'tech-tag font-display text-xl font-bold text-slate-400 dark:text-white/20\'>CLIENT LOGO 3</span>'">
-                    </div>
-                </div>
-            </section>
-
-            <section id="story" class="py-24 md:py-32 px-6 bg-slate-50/95 dark:bg-charcoal/95 backdrop-blur-md relative transition-colors duration-500">
-                <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16 items-center">
-                    <div>
-                        <div class="text-reveal">
-                            <span class="font-mono text-geekRed text-xs uppercase tracking-widest mb-6 block">The Philosophy</span>
-                            <h2 class="font-display text-3xl md:text-5xl font-bold mb-6 md:mb-8 text-slate-900 dark:text-white leading-tight">
-                                "Design without System is just Art.<br> System without Design is just a Robot."
-                            </h2>
-                        </div>
-                        <div class="space-y-6 text-base md:text-lg text-slate-600 dark:text-zinc-400 font-light leading-relaxed">
-                            <p class="text-reveal">Most agencies make things look pretty but forget to make them convert. Tech shops make things work but forget to give them a soul.</p>
-                            <p class="text-reveal text-slate-900 dark:text-white font-medium">Geek Studio is the bridge. We are the Designers who code. The Marketers who automate. The Geeks with style.</p>
-                        </div>
-                    </div>
-                    <div class="text-reveal h-[300px] md:h-[600px] w-full rounded-[2rem] img-placeholder group interactive overflow-hidden shadow-2xl">
-                        <span>[Upload 'philosophy.jpg']</span>
-                        <img src="philosophy.jpg" alt="Geek Studio Philosophy" class="group-hover:scale-105 transition-transform duration-1000">
-                    </div>
-                </div>
-            </section>
-
-            <section class="py-24 md:py-32 px-6 bg-white/95 dark:bg-[#08080A]/95 backdrop-blur-md relative transition-colors duration-500" id="playbook">
-                <div class="max-w-7xl mx-auto">
-                    <div class="text-center mb-10 md:mb-12">
-                        <span class="pb-title font-mono text-geekRed text-[10px] md:text-xs uppercase tracking-[0.3em] block mb-4">The Playbook</span>
-                        <h2 class="pb-title font-display text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">How We Dominate.</h2>
-                    </div>
-                    
-                    <div class="hidden md:block relative w-full max-w-4xl mx-auto h-[1px] bg-slate-200 dark:bg-white/10 mb-12 pb-line-wrapper opacity-0">
-                        <div class="playbook-line-fill absolute top-0 left-0 h-full bg-geekRed w-0"></div>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 relative pb-container">
-                        
-                        <div class="block md:hidden absolute left-7 top-8 bottom-8 w-[2px] bg-slate-200 dark:bg-white/10 z-0 pb-mobile-line-wrapper">
-                            <div class="playbook-line-fill-mobile absolute top-0 left-0 w-full bg-geekRed h-0"></div>
-                        </div>
-
-                        <div class="pb-step relative z-10 flex flex-row md:flex-col items-start md:items-center gap-6 md:gap-4 w-full md:text-center">
-                            <div class="pb-icon shrink-0 w-14 h-14 md:w-20 md:h-20 bg-white dark:bg-[#0c0c0f] border border-slate-200 dark:border-white/10 rounded-full flex items-center justify-center text-geekRed font-mono text-lg md:text-xl shadow-lg relative z-10 mx-0 md:mx-auto">01</div>
-                            <div class="pt-2 md:pt-0">
-                                <h3 class="font-display text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-2 md:mb-3">Discover & Audit</h3>
-                                <p class="text-slate-600 dark:text-zinc-400 text-sm">We analyze your brand, competitors, and systems to find exactly where you are losing money and attention.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="pb-step relative z-10 flex flex-row md:flex-col items-start md:items-center gap-6 md:gap-4 w-full md:text-center">
-                            <div class="pb-icon shrink-0 w-14 h-14 md:w-20 md:h-20 bg-white dark:bg-[#0c0c0f] border border-slate-200 dark:border-white/10 rounded-full flex items-center justify-center text-geekRed font-mono text-lg md:text-xl shadow-lg relative z-10 mx-0 md:mx-auto">02</div>
-                            <div class="pt-2 md:pt-0">
-                                <h3 class="font-display text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-2 md:mb-3">Design & Build</h3>
-                                <p class="text-slate-600 dark:text-zinc-400 text-sm">We craft elite visuals, structure winning marketing campaigns, and code the CRM or SaaS systems you need.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="pb-step relative z-10 flex flex-row md:flex-col items-start md:items-center gap-6 md:gap-4 w-full md:text-center">
-                            <div class="pb-icon shrink-0 w-14 h-14 md:w-20 md:h-20 bg-white dark:bg-[#0c0c0f] border border-slate-200 dark:border-white/10 rounded-full flex items-center justify-center text-geekRed font-mono text-lg md:text-xl shadow-lg relative z-10 mx-0 md:mx-auto">03</div>
-                            <div class="pt-2 md:pt-0">
-                                <h3 class="font-display text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-2 md:mb-3">Deploy & Scale</h3>
-                                <p class="text-slate-600 dark:text-zinc-400 text-sm">We launch your new engine to the market, monitor the data, and scale up the systems to drive growth.</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
-
-            <section id="services" class="py-24 px-6 bg-slate-50/95 dark:bg-charcoal/95 backdrop-blur-md transition-colors">
-                <div class="max-w-7xl mx-auto">
-                    <div class="text-center mb-12 md:mb-16">
-                        <span class="text-reveal font-mono text-geekRed text-[10px] uppercase tracking-[0.4em] block">Our Core</span>
-                        <h2 class="text-reveal font-display text-3xl md:text-5xl font-bold mt-4 text-slate-900 dark:text-white">Three Pillars. One Engine.</h2>
-                    </div>
-
-                    <div class="grid md:grid-cols-3 gap-6 md:gap-8 core-container">
-                        <div class="glass-card p-6 md:p-10 rounded-2xl interactive geek-card">
-                            <div class="w-10 h-10 md:w-12 md:h-12 bg-slate-100 dark:bg-white/5 rounded-2xl flex items-center justify-center mb-4 md:mb-6 text-slate-900 dark:text-white transition-colors">
-                                <i data-lucide="palette" class="w-5 h-5 md:w-6 md:h-6"></i>
-                            </div>
-                            <h3 class="font-display text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-3 md:mb-4">The Visual Soul</h3>
-                            <p class="text-xs md:text-sm text-slate-600 dark:text-zinc-300 leading-relaxed mb-6">Elite Graphic Design, Branding, and Identity. We make your business look expensive, trusted, and impossible to ignore.</p>
-                            <div class="border-t border-slate-200 dark:border-white/10 pt-4">
-                                <span class="block text-[10px] font-mono text-geekRed uppercase tracking-widest mb-2">Capabilities</span>
-                                <ul class="space-y-1 text-[11px] md:text-xs text-slate-600 dark:text-zinc-400 font-mono">
-                                    <li>+ Brand Identity & Logos</li>
-                                    <li>+ Print & Packaging</li>
-                                    <li>+ Visual Guidelines</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="glass-card p-6 md:p-10 rounded-2xl interactive geek-card">
-                            <div class="w-10 h-10 md:w-12 md:h-12 bg-slate-100 dark:bg-white/5 rounded-2xl flex items-center justify-center mb-4 md:mb-6 text-slate-900 dark:text-white transition-colors">
-                                <i data-lucide="megaphone" class="w-5 h-5 md:w-6 md:h-6"></i>
-                            </div>
-                            <h3 class="font-display text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-3 md:mb-4">The Loud Voice</h3>
-                            <p class="text-xs md:text-sm text-slate-600 dark:text-zinc-300 leading-relaxed mb-6">A great brand needs to be heard. We handle your Social Media, Content Creation, and Paid Ads to dominate your market.</p>
-                            <div class="border-t border-slate-200 dark:border-white/10 pt-4">
-                                <span class="block text-[10px] font-mono text-geekRed uppercase tracking-widest mb-2">Capabilities</span>
-                                <ul class="space-y-1 text-[11px] md:text-xs text-slate-600 dark:text-zinc-400 font-mono">
-                                    <li>+ SMM (Insta/TikTok)</li>
-                                    <li>+ Content Strategy</li>
-                                    <li>+ Meta & Google Ads</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="glass-card p-6 md:p-10 rounded-2xl interactive geek-card">
-                            <div class="w-10 h-10 md:w-12 md:h-12 bg-slate-100 dark:bg-white/5 rounded-2xl flex items-center justify-center mb-4 md:mb-6 text-slate-900 dark:text-white transition-colors">
-                                <i data-lucide="cpu" class="w-5 h-5 md:w-6 md:h-6"></i>
-                            </div>
-                            <h3 class="font-display text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-3 md:mb-4">The Silent Brain</h3>
-                            <p class="text-xs md:text-sm text-slate-600 dark:text-zinc-300 leading-relaxed mb-6">The extra edge. We build SaaS tools, Websites, and CRM systems that automate the chaos. While you sleep, our systems sell.</p>
-                            <div class="border-t border-slate-200 dark:border-white/10 pt-4">
-                                <span class="block text-[10px] font-mono text-geekRed uppercase tracking-widest mb-2">Capabilities</span>
-                                <ul class="space-y-1 text-[11px] md:text-xs text-slate-600 dark:text-zinc-400 font-mono">
-                                    <li>+ Custom SaaS Dev</li>
-                                    <li>+ Website Development</li>
-                                    <li>+ Zoho CRM / Automation</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="work" class="py-24 px-6 bg-white/95 dark:bg-[#08080A]/95 backdrop-blur-md">
-                <div class="max-w-7xl mx-auto">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 md:mb-12">
-                        <div class="text-reveal">
-                            <span class="font-mono text-geekRed text-[10px] uppercase tracking-[0.4em] block mb-2">Showcase</span>
-                            <h2 class="font-display text-3xl md:text-5xl font-bold text-slate-900 dark:text-white">Featured Work.</h2>
-                        </div>
-                        <a href="portfolio.html" class="page-link text-reveal mt-4 md:mt-0 text-[10px] md:text-xs font-mono uppercase tracking-widest text-slate-500 hover:text-geekRed transition-colors interactive">View All Projects <i data-lucide="arrow-right" class="inline w-3 h-3"></i></a>
-                    </div>
-
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="text-reveal group interactive" onclick="window.location='portfolio.html'">
-                            <div class="h-56 md:h-80 w-full rounded-2xl img-placeholder overflow-hidden mb-4">
-                                <span>[Upload 'work1.jpg']</span>
-                                <img src="work1.jpg" alt="Portfolio 1" class="group-hover:scale-105 transition-transform duration-1000">
-                            </div>
-                            <h4 class="font-display font-bold text-base md:text-lg text-slate-900 dark:text-white">Brand Identity</h4>
-                            <p class="text-[10px] md:text-xs text-slate-500 font-mono uppercase">Graphic Design</p>
-                        </div>
-                        <div class="text-reveal group interactive" onclick="window.location='portfolio.html'">
-                            <div class="h-56 md:h-80 w-full rounded-2xl img-placeholder overflow-hidden mb-4">
-                                <span>[Upload 'work2.jpg']</span>
-                                <img src="work2.jpg" alt="Portfolio 2" class="group-hover:scale-105 transition-transform duration-1000">
-                            </div>
-                            <h4 class="font-display font-bold text-base md:text-lg text-slate-900 dark:text-white">Custom SaaS Platform</h4>
-                            <p class="text-[10px] md:text-xs text-slate-500 font-mono uppercase">Development</p>
-                        </div>
-                        <div class="text-reveal group interactive hidden lg:block" onclick="window.location='portfolio.html'">
-                            <div class="h-56 md:h-80 w-full rounded-2xl img-placeholder overflow-hidden mb-4">
-                                <span>[Upload 'work3.jpg']</span>
-                                <img src="work3.jpg" alt="Portfolio 3" class="group-hover:scale-105 transition-transform duration-1000">
-                            </div>
-                            <h4 class="font-display font-bold text-base md:text-lg text-slate-900 dark:text-white">Social Media Campaign</h4>
-                            <p class="text-[10px] md:text-xs text-slate-500 font-mono uppercase">Marketing</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="contact" class="py-24 px-4 md:px-6 bg-slate-50/95 dark:bg-charcoal/95 backdrop-blur-md">
-                <div class="max-w-7xl mx-auto">
-                    <div class="glass-card rounded-[24px] md:rounded-[40px] p-6 md:p-16">
-                        <div class="grid md:grid-cols-2 gap-12 md:gap-16 items-start">
-                            <div class="text-reveal order-2 md:order-1">
-                                <h3 class="font-mono text-[10px] md:text-xs uppercase tracking-widest text-geekRed mb-6">Initiate Sequence</h3>
-                                <form action="https://formspree.io/f/mqedwwjw" method="POST" class="space-y-5 md:space-y-6">
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div><input type="text" name="name" placeholder="Your Name" required class="geek-input text-sm md:text-base interactive text-slate-900"></div>
-                                        <div><input type="text" name="company" placeholder="Company Name" class="geek-input text-sm md:text-base interactive text-slate-900"></div>
-                                    </div>
-                                    <div><input type="email" name="email" placeholder="Your Email Address" required class="geek-input text-sm md:text-base interactive text-slate-900"></div>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div>
-                                            <select name="type" required class="geek-input text-sm md:text-base interactive text-slate-600 cursor-pointer">
-                                                <option value="" disabled selected>Service Needed</option>
-                                                <option value="Branding" class="text-slate-900 dark:bg-charcoal">Brand Identity</option>
-                                                <option value="Marketing" class="text-slate-900 dark:bg-charcoal">Marketing & Ads</option>
-                                                <option value="Tech" class="text-slate-900 dark:bg-charcoal">SaaS / Web / CRM</option>
-                                                <option value="All" class="text-slate-900 dark:bg-charcoal">Full Scale Engine</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <select name="timeline" required class="geek-input text-sm md:text-base interactive text-slate-600 cursor-pointer">
-                                                <option value="" disabled selected>Expected Timeline</option>
-                                                <option value="ASAP" class="text-slate-900 dark:bg-charcoal">ASAP (Urgent)</option>
-                                                <option value="1-3 Months" class="text-slate-900 dark:bg-charcoal">1-3 Months</option>
-                                                <option value="3+ Months" class="text-slate-900 dark:bg-charcoal">3+ Months</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div><textarea name="details" rows="3" placeholder="Tell us about your project goals and vision..." required class="geek-input text-sm md:text-base interactive text-slate-900 resize-none pt-4"></textarea></div>
-                                    <input type="text" name="_gotcha" style="display:none" />
-                                    <button type="submit" class="mt-4 w-full py-4 bg-slate-900 dark:bg-white text-white dark:text-black hover:bg-geekRed dark:hover:bg-geekRed hover:text-white dark:hover:text-white font-bold font-display text-sm uppercase tracking-widest transition-all rounded-lg interactive">
-                                        Submit Brief
-                                    </button>
-                                </form>
-                            </div>
-
-                            <div class="text-reveal flex flex-col justify-between h-full order-1 md:order-2">
-                                <div>
-                                    <h2 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-none mb-4 md:mb-6 text-slate-900 dark:text-white">Let's Create.</h2>
-                                    <p class="text-slate-600 dark:text-zinc-400 max-w-sm text-xs md:text-sm font-light leading-relaxed">
-                                        Ready to stop playing small? Tell us your vision, and we will engineer the exact brand, marketing, and systems to get you there.
-                                    </p>
-                                </div>
-                                <div class="mt-8 md:mt-12 space-y-6 md:space-y-8">
-                                    <div>
-                                        <span class="text-[10px] font-mono text-slate-500 dark:text-zinc-600 uppercase tracking-widest block mb-1">Founder / Lead Architect</span>
-                                        <p class="text-base md:text-xl font-display font-bold text-slate-900 dark:text-white">Fahad Khaji</p>
-                                    </div>
-                                    <div class="space-y-1 md:space-y-2">
-                                        <span class="text-[10px] font-mono text-slate-500 dark:text-zinc-600 uppercase tracking-widest block">HQ & Direct Lines</span>
-                                        <p class="text-xs md:text-sm text-slate-900 dark:text-white">Arusha, Tanzania, Africa</p>
-                                        <p class="text-xs md:text-sm text-slate-600 dark:text-zinc-400 hover:text-geekRed transition-colors interactive"><a href="mailto:info@geekstudio.tz">info@geekstudio.tz</a></p>
-                                        <p class="text-xs md:text-sm text-slate-600 dark:text-zinc-400 hover:text-geekRed transition-colors interactive"><a href="tel:+255684200859">+255 684 200 859</a></p>
-                                    </div>
-                                    <div class="flex gap-4">
-                                        <a href="https://www.instagram.com/geekstudio.tz/" target="_blank" class="p-3 border border-slate-300 dark:border-white/10 rounded-full hover:border-geekRed hover:bg-geekRed hover:text-white transition-colors group interactive">
-                                            <i data-lucide="instagram" class="w-4 h-4 text-slate-900 dark:text-white group-hover:text-white"></i>
-                                        </a>
-                                        <a href="https://wa.me/255684200859" target="_blank" class="p-3 border border-slate-300 dark:border-white/10 rounded-full hover:border-geekRed hover:bg-geekRed hover:text-white transition-colors group interactive">
-                                            <i data-lucide="phone" class="w-4 h-4 text-slate-900 dark:text-white group-hover:text-white"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <footer class="text-reveal py-10 md:py-12 flex flex-col items-center justify-center text-center bg-[#F8F9FA]/95 dark:bg-charcoal/95 backdrop-blur-md border-t border-slate-200 dark:border-white/5 transition-colors">
-                <div class="mb-4 md:mb-6 cursor-pointer interactive" onclick="window.scrollTo(0,0)">
-                    <img src="nav-logo-dark.png" alt="Geek Studio Design Agency" class="h-6 md:h-8 w-auto opacity-80 hover:opacity-100 transition-opacity block dark:hidden">
-                    <img src="nav-logo-light.png" alt="Geek Studio Design Agency" class="h-6 md:h-8 w-auto opacity-50 hover:opacity-100 transition-opacity hidden dark:block">
-                </div>
-                <span class="font-mono text-[8px] md:text-[10px] text-slate-500 dark:text-zinc-700 tracking-[0.2em] md:tracking-[0.3em] block px-4">
-                    © 2026 GEEK STUDIO // VISUAL SOUL & DIGITAL SYSTEM // ARUSHA
-                </span>
-            </footer>
-
+  <!-- Video sub-services -->
+  <div class="video-services">
+    <div class="wrap">
+      <div class="vsvc-grid">
+        <div class="vsvc-item">
+          <h4>🚁 Drone Aerials</h4>
+          <p>Licensed drone pilots capturing East Africa's landscapes, construction progress, and events from the sky.</p>
         </div>
+        <div class="vsvc-item">
+          <h4>🎬 Brand Films</h4>
+          <p>Cinematic brand stories and product showcases — scripted, shot, and edited to broadcast quality.</p>
+        </div>
+        <div class="vsvc-item">
+          <h4>📱 Social Reels</h4>
+          <p>Short-form video content engineered for Instagram, TikTok, and YouTube — built to stop the scroll.</p>
+        </div>
+        <div class="vsvc-item">
+          <h4>📸 Photography</h4>
+          <p>Commercial and editorial photography for products, events, architecture, and corporate portraits.</p>
+        </div>
+      </div>
     </div>
+  </div>
+</section>
 
-    <script>
-        lucide.createIcons();
-        gsap.registerPlugin(ScrollTrigger);
+<!-- ══ PLAYBOOK ════════════════════════════════════════════ -->
+<section id="playbook">
+  <div class="wrap">
+    <div class="label r">How We Work</div>
+    <h2 class="r d1" style="font-family:var(--f-display);font-size:clamp(2.5rem,5vw,4rem);font-weight:900;margin-bottom:4rem;max-width:480px;line-height:1.05;">
+      Precision<br><em style="font-style:italic;color:var(--text-2)">from day one.</em>
+    </h2>
+    <div class="pb-grid">
+      <div class="pb-step r">
+        <span class="pb-num">01</span>
+        <h3>Discovery Call</h3>
+        <p>We learn your business, market, competitors, and ambition. No templates — every project starts from truth.</p>
+      </div>
+      <div class="pb-step r d1">
+        <span class="pb-num">02</span>
+        <h3>Strategy & Brief</h3>
+        <p>We write a comprehensive creative brief and strategic plan. You approve the direction before anything is designed.</p>
+      </div>
+      <div class="pb-step r d2">
+        <span class="pb-num">03</span>
+        <h3>Design & Build</h3>
+        <p>Our team executes at the highest standard — iterating with you through structured feedback rounds until every detail is exact.</p>
+      </div>
+      <div class="pb-step r d3">
+        <span class="pb-num">04</span>
+        <h3>Launch & Scale</h3>
+        <p>We don't disappear at launch. We monitor, optimize, and grow — because your success is our reputation.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const htmlElement = document.documentElement;
-        themeToggleBtn.addEventListener('click', () => { 
-            const isNowDark = !htmlElement.classList.contains('dark');
-            applyTheme(isNowDark);
-            localStorage.setItem('theme', isNowDark ? 'dark' : 'light');
-        });
+<!-- ══ WORK PREVIEW ═══════════════════════════════════════ -->
+<section id="work">
+  <div class="wrap">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3.5rem;flex-wrap:wrap;gap:1rem;">
+      <div>
+        <div class="label r">Selected Work</div>
+        <h2 class="r d1" style="font-family:var(--f-display);font-size:clamp(2.5rem,5vw,4rem);font-weight:900;line-height:1.05;">Results that<br><em style="font-style:italic;color:var(--text-2)">speak loudly.</em></h2>
+      </div>
+      <a href="portfolio.html" class="btn btn-ghost r page-exit">Full Portfolio</a>
+    </div>
+    <div class="work-grid">
+      <a href="portfolio.html" class="work-card page-exit">
+        <img class="wi" src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1000&auto=format&fit=crop&q=80" alt="Safari brand">
+        <div class="work-ov"><span class="wcat">Brand Identity</span><div class="wtitle">Safari Njema Tours</div><span class="wlink">View Case Study →</span></div>
+      </a>
+      <a href="portfolio.html" class="work-card page-exit">
+        <img class="wi" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&auto=format&fit=crop&q=80" alt="SaaS">
+        <div class="work-ov"><span class="wcat">Web & SaaS</span><div class="wtitle">MkoaPay Platform</div><span class="wlink">View Case Study →</span></div>
+      </a>
+      <a href="portfolio.html" class="work-card page-exit">
+        <img class="wi" src="https://images.unsplash.com/photo-1598971861713-54ad16a7e72e?w=700&auto=format&fit=crop&q=80" alt="Film">
+        <div class="work-ov"><span class="wcat">Videography</span><div class="wtitle">Serengeti Brand Film</div><span class="wlink">View Case Study →</span></div>
+      </a>
+    </div>
+  </div>
+</section>
 
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const closeMenuBtn = document.getElementById('close-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileLinksWrappers = document.querySelectorAll('.mobile-link-wrapper');
+<!-- ══ TESTIMONIALS ═══════════════════════════════════════ -->
+<section id="testimonials">
+  <div class="wrap">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3.5rem;flex-wrap:wrap;gap:1rem;">
+      <div>
+        <div class="label r">Client Reviews</div>
+        <h2 class="r d1" style="font-family:var(--f-display);font-size:clamp(2.5rem,5vw,4rem);font-weight:900;line-height:1.05;">What Tanzania's<br><em style="font-style:italic;color:var(--text-2)">builders say.</em></h2>
+      </div>
+      <div class="r" style="display:flex;align-items:center;gap:.3rem;color:var(--red);">
+        ★★★★★ <span style="font-family:var(--f-mono);font-size:10px;color:var(--text-3);margin-left:.5rem;">5.0 avg</span>
+      </div>
+    </div>
+    <div class="testi-grid">
 
-        function openMenu() { 
-            mobileMenu.classList.add('mobile-menu-active'); 
-            gsap.to(mobileLinksWrappers, { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power3.out", delay: 0.2 });
-        }
-        function closeMenu() { 
-            gsap.to(mobileLinksWrappers, { y: 20, opacity: 0, duration: 0.4, stagger: -0.05, ease: "power2.in", onComplete: () => mobileMenu.classList.remove('mobile-menu-active') });
-        }
-        
-        mobileMenuBtn.addEventListener('click', openMenu);
-        closeMenuBtn.addEventListener('click', closeMenu);
-        document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', () => {
-            if(!link.classList.contains('page-link')) closeMenu();
-        }));
+      <div class="card testi-card r">
+        <div class="testi-head">
+          <div class="testi-av"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80" alt="Amani"></div>
+          <div><div class="testi-name">Amani Msongo</div><div class="testi-role">CEO · JamiiConnect, Arusha</div></div>
+          <div class="testi-stars">★★★★★</div>
+        </div>
+        <p class="testi-body">Geek Studio didn't just design our brand — they understood the Tanzanian market in a way no agency from Dar or Nairobi could. Our rebrand led to a 3× increase in investor meetings within 60 days. World-class work.</p>
+      </div>
 
-        const app = document.getElementById('typing-text');
-        const typewriter = new Typewriter(app, { loop: true, delay: 60, cursor: '|' });
-        typewriter.typeString('BUILT IN ARUSHA.').pauseFor(2500).deleteAll()
-                  .typeString('FOR GLOBAL BRANDS.').pauseFor(2500).deleteAll()
-                  .typeString('THAT DRIVE GROWTH.').pauseFor(2500).start();
+      <div class="card testi-card r d1">
+        <div class="testi-head">
+          <div class="testi-av"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop&q=80" alt="Fatuma"></div>
+          <div><div class="testi-name">Fatuma Rashid</div><div class="testi-role">Founder · Baobab Wellness, Moshi</div></div>
+          <div class="testi-stars">★★★★★</div>
+        </div>
+        <p class="testi-body">The packaging design alone opened two supermarket chains. I came with a dream — Geek Studio gave me a brand that makes retail buyers stop in their tracks. Fahad and the team are the real deal.</p>
+      </div>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const tl = gsap.timeline();
-            
-            tl.to('#loader-logo', { opacity: 1, scale: 1, duration: 1.2, ease: "power2.out" })
-              .to('.loader-bar-fill', { width: "100%", duration: 1.5, ease: "power2.inOut" }, "-=0.5")
-              .to(['.loader-text', '.loader-bar-bg'], { opacity: 0, duration: 0.5 }, "+=0.3")
-              .to('#loader-logo', { opacity: 0, scale: 1.1, duration: 0.6, ease: "power2.inOut" })
-              .to('#loader-screen', { 
-                  opacity: 0, duration: 0.8, ease: "power2.inOut",
-                  onComplete: () => {
-                      document.getElementById('loader-screen').style.display = 'none';
-                      document.body.classList.remove('scroll-lock'); 
-                      
-                      requestAnimationFrame(() => {
-                          ScrollTrigger.refresh(); 
-                          playHeroEntry();
-                          gsap.to(".nav-container", { y: 0, opacity: 1, duration: 1.2, ease: "power3.out" });
-                      });
-                  }
-              }, "-=0.2");
-        });
+      <div class="card testi-card r d2">
+        <div class="testi-head">
+          <div class="testi-av"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&auto=format&fit=crop&q=80" alt="Baraka"></div>
+          <div><div class="testi-name">Baraka Kimaro</div><div class="testi-role">CTO · MkoaPay, Dar es Salaam</div></div>
+          <div class="testi-stars">★★★★★</div>
+        </div>
+        <p class="testi-body">Building a fintech product in Tanzania with global UX standards is not easy. Geek Studio built our entire platform UI and brand system. Our onboarding completion jumped from 40% to 78% at launch.</p>
+      </div>
 
-        function playHeroEntry() {
-            gsap.to(".hero-line", { y: 0, opacity: 1, duration: 1.8, stagger: 0.15, ease: "expo.out" });
-        }
+      <div class="card testi-card r d3">
+        <div class="testi-head">
+          <div class="testi-av"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&auto=format&fit=crop&q=80" alt="Zawadi"></div>
+          <div><div class="testi-name">Zawadi Ndoto</div><div class="testi-role">MD · Safari Njema Tours, Arusha</div></div>
+          <div class="testi-stars">★★★★★</div>
+        </div>
+        <p class="testi-body">Tourism is a visual business. Before Geek Studio, we looked like everyone else. After — we look like no one else. Instagram following 400% in 4 months, direct bookings up 180%. Worth every shilling.</p>
+      </div>
 
-        document.querySelectorAll('.page-link').forEach(link => {
-            link.addEventListener('click', e => {
-                e.preventDefault();
-                const target = link.href;
-                document.body.classList.add('page-transitioning');
-                document.getElementById('smooth-wrapper').style.transform = "translateY(20px)";
-                setTimeout(() => { window.location.href = target; }, 500);
-            });
-        });
+    </div>
+  </div>
+</section>
 
-        gsap.to(".hero-content", {
-            scrollTrigger: { trigger: "#hero-section", start: "top top", end: "bottom top", scrub: 1, invalidateOnRefresh: true },
-            y: 50, opacity: 0, ease: "none"
-        });
+<!-- ══ STATS BAND ══════════════════════════════════════════ -->
+<div class="stats-band">
+  <div class="wrap stats-inner">
+    <div class="stat-item">
+      <div class="stat-n" data-count="48" data-suffix="+">48+</div>
+      <div class="stat-l">Brands Built</div>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat-item">
+      <div class="stat-n" data-count="120" data-suffix="K+">120K+</div>
+      <div class="stat-l">Social Reach</div>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat-item">
+      <div class="stat-n" data-count="98" data-suffix="%">98%</div>
+      <div class="stat-l">Client Satisfaction</div>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat-item">
+      <div class="stat-n" data-count="3" data-suffix="yr">3yr</div>
+      <div class="stat-l">In Arusha</div>
+    </div>
+  </div>
+</div>
 
-        const nav = document.getElementById('main-nav');
-        ScrollTrigger.create({
-            start: "top -10", 
-            onUpdate: (self) => {
-                if (self.direction === 1) { 
-                    nav.classList.remove('nav-top', 'border-transparent'); nav.classList.add('nav-scrolled');
-                } else if (self.scroll() < 10) { 
-                    nav.classList.add('nav-top', 'border-transparent'); nav.classList.remove('nav-scrolled');
-                }
-            }
-        });
+<!-- ══ FAQ ════════════════════════════════════════════════ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="faq-layout">
+      <div>
+        <div class="label r">FAQ</div>
+        <h2 class="r d1" style="font-family:var(--f-display);font-size:clamp(2rem,4vw,3.2rem);font-weight:900;line-height:1.05;">Common<br>questions.</h2>
+        <p class="r d2" style="color:var(--text-3);font-size:.875rem;margin-top:1.5rem;line-height:1.7;max-width:220px;">Can't find your answer? WhatsApp us directly.</p>
+        <a href="https://wa.me/255684200859" target="_blank" class="btn btn-red r d3" style="margin-top:2rem;">WhatsApp Us</a>
+      </div>
+      <div>
+        <div class="faq-item r">
+          <button class="faq-q">Where are you based, and do you work outside Arusha?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+          <div class="faq-body"><p>Headquartered in Arusha, Tanzania — but we work with clients across East Africa and globally. We've partnered with businesses in Dar es Salaam, Moshi, Nairobi, and Europe. Distance is never a barrier.</p></div>
+        </div>
+        <div class="faq-item r">
+          <button class="faq-q">Do you do drone videography and cinematic productions?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+          <div class="faq-body"><p>Yes — this is one of our core offerings. We have licensed drone pilots, cinematic camera rigs, and full post-production capability in-house. We cover commercial shoots, brand films, aerial surveys, event documentation, and social reels across Tanzania.</p></div>
+        </div>
+        <div class="faq-item r">
+          <button class="faq-q">What's your typical project timeline?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+          <div class="faq-body"><p>Brand identity: 3–6 weeks. Websites: 4–8 weeks. SaaS products: depends on scope. Video productions: 1–3 weeks from shoot to delivery. We'll give you a precise timeline after your discovery call — we don't rush craft.</p></div>
+        </div>
+        <div class="faq-item r">
+          <button class="faq-q">Do you work with early-stage startups?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+          <div class="faq-body"><p>Absolutely — some of our best work is with founders building from zero. We have startup-friendly packages and flexible payment plans. A great brand from day one puts you years ahead of the competition.</p></div>
+        </div>
+        <div class="faq-item r">
+          <button class="faq-q">What industries do you specialize in?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+          <div class="faq-body"><p>Tourism & hospitality, fintech, FMCG, agriculture tech, real estate, fashion, and professional services. Our strategy-first approach means we learn your industry deeply before creating anything.</p></div>
+        </div>
+        <div class="faq-item r">
+          <button class="faq-q">What are your payment terms?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+          <div class="faq-body"><p>50% upfront, 50% on completion. We accept M-Pesa, bank transfer, and international payments. Get in touch for a custom quote — every project is scoped individually.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        const playbookTl = gsap.timeline({ scrollTrigger: { trigger: "#playbook", start: "top 75%", toggleActions: "play reverse play reverse" } });
-        playbookTl.fromTo(".pb-title", { y: -20, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, stagger: 0.1, ease: "power3.out" })
-                  .to(".pb-line-wrapper", { opacity: 1, duration: 0.4 }, "-=0.4")
-                  .fromTo([".playbook-line-fill", ".playbook-line-fill-mobile"], { width: "0%", height: "0%" }, { width: "100%", height: "100%", duration: 1.4, ease: "power2.inOut" }, "-=0.2")
-                  .fromTo(".pb-step", { y: -20, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, stagger: 0.15, ease: "power3.out" }, "-=0.6")
-                  .fromTo(".pb-icon", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.0, stagger: 0.15, ease: "power4.out" }, "-=0.7");
+<!-- ══ CONTACT ════════════════════════════════════════════ -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div>
+        <div class="label r">Start a Project</div>
+        <h2 class="contact-h2 r d1">
+          Let's Create<br>
+          <em style="font-style:italic;color:var(--text-2);">Something</em><br>
+          <span style="color:var(--red);">Extraordinary.</span>
+        </h2>
+        <p class="r d2" style="color:var(--text-2);font-size:.9rem;line-height:1.75;max-width:320px;">Ready to build a brand that commands respect? Tell us your vision — we'll engineer the rest.</p>
+        <div class="contact-info-row r d2">
+          <a href="mailto:info@geekstudio.tz" class="cinfo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> info@geekstudio.tz</a>
+          <a href="tel:+255684200859" class="cinfo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.29 6.29l1.86-1.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> +255 684 200 859</a>
+          <span class="cinfo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Arusha, Tanzania</span>
+        </div>
+        <div class="socials-row r d3">
+          <a href="https://www.instagram.com/geekstudio.tz/" target="_blank" class="soc-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="https://wa.me/255684200859" target="_blank" class="soc-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></a>
+        </div>
+      </div>
 
-        gsap.fromTo(".geek-card", { y: 20, opacity: 0 }, { scrollTrigger: { trigger: ".core-container", start: "top 80%", toggleActions: "play reverse play reverse" }, y: 0, opacity: 1, duration: 1.4, stagger: 0.15, ease: "power3.out" });
+      <div class="r d1">
+        <form id="contact-form" action="https://formspree.io/f/mqedwwjw" method="POST">
+          <input type="text" name="_gotcha" style="display:none;" tabindex="-1">
+          <div class="form-row">
+            <div class="fg"><label>Your Name *</label><input type="text" name="name" required placeholder="Amani Mwanga"></div>
+            <div class="fg"><label>Company</label><input type="text" name="company" placeholder="Startup TZ Ltd"></div>
+          </div>
+          <div class="fg"><label>Email *</label><input type="email" name="email" required placeholder="hello@yourbrand.tz"></div>
+          <div class="form-row">
+            <div class="fg"><label>Service *</label>
+              <select name="type" required>
+                <option value="" disabled selected>Choose</option>
+                <option>Brand Identity</option>
+                <option>Videography</option>
+                <option>Web / SaaS</option>
+                <option>Marketing</option>
+                <option>Full Package</option>
+              </select>
+            </div>
+            <div class="fg"><label>Timeline</label>
+              <select name="timeline">
+                <option value="" disabled selected>When?</option>
+                <option>ASAP</option>
+                <option>1–3 Months</option>
+                <option>3+ Months</option>
+              </select>
+            </div>
+          </div>
+          <div class="fg"><label>Project Vision *</label><textarea name="details" rows="4" required placeholder="Tell us about your brand, goals, and what you want to achieve..."></textarea></div>
+          <button type="submit" class="btn btn-solid" style="width:100%;justify-content:center;padding:1.1rem 2rem;" id="submit-btn">
+            Submit Brief <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+          <p id="form-ok">✓ Brief received — we'll reply within 24 hours.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 
-        document.querySelectorAll('.text-reveal').forEach((el) => {
-            gsap.fromTo(el, { y: 20, opacity: 0 }, { scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play reverse play reverse" }, y: 0, opacity: 1, duration: 1.4, ease: "power3.out" });
-        });
+<!-- ══ FOOTER ══════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <img src="nav-logo-dark.png" alt="Geek Studio" class="light-logo">
+      <img src="nav-logo-light.png" alt="Geek Studio" class="dark-logo">
+    </div>
+    <span class="footer-copy">© 2026 Geek Studio · Visual Soul & Digital System · Arusha</span>
+    <div class="footer-links">
+      <a href="https://www.instagram.com/geekstudio.tz/" target="_blank">Instagram</a>
+      <a href="https://wa.me/255684200859" target="_blank">WhatsApp</a>
+      <a href="portfolio.html" class="page-exit">Portfolio</a>
+    </div>
+  </div>
+</footer>
 
-        if (window.matchMedia("(pointer: fine)").matches) {
-            const cursorGlow = document.getElementById('cursor-glow');
-            const cursorRing = document.getElementById('cursor-ring');
-            const interactives = document.querySelectorAll('.interactive, a, button, input, textarea, select');
-            let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
-            let glowX = mouseX, glowY = mouseY;
-            let ringX = mouseX, ringY = mouseY;
+<!-- ══════════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════════ -->
+<script>
+'use strict';
+gsap.registerPlugin(ScrollTrigger);
 
-            document.addEventListener('mousemove', e => { 
-                mouseX = e.clientX; mouseY = e.clientY; 
-                const xOffset = (mouseX / window.innerWidth - 0.5) * 30; const yOffset = (mouseY / window.innerHeight - 0.5) * -30; 
-                gsap.to("#watermark-container", { rotationY: xOffset, rotationX: yOffset, x: mouseX * -0.05, y: mouseY * -0.05, duration: 1, ease: "power2.out" });
-            });
-            interactives.forEach(el => {
-                el.addEventListener('mouseenter', () => cursorRing.classList.add('cursor-hover'));
-                el.addEventListener('mouseleave', () => cursorRing.classList.remove('cursor-hover'));
-            });
-            function animateCursor() {
-                glowX += (mouseX - glowX) * 0.15; glowY += (mouseY - glowY) * 0.15;
-                cursorGlow.style.transform = `translate3d(${glowX}px, ${glowY}px, 0) translate(-50%, -50%)`;
-                ringX += (mouseX - ringX) * 0.4; ringY += (mouseY - ringY) * 0.4;
-                cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
-                requestAnimationFrame(animateCursor);
-            }
-            animateCursor();
-        }
-    </script>
+/* ── Theme ── */
+const html = document.documentElement;
+const themeBtn = document.getElementById('theme-btn');
+
+function applyTheme(dark) {
+  if (dark) html.classList.add('dark');
+  else html.classList.remove('dark');
+  const favicon = document.getElementById('dynamic-favicon');
+  if (favicon) favicon.href = dark ? 'logo-light.png' : 'logo-dark.png';
+  // Loader logos
+  const lld = document.getElementById('ll-dark');
+  const lll = document.getElementById('ll-light');
+  if (lld) { lld.style.display = dark ? 'none' : 'block'; }
+  if (lll) { lll.style.display = dark ? 'block' : 'none'; }
+  // Watermark
+  const wml = document.getElementById('wm-light'), wmd = document.getElementById('wm-dark');
+  if (wml) wml.style.display = dark ? 'none' : 'block';
+  if (wmd) wmd.style.display = dark ? 'block' : 'none';
+}
+// init on load
+applyTheme(html.classList.contains('dark'));
+
+themeBtn.addEventListener('click', () => {
+  const nowDark = !html.classList.contains('dark');
+  applyTheme(nowDark);
+  localStorage.setItem('gs-theme', nowDark ? 'dark' : 'light');
+});
+
+/* ── Loader ── */
+(function() {
+  const loader = document.getElementById('loader');
+  const loaderLogos = document.querySelectorAll('.loader-logo-wrap img');
+  const sub = document.getElementById('loader-sub');
+  const track = document.getElementById('loader-track');
+  const fill = document.getElementById('loader-fill');
+  let start = null, dur = 2800;
+
+  loaderLogos.forEach(img => {
+    if (img.style.display !== 'none') img.classList.add('show');
+  });
+  setTimeout(() => { sub.classList.add('show'); track.classList.add('show'); }, 600);
+
+  function tick(ts) {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / dur, 1);
+    fill.style.width = Math.min(p * 110, 100) + '%';
+    if (p < 1) { requestAnimationFrame(tick); return; }
+    loader.style.transition = 'opacity .7s ease';
+    loader.style.opacity = '0';
+    setTimeout(() => {
+      loader.style.display = 'none';
+      document.body.classList.remove('scroll-lock');
+      // Reveal nav & hero
+      document.getElementById('nav-outer').classList.add('ready');
+      document.getElementById('main-nav').classList.add('visible');
+      // Hero lines
+      document.querySelectorAll('.hl').forEach((el, i) => {
+        gsap.fromTo(el, { y: 48, opacity: 0 }, { y: 0, opacity: 1, duration: 1.4, delay: i * 0.14, ease: 'expo.out' });
+      });
+      document.querySelectorAll('.r').forEach(el => {
+        const obs = new IntersectionObserver(en => {
+          en.forEach(e => { if (e.isIntersecting) { e.target.classList.add('v'); obs.unobserve(e.target); } });
+        }, { threshold: 0.12 });
+        obs.observe(el);
+      });
+    }, 720);
+  }
+  requestAnimationFrame(tick);
+})();
+
+/* ── Nav scroll ── */
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('main-nav');
+  if (window.scrollY > 50) nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
+}, { passive: true });
+
+/* ── Mobile menu ── */
+document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mob-menu').classList.add('open'));
+document.getElementById('mob-close').addEventListener('click', () => document.getElementById('mob-menu').classList.remove('open'));
+document.querySelectorAll('.mob-link').forEach(l => l.addEventListener('click', () => document.getElementById('mob-menu').classList.remove('open')));
+
+/* ── Page exit transitions ── */
+document.querySelectorAll('.page-exit').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const href = link.href;
+    document.body.classList.add('exiting');
+    setTimeout(() => { window.location.href = href; }, 460);
+  });
+});
+
+/* ── Cursor ── */
+if (window.matchMedia('(pointer:fine)').matches) {
+  const glow = document.getElementById('cursor-glow');
+  const dot = document.getElementById('cursor-dot');
+  let mx = innerWidth/2, my = innerHeight/2, gx=mx, gy=my, dx=mx, dy=my;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  document.querySelectorAll('a,button,input,select,textarea').forEach(el => {
+    el.addEventListener('mouseenter', () => dot.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => dot.classList.remove('hovered'));
+  });
+  (function anim() {
+    gx += (mx-gx)*.1; gy += (my-gy)*.1;
+    dx += (mx-dx)*.38; dy += (my-dy)*.38;
+    glow.style.transform = `translate3d(${gx}px,${gy}px,0) translate(-50%,-50%)`;
+    dot.style.transform = `translate3d(${dx}px,${dy}px,0) translate(-50%,-50%)`;
+    requestAnimationFrame(anim);
+  })();
+}
+
+/* ── GSAP scroll animations ── */
+gsap.to('#hero-bg-text', {
+  scrollTrigger: { trigger:'#hero', start:'top top', end:'bottom top', scrub:1.5 },
+  y: 120, opacity: 0
+});
+gsap.to('.hero-reel', {
+  scrollTrigger: { trigger:'#hero', start:'top top', end:'bottom top', scrub:1 },
+  y: 60
+});
+
+/* ── Counter animation ── */
+function animCount(el) {
+  const target = parseInt(el.dataset.count);
+  const suffix = el.dataset.suffix || '';
+  let start = null;
+  const dur = 1800;
+  (function step(ts) {
+    if (!start) start = ts;
+    const p = Math.min((ts-start)/dur, 1);
+    const ease = 1 - Math.pow(1-p, 3);
+    el.textContent = Math.round(ease * target) + suffix;
+    if (p < 1) requestAnimationFrame(step);
+  })(performance.now());
+}
+const cobs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { animCount(e.target); cobs.unobserve(e.target); } });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-count]').forEach(el => cobs.observe(el));
+
+/* ── FAQ ── */
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.querySelector('.faq-q').addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(o => { o.classList.remove('open'); o.querySelector('.faq-body').style.maxHeight='0'; });
+    if (!isOpen) { item.classList.add('open'); item.querySelector('.faq-body').style.maxHeight = item.querySelector('.faq-body').scrollHeight + 'px'; }
+  });
+});
+
+/* ── Contact form AJAX ── */
+document.getElementById('contact-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = 'Sending…'; btn.disabled = true;
+  try {
+    const res = await fetch(this.action, { method:'POST', body: new FormData(this), headers:{Accept:'application/json'} });
+    if (res.ok) {
+      this.reset();
+      document.getElementById('form-ok').style.display = 'block';
+      btn.textContent = 'Sent ✓';
+    } else { btn.textContent = 'Error — try again'; btn.disabled = false; }
+  } catch { btn.textContent = 'Error — try again'; btn.disabled = false; }
+});
+
+/* ── Watermark parallax ── */
+document.addEventListener('mousemove', e => {
+  const x = (e.clientX/innerWidth-.5)*18;
+  const y = (e.clientY/innerHeight-.5)*18;
+  document.getElementById('watermark').style.transform = `translate(${x*.4}px, ${y*.4}px)`;
+});
+
+/* ── Lucide icons (if loaded) ── */
+window.addEventListener('load', () => { if (window.lucide) lucide.createIcons(); });
+</script>
 </body>
 </html>

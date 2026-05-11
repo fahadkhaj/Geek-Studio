@@ -1,525 +1,478 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Our Work | Geek Studio - Arusha Graphic Design & Web Portfolio</title>
-    <meta name="description" content="Explore the elite portfolio of Geek Studio. View our best brand identities, custom SaaS web development projects, and marketing campaigns built in Arusha, Tanzania.">
-    
-    <link id="dynamic-favicon" rel="icon" type="image/png" href="logo-dark.png">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: { charcoal: '#050507', geekRed: '#FF3B3F', geekOrange: '#FFD580' },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Space Grotesk', 'sans-serif'],
-                        mono: ['IBM Plex Mono', 'monospace'],
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@300;500;700&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio | Geek Studio — Arusha, Tanzania</title>
+<meta name="description" content="Explore Geek Studio's portfolio — brand identities, cinematic videography, web platforms, and marketing campaigns built for Tanzania's boldest businesses.">
+<link id="dynamic-favicon" rel="icon" type="image/png" href="logo-dark.png">
 
-    <style>
-        body { overflow-x: hidden; transition: background-color 0.4s ease, color 0.4s ease; opacity: 1; }
-        .page-transitioning { opacity: 0 !important; transition: opacity 0.5s cubic-bezier(0.65, 0, 0.35, 1) !important; }
-        .scroll-lock { overflow: hidden !important; height: 100vh !important; }
-        
-        @media (pointer: fine) { body { cursor: none; } }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
-        .z-cursor { z-index: 99999; pointer-events: none; }
-        .z-nav { z-index: 500; }
-        .z-content { z-index: 10; position: relative; }
+<style>
+:root {
+  --red: #E8302A;
+  --red-soft: rgba(232,48,42,0.1);
+  --bg: #F7F5F0; --bg-2: #EFECE5;
+  --bg-card: rgba(255,255,255,0.85);
+  --text: #0D0C0A; --text-2: #4A4845; --text-3: #9A9692;
+  --border: rgba(0,0,0,0.08); --border-strong: rgba(0,0,0,0.14);
+  --nav-scrolled: rgba(247,245,240,0.94);
+  --shadow: 0 4px 24px rgba(0,0,0,0.07);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.12);
+  --noise-blend: multiply; --noise-opacity: 0.04;
+  --f-display: 'Playfair Display', serif;
+  --f-body: 'Manrope', sans-serif;
+  --f-mono: 'JetBrains Mono', monospace;
+  --ease: cubic-bezier(0.16,1,0.3,1);
+  --ease-io: cubic-bezier(0.65,0,0.35,1);
+}
+html.dark {
+  --bg: #080807; --bg-2: #111110;
+  --bg-card: rgba(20,19,17,0.9);
+  --text: #F2EFE8; --text-2: #A8A5A0; --text-3: #5A5855;
+  --border: rgba(255,255,255,0.07); --border-strong: rgba(255,255,255,0.12);
+  --nav-scrolled: rgba(8,8,7,0.94);
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.6);
+  --noise-blend: screen; --noise-opacity: 0.03;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;}
+body{font-family:var(--f-body);background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background .45s,color .45s;}
+body.scroll-lock{overflow:hidden;height:100svh;}
+body.exiting{opacity:0;transform:translateY(18px);transition:opacity .45s var(--ease-io),transform .45s var(--ease-io);}
+::selection{background:var(--red);color:#fff;}
+a{text-decoration:none;color:inherit;}
+img{display:block;max-width:100%;}
 
-        .noise-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; opacity: 0.05; mix-blend-mode: multiply;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
-        .dark .noise-overlay { opacity: 0.04; mix-blend-mode: screen; }
+/* noise */
+.noise{position:fixed;inset:0;pointer-events:none;z-index:60;opacity:var(--noise-opacity);mix-blend-mode:var(--noise-blend);background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
 
-        #cursor-glow {
-            position: fixed; top: 0; left: 0; width: 400px; height: 400px; 
-            background: radial-gradient(circle, rgba(255, 59, 63, 0.15) 0%, transparent 60%); 
-            transform: translate(-50%, -50%); will-change: transform; pointer-events: none;
-        }
-        .dark #cursor-glow { background: radial-gradient(circle, rgba(255, 59, 63, 0.2) 0%, transparent 60%); }
-        
-        #cursor-ring {
-            position: fixed; top: 0; left: 0; width: 16px; height: 16px; 
-            background-color: #FF3B3F; border-radius: 50%; 
-            transform: translate(-50%, -50%); will-change: transform; 
-            transition: width 0.2s, height 0.2s, background-color 0.2s; pointer-events: none;
-        }
-        @media (pointer: coarse) { #cursor-glow, #cursor-ring { display: none !important; } body { cursor: auto; } }
-        
-        .cursor-hover { 
-            width: 60px !important; height: 60px !important; 
-            background-color: rgba(255, 59, 63, 0.3) !important; 
-            border: 1px solid #FF3B3F;
-        }
+/* cursor */
+@media(pointer:fine){body{cursor:none;}}
+#cursor-glow,#cursor-dot{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;will-change:transform;}
+#cursor-glow{width:400px;height:400px;background:radial-gradient(circle,rgba(232,48,42,0.18) 0%,transparent 65%);transform:translate(-50%,-50%);}
+#cursor-dot{width:8px;height:8px;border-radius:50%;background:var(--red);transform:translate(-50%,-50%);transition:width .22s,height .22s,background .22s,border .22s;}
+#cursor-dot.hovered{width:52px;height:52px;background:rgba(232,48,42,.12);border:1.5px solid var(--red);}
+@media(pointer:coarse){#cursor-glow,#cursor-dot{display:none!important;}body{cursor:auto!important;}}
 
-        .glass-card { 
-            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); 
-            border: 1px solid rgba(255, 255, 255, 0.8); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; 
-        }
-        .dark .glass-card { background: rgba(15, 15, 18, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
-        .glass-card:hover { background: rgba(255, 255, 255, 0.8); border-color: rgba(255, 59, 63, 0.3); transform: translateY(-8px); box-shadow: 0 20px 40px -10px rgba(255, 59, 63, 0.15); }
-        .dark .glass-card:hover { background: rgba(255, 255, 255, 0.05); }
+/* loader */
+#loader{position:fixed;inset:0;z-index:999999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:background .3s;}
+.ll-wrap img{width:clamp(100px,18vw,160px);opacity:0;transform:scale(.88);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+.ll-wrap img.show{opacity:1;transform:scale(1);}
+.l-sub{font-family:var(--f-mono);font-size:9px;text-transform:uppercase;letter-spacing:.45em;color:var(--red);margin-top:2.5rem;animation:pulse 1.6s ease infinite;opacity:0;}
+.l-sub.show{opacity:1;}
+.l-track{width:180px;height:1px;background:var(--border-strong);margin-top:1.5rem;overflow:hidden;opacity:0;transition:opacity .4s;}
+.l-track.show{opacity:1;}
+.l-fill{height:100%;width:0%;background:var(--red);transition:width .05s linear;}
+@keyframes pulse{0%,100%{opacity:.25}50%{opacity:1}}
 
-        .nav-container { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; transform: translateY(-20px); }
-        .nav-top { padding: 1.5rem 1rem; width: 100%; max-width: 80rem; }
-        .nav-scrolled { padding: 0.75rem 1.5rem; border-radius: 9999px; width: 95%; max-width: 60rem; box-shadow: 0 10px 40px rgba(0,0,0,0.08); background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(16px); }
-        .dark .nav-scrolled { box-shadow: 0 10px 40px rgba(0,0,0,0.8); background: rgba(5, 5, 7, 0.95); }
-        
-        #mobile-menu { transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out; }
-        .mobile-menu-active { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+/* nav */
+#nav-outer{position:fixed;top:0;left:0;width:100%;display:flex;justify-content:center;padding:1.2rem 1rem;z-index:500;pointer-events:none;}
+#nav-outer.ready{pointer-events:auto;}
+#main-nav{width:100%;max-width:1340px;display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.5rem;border-radius:999px;border:1px solid transparent;transition:all .5s var(--ease);opacity:0;transform:translateY(-20px);}
+#main-nav.visible{opacity:1;transform:translateY(0);}
+#main-nav.scrolled{background:var(--nav-scrolled);backdrop-filter:blur(24px);border-color:var(--border-strong);box-shadow:var(--shadow);width:90%;max-width:980px;padding:.7rem 1.4rem;}
+.nav-logo img{height:26px;width:auto;object-fit:contain;}
+.nav-logo .l-logo{display:block;} .nav-logo .d-logo{display:none;}
+html.dark .nav-logo .l-logo{display:none;} html.dark .nav-logo .d-logo{display:block;}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{font-family:var(--f-mono);font-size:10px;text-transform:uppercase;letter-spacing:.22em;color:var(--text-2);transition:color .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--red);}
+.nav-right{display:flex;align-items:center;gap:.75rem;}
+.theme-btn{width:36px;height:36px;border-radius:50%;background:var(--bg-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-2);transition:all .25s;cursor:pointer;}
+.theme-btn:hover{border-color:var(--red);color:var(--red);}
+.theme-btn .sun{display:none;} .theme-btn .moon{display:block;}
+html.dark .theme-btn .sun{display:block;} html.dark .theme-btn .moon{display:none;}
+.nav-cta{font-family:var(--f-mono);font-size:10px;text-transform:uppercase;letter-spacing:.15em;padding:.6rem 1.4rem;border-radius:999px;background:var(--text);color:var(--bg);border:1px solid var(--text);transition:all .25s;display:inline-flex;align-items:center;gap:.4rem;}
+.nav-cta:hover{background:var(--red);border-color:var(--red);color:#fff;}
+#hamburger{display:none;background:none;border:none;color:var(--text);padding:.4rem;cursor:pointer;}
+@media(max-width:900px){.nav-links{display:none;}#hamburger{display:flex;}.nav-cta{display:none;}}
 
-        #loader-screen { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; z-index: 99999; }
-        .loader-bar-bg { width: 250px; height: 1px; overflow: hidden; position: relative; margin-top: 2rem;}
-        .loader-bar-fill { height: 100%; background: #FF3B3F; width: 0%; position: absolute; left: 0; top: 0; }
-        #loader-logo { opacity: 0; transform: scale(0.9); }
+/* mob menu */
+#mob-menu{position:fixed;inset:0;background:var(--bg);z-index:600;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .4s,visibility .4s;}
+#mob-menu.open{opacity:1;visibility:visible;pointer-events:auto;}
+.mob-link{font-family:var(--f-display);font-size:clamp(2.2rem,7vw,3.5rem);font-weight:700;color:var(--text);opacity:0;transform:translateY(22px);transition:color .2s;}
+.mob-link:hover{color:var(--red);}
+#mob-menu.open .mob-link{animation:mobIn .5s var(--ease) forwards;}
+#mob-menu.open .mob-link:nth-child(2){animation-delay:.05s}
+#mob-menu.open .mob-link:nth-child(3){animation-delay:.11s}
+#mob-menu.open .mob-link:nth-child(4){animation-delay:.17s}
+#mob-menu.open .mob-link:nth-child(5){animation-delay:.23s}
+@keyframes mobIn{to{opacity:1;transform:translateY(0);}}
+#mob-close{position:absolute;top:1.4rem;right:1.4rem;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer;}
 
-        .filter-btn { transition: all 0.3s ease; }
-        .filter-btn.active { background-color: #FF3B3F; color: white; border-color: #FF3B3F; }
-        .dark .filter-btn.active { background-color: #FF3B3F; color: white; border-color: #FF3B3F; }
+/* layout */
+.wrap{max-width:1340px;margin:0 auto;padding:0 2rem;}
+.r{opacity:0;transform:translateY(24px);transition:opacity .9s var(--ease),transform .9s var(--ease);}
+.r.v{opacity:1;transform:translateY(0);}
+.r.d1{transition-delay:.08s} .r.d2{transition-delay:.16s} .r.d3{transition-delay:.24s}
+.label{font-family:var(--f-mono);font-size:9px;text-transform:uppercase;letter-spacing:.42em;color:var(--red);display:flex;align-items:center;gap:.75rem;margin-bottom:1.2rem;}
+.label::after{content:'';width:28px;height:1px;background:var(--red);}
+.btn{display:inline-flex;align-items:center;gap:.55rem;font-family:var(--f-mono);font-size:10px;text-transform:uppercase;letter-spacing:.18em;padding:.9rem 2.2rem;border-radius:999px;transition:all .28s;white-space:nowrap;}
+.btn-solid{background:var(--text);color:var(--bg);border:1px solid var(--text);}
+.btn-solid:hover{background:var(--red);border-color:var(--red);color:#fff;transform:translateY(-2px);}
+.btn-ghost{background:transparent;color:var(--text-2);border:1px solid var(--border-strong);}
+.btn-ghost:hover{border-color:var(--text);color:var(--text);transform:translateY(-2px);}
+.btn-red{background:var(--red);color:#fff;border:1px solid var(--red);}
+.btn-red:hover{background:#c8211c;transform:translateY(-2px);}
 
-        .img-placeholder { background: linear-gradient(45deg, rgba(150,150,150,0.05), rgba(150,150,150,0.1)); display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(150,150,150,0.3); color: rgba(150,150,150,0.5); font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; overflow: hidden; position: relative; }
-        .img-placeholder img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; opacity: 0; transition: opacity 0.5s; }
-        .img-placeholder img[src] { opacity: 1; }
-    </style>
-    
-    <script>
-        function applyTheme(isDark) {
-            const favicon = document.getElementById('dynamic-favicon');
-            if (isDark) { 
-                document.documentElement.classList.add('dark'); 
-                favicon.href = 'logo-light.png'; 
-            } else { 
-                document.documentElement.classList.remove('dark'); 
-                favicon.href = 'logo-dark.png'; 
-            }
-        }
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && prefersDark.matches)) { applyTheme(true); } 
-        else { applyTheme(false); }
-        prefersDark.addEventListener('change', (e) => { if (!localStorage.getItem('theme')) { applyTheme(e.matches); } });
-    </script>
+/* HERO */
+#port-hero{position:relative;height:65vh;min-height:420px;overflow:hidden;display:flex;align-items:flex-end;padding-bottom:4rem;background:var(--bg);}
+.ph-bg-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--f-display);font-weight:900;font-size:clamp(100px,20vw,260px);white-space:nowrap;color:transparent;-webkit-text-stroke:1px var(--border-strong);pointer-events:none;user-select:none;z-index:0;}
+.ph-img{position:absolute;right:0;top:0;width:40%;height:100%;object-fit:cover;object-position:center;}
+.ph-img-overlay{position:absolute;right:0;top:0;width:40%;height:100%;background:linear-gradient(to right,var(--bg) 0%,transparent 40%),linear-gradient(to top,var(--bg) 0%,transparent 25%);}
+.ph-inner{position:relative;z-index:2;}
+.dot-live{width:6px;height:6px;border-radius:50%;background:var(--red);animation:livePulse 2s ease infinite;display:inline-block;}
+@keyframes livePulse{0%,100%{box-shadow:0 0 0 0 rgba(232,48,42,.5)}50%{box-shadow:0 0 0 8px transparent}}
+.ph-eyebrow{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--f-mono);font-size:10px;text-transform:uppercase;letter-spacing:.32em;color:var(--text-3);background:var(--bg-2);border:1px solid var(--border);padding:.48rem 1.1rem;border-radius:999px;margin-bottom:2rem;}
+.ph-h1{font-family:var(--f-display);font-size:clamp(3.5rem,8.5vw,8rem);font-weight:900;line-height:1;letter-spacing:-.025em;color:var(--text);}
+.ph-h1 .italic{font-style:italic;color:var(--text-2);}
+
+/* filter bar */
+.filter-bar{padding:1.8rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg-2);position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);}
+.filter-row{display:flex;gap:.65rem;flex-wrap:wrap;align-items:center;}
+.fbtn{font-family:var(--f-mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.16em;padding:.5rem 1.2rem;border-radius:999px;border:1px solid var(--border);color:var(--text-2);background:none;cursor:pointer;transition:all .25s;}
+.fbtn:hover{border-color:var(--text);color:var(--text);}
+.fbtn.active{background:var(--red);border-color:var(--red);color:#fff;}
+
+/* portfolio grid */
+#port-grid{padding:4rem 0 6rem;}
+.pg{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.pi{transition:opacity .3s,transform .3s;}
+.pc{display:block;}
+.pc-img{height:360px;border-radius:18px;overflow:hidden;position:relative;background:var(--bg-2);}
+.pc-img img{width:100%;height:100%;object-fit:cover;transition:transform .65s var(--ease);}
+.pc:hover .pc-img img{transform:scale(1.06);}
+.pc-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,7,.9) 0%,transparent 50%);padding:1.6rem;display:flex;flex-direction:column;justify-content:flex-end;gap:.3rem;opacity:0;transition:opacity .38s;}
+.pc:hover .pc-ov{opacity:1;}
+.oc{font-family:var(--f-mono);font-size:8.5px;text-transform:uppercase;letter-spacing:.26em;color:var(--red);}
+.ot{font-family:var(--f-display);font-size:1.15rem;font-weight:700;color:#fff;margin-top:.2rem;}
+.od{font-size:.8rem;color:rgba(255,255,255,.55);line-height:1.6;margin-top:.2rem;}
+.ol{font-family:var(--f-mono);font-size:8.5px;text-transform:uppercase;letter-spacing:.16em;color:rgba(255,255,255,.4);margin-top:.6rem;}
+.pc-meta{display:flex;justify-content:space-between;align-items:center;padding:.85rem .25rem .25rem;}
+.pc-title{font-family:var(--f-display);font-size:.95rem;font-weight:700;color:var(--text);}
+.pc-tag{font-family:var(--f-mono);font-size:8.5px;text-transform:uppercase;letter-spacing:.16em;color:var(--text-3);margin-top:.2rem;}
+@media(max-width:900px){.pg{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:580px){.pg{grid-template-columns:1fr;}.pc-img{height:280px;}.pc-ov{opacity:1;}}
+
+/* cta */
+#port-cta{padding:0 0 6rem;}
+.cta-inner{border-radius:24px;padding:4rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;background:var(--bg-2);border:1px solid var(--border);}
+@media(max-width:700px){.cta-inner{padding:2.5rem;flex-direction:column;align-items:flex-start;}}
+
+/* footer */
+footer{border-top:1px solid var(--border);padding:3rem 2rem;background:var(--bg);}
+.fi{max-width:1340px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;}
+.fl img{height:24px;}
+.fl .l-logo{display:block;} .fl .d-logo{display:none;}
+html.dark .fl .l-logo{display:none;} html.dark .fl .d-logo{display:block;}
+.fc{font-family:var(--f-mono);font-size:8.5px;text-transform:uppercase;letter-spacing:.28em;color:var(--text-3);}
+.flinks{display:flex;gap:1.5rem;}
+.flinks a{font-family:var(--f-mono);font-size:8.5px;text-transform:uppercase;letter-spacing:.2em;color:var(--text-3);transition:color .2s;}
+.flinks a:hover{color:var(--red);}
+</style>
+
+<script>
+(function(){
+  const stored = localStorage.getItem('gs-theme');
+  const dark = stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (dark) document.documentElement.classList.add('dark');
+})();
+</script>
 </head>
-<body class="bg-[#F8F9FA] text-slate-900 dark:bg-charcoal dark:text-zinc-200 transition-colors duration-500 selection:bg-geekRed selection:text-white relative scroll-lock">
 
-    <div id="loader-screen" class="bg-[#F8F9FA] dark:bg-charcoal">
-        <div id="loader-logo">
-            <img src="logo-dark.png" alt="Geek Studio" class="w-48 md:w-72 block dark:hidden">
-            <img src="logo-light.png" alt="Geek Studio" class="w-48 md:w-72 hidden dark:block">
-        </div>
-        <div class="loader-text font-mono text-[10px] md:text-xs uppercase tracking-[0.4em] text-geekRed mt-6 animate-pulse">Accessing Archives</div>
-        <div class="loader-bar-bg bg-slate-300 dark:bg-white/10"><div class="loader-bar-fill"></div></div>
+<body class="scroll-lock">
+<div id="cursor-glow"></div>
+<div id="cursor-dot"></div>
+<div class="noise"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="ll-wrap">
+    <img src="logo-dark.png" alt="Geek Studio" id="ll-dark">
+    <img src="logo-light.png" alt="Geek Studio" id="ll-light" style="display:none;">
+  </div>
+  <div class="l-sub" id="l-sub">Our Work</div>
+  <div class="l-track" id="l-track"><div class="l-fill" id="l-fill"></div></div>
+</div>
+
+<!-- NAV -->
+<div id="nav-outer">
+  <nav id="main-nav">
+    <a href="index.html" class="nav-logo page-exit">
+      <img src="nav-logo-dark.png" alt="Geek Studio" class="l-logo">
+      <img src="nav-logo-light.png" alt="Geek Studio" class="d-logo">
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#story" class="page-exit">Agency</a></li>
+      <li><a href="index.html#services" class="page-exit">Services</a></li>
+      <li><a href="index.html#video-section" class="page-exit">Videography</a></li>
+      <li><a href="portfolio.html" class="active">Work</a></li>
+      <li><a href="index.html#contact" class="page-exit">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="theme-btn" id="theme-btn">
+        <svg class="sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a href="index.html#contact" class="nav-cta page-exit">Start Project <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      <button id="hamburger"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
     </div>
+  </nav>
+</div>
 
-    <div class="fixed top-0 right-0 h-screen w-[150vw] md:w-[60vw] pointer-events-none z-0 flex items-center justify-end translate-x-[25%] translate-y-[15%] md:translate-y-[25%] perspective-[1000px] overflow-hidden">
-        <div id="watermark-container" class="w-full will-change-transform opacity-30 dark:opacity-20 drop-shadow-2xl">
-            <img src="logo-dark.png" alt="Watermark" class="w-full -rotate-12 block dark:hidden object-contain select-none">
-            <img src="logo-light.png" alt="Watermark" class="w-full -rotate-12 hidden dark:block object-contain select-none">
-        </div>
-    </div>
-    
-    <div class="noise-overlay"></div>
-    <div id="cursor-glow" class="z-cursor"></div>
-    <div id="cursor-ring" class="z-cursor"></div>
-    
-    <div class="fixed top-0 left-0 w-full flex justify-center pt-4 z-[500] pointer-events-none">
-        <nav id="main-nav" class="nav-container nav-top pointer-events-auto flex justify-between items-center border border-transparent">
-            <div class="flex items-center gap-3 md:gap-4">
-                <a href="index.html" class="page-link cursor-pointer interactive block">
-                    <img src="nav-logo-dark.png" alt="Geek Studio Arusha" class="h-6 md:h-8 w-auto object-contain block dark:hidden">
-                    <img src="nav-logo-light.png" alt="Geek Studio Arusha" class="h-6 md:h-8 w-auto object-contain hidden dark:block">
-                </a>
-                <div class="hidden items-center gap-2">
-                    <div class="w-2 h-2 bg-geekRed rounded-full animate-pulse shadow-[0_0_15px_#FF3B3F]"></div>
-                    <span class="font-display font-bold tracking-[0.1em] text-xs md:text-sm uppercase text-slate-900 dark:text-white">Geek Studio</span>
-                </div>
-            </div>
-            
-            <div class="hidden md:flex gap-8 text-[11px] uppercase tracking-[0.2em] text-slate-500 dark:text-zinc-400 font-mono font-bold">
-                <a href="index.html#story" class="page-link hover:text-geekRed dark:hover:text-white transition-all interactive">Agency</a>
-                <a href="index.html#services" class="page-link hover:text-geekRed dark:hover:text-white transition-all interactive">Capabilities</a>
-                <a href="#" class="text-geekRed transition-all interactive" onclick="window.scrollTo(0,0)">Work</a>
-                <a href="index.html#contact" class="page-link hover:text-geekRed dark:hover:text-white transition-all interactive">Start Project</a>
-            </div>
+<div id="mob-menu">
+  <button id="mob-close"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  <a href="index.html" class="mob-link page-exit">Home</a>
+  <a href="index.html#services" class="mob-link page-exit">Services</a>
+  <a href="index.html#video-section" class="mob-link page-exit">Videography</a>
+  <a href="index.html#contact" class="mob-link page-exit">Contact</a>
+  <a href="https://wa.me/255684200859" target="_blank" class="btn btn-red" style="margin-top:1.5rem;">WhatsApp Us</a>
+</div>
 
-            <div class="flex items-center gap-3">
-                <button id="theme-toggle" class="p-2 rounded-full bg-slate-200 dark:bg-white/10 text-slate-600 dark:text-white hover:bg-slate-300 dark:hover:bg-white/20 transition-all interactive">
-                    <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
-                    <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
-                </button>
+<!-- HERO -->
+<section id="port-hero">
+  <div class="ph-bg-text">WORK</div>
+  <img class="ph-img" src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&auto=format&fit=crop&q=80" alt="Portfolio hero">
+  <div class="ph-img-overlay"></div>
+  <div class="wrap ph-inner">
+    <div class="ph-eyebrow r"><span class="dot-live"></span> 48+ Projects Delivered</div>
+    <h1 class="ph-h1">
+      <span style="display:block;opacity:0;transform:translateY(40px);animation:lineIn 1.2s cubic-bezier(0.16,1,0.3,1) .1s forwards;">Selected</span>
+      <span style="display:block;font-style:italic;color:var(--text-2);opacity:0;transform:translateY(40px);animation:lineIn 1.2s cubic-bezier(0.16,1,0.3,1) .22s forwards;">Work.</span>
+    </h1>
+  </div>
+</section>
+<style>@keyframes lineIn{to{opacity:1;transform:translateY(0);}}</style>
 
-                <a href="https://wa.me/255684200859" target="_blank" class="hidden md:flex group items-center gap-2 px-4 py-2 bg-slate-900 dark:bg-white/5 border border-slate-900 dark:border-white/10 rounded-full text-[10px] uppercase tracking-widest text-white hover:bg-geekRed hover:border-geekRed transition-all duration-300 interactive">
-                    <span>Let's Talk</span>
-                    <i data-lucide="arrow-right" class="w-3 h-3 group-hover:translate-x-1 transition-transform"></i>
-                </a>
+<!-- FILTER -->
+<div class="filter-bar">
+  <div class="wrap filter-row">
+    <button class="fbtn active" data-filter="all">All Work</button>
+    <button class="fbtn" data-filter="branding">Brand Identity</button>
+    <button class="fbtn" data-filter="video">Videography</button>
+    <button class="fbtn" data-filter="web">Web & SaaS</button>
+    <button class="fbtn" data-filter="marketing">Marketing</button>
+    <button class="fbtn" data-filter="packaging">Packaging</button>
+  </div>
+</div>
 
-                <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-900 dark:text-white interactive">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
-            </div>
-        </nav>
-    </div>
+<!-- GRID -->
+<section id="port-grid">
+  <div class="wrap">
+    <div class="pg" id="pg">
 
-    <div id="mobile-menu" class="fixed inset-0 bg-[#F8F9FA]/95 dark:bg-charcoal/95 backdrop-blur-xl z-[600] flex flex-col items-center justify-center opacity-0 pointer-events-none invisible">
-        <button id="close-menu-btn" class="absolute top-6 right-6 p-2 text-slate-900 dark:text-white interactive">
-            <i data-lucide="x" class="w-8 h-8"></i>
-        </button>
-        <div class="flex flex-col gap-8 text-center font-display text-3xl font-bold text-slate-900 dark:text-white overflow-hidden">
-            <div class="mobile-link-wrapper translate-y-8 opacity-0"><a href="index.html#story" class="page-link mobile-link hover:text-geekRed transition-colors interactive">Agency</a></div>
-            <div class="mobile-link-wrapper translate-y-8 opacity-0"><a href="index.html#services" class="page-link mobile-link hover:text-geekRed transition-colors interactive">Capabilities</a></div>
-            <div class="mobile-link-wrapper translate-y-8 opacity-0"><a href="#" onclick="window.scrollTo(0,0)" class="mobile-link hover:text-geekRed transition-colors interactive">Work</a></div>
-            <div class="mobile-link-wrapper translate-y-8 opacity-0"><a href="index.html#contact" class="page-link mobile-link hover:text-geekRed transition-colors interactive">Start Project</a></div>
-        </div>
-        <div class="mobile-link-wrapper translate-y-8 opacity-0">
-            <a href="https://wa.me/255684200859" class="mt-12 px-8 py-4 bg-geekRed text-white rounded-full font-mono text-xs uppercase tracking-widest font-bold interactive block">Let's Talk</a>
-        </div>
-    </div>
+      <div class="pi" data-cat="branding">
+        <a href="https://www.behance.net" target="_blank" class="pc">
+          <div class="pc-img"><img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&auto=format&fit=crop&q=80" alt="Safari Njema"><div class="pc-ov"><span class="oc">Brand Identity</span><div class="ot">Safari Njema Tours</div><p class="od">Complete visual identity — logo to livery. Bookings up 180%.</p><span class="ol">View on Behance ↗</span></div></div>
+          <div class="pc-meta"><div><div class="pc-title">Safari Njema Tours</div><div class="pc-tag">Brand Identity · 2024</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-3);flex-shrink:0;"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+        </a>
+      </div>
 
-    <div id="smooth-wrapper" class="relative z-10 min-h-screen flex flex-col transition-transform duration-700 ease-[cubic-bezier(0.65,0,0.35,1)]">
-        <div id="smooth-content" class="flex-grow">
+      <div class="pi" data-cat="video">
+        <a href="https://www.behance.net" target="_blank" class="pc">
+          <div class="pc-img"><img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800&auto=format&fit=crop&q=80" alt="Aerial Arusha"><div class="pc-ov"><span class="oc">Aerial / Drone</span><div class="ot">Arusha From Above</div><p class="od">Cinematic drone reel over Arusha and surrounds. Tourism client.</p><span class="ol">View Reel ↗</span></div></div>
+          <div class="pc-meta"><div><div class="pc-title">Arusha Aerial Reel</div><div class="pc-tag">Videography · 2024</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-3);flex-shrink:0;"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+        </a>
+      </div>
 
-            <section class="pt-32 pb-16 md:pt-48 md:pb-24 px-6 relative" id="hero-section">
-                <div class="max-w-7xl mx-auto w-full hero-content will-change-transform z-10 text-center">
-                    <div class="overflow-hidden mb-4 flex justify-center">
-                        <h2 class="hero-line font-mono text-geekRed text-[10px] md:text-xs uppercase tracking-[0.3em] md:tracking-[0.4em] opacity-0 translate-y-10">The Archives</h2>
-                    </div>
-                    
-                    <h1 class="font-display text-4xl sm:text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight mb-6 text-slate-900 dark:text-white">
-                        <div class="overflow-hidden"><span class="hero-line block opacity-0 translate-y-10">SELECTED WORKS &</span></div>
-                        <div class="overflow-hidden"><span class="hero-line block opacity-0 translate-y-10">DIGITAL DEPLOYMENTS</span></div>
-                    </h1>
+      <div class="pi" data-cat="web">
+        <a href="https://www.behance.net" target="_blank" class="pc">
+          <div class="pc-img"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80" alt="MkoaPay"><div class="pc-ov"><span class="oc">SaaS / Web Dev</span><div class="ot">MkoaPay Platform</div><p class="od">Full fintech product design. Onboarding up from 40% → 78%.</p><span class="ol">View Case Study ↗</span></div></div>
+          <div class="pc-meta"><div><div class="pc-title">MkoaPay Platform</div><div class="pc-tag">Web & SaaS · 2024</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-3);flex-shrink:0;"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+        </a>
+      </div>
 
-                    <div class="flex justify-center mt-6">
-                        <div class="overflow-hidden">
-                            <p class="hero-line max-w-2xl text-slate-600 dark:text-zinc-300 text-sm md:text-base font-light leading-relaxed opacity-0 translate-y-10 mx-auto">
-                                We don't just build pretty things. We engineer tools, brands, and campaigns designed to dominate the market. Explore our recent footprint.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+      <div class="pi" data-cat="packaging">
+        <a href="https://www.behance.net" target="_blank" class="pc">
+          <div class="pc-img"><img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800&auto=format&fit=crop&q=80" alt="Baobab packaging"><div class="pc-ov"><span class="oc">Packaging Design</span><div class="ot">Baobab Wellness Co.</div><p class="od">Premium packaging. Opened 2 supermarket chains post-launch.</p><span class="ol">View on Behance ↗</span></div></div>
+          <div class="pc-meta"><div><div class="pc-title">Baobab Wellness Co.</div><div class="pc-tag">Packaging · 2024</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-3);flex-shrink:0;"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+        </a>
+      </div>
 
-            <section class="pb-32 px-6 relative z-10" id="portfolio-grid-section">
-                <div class="max-w-7xl mx-auto">
-                    
-                    <div class="flex flex-wrap justify-center gap-3 mb-12 hero-line opacity-0 translate-y-10">
-                        <button class="filter-btn active px-5 py-2 rounded-full border border-slate-300 dark:border-white/20 text-[10px] md:text-xs font-mono uppercase tracking-widest text-slate-700 dark:text-zinc-300 hover:border-geekRed interactive" data-filter="all">All Projects</button>
-                        <button class="filter-btn px-5 py-2 rounded-full border border-slate-300 dark:border-white/20 text-[10px] md:text-xs font-mono uppercase tracking-widest text-slate-700 dark:text-zinc-300 hover:border-geekRed interactive" data-filter="branding">Brand Identity</button>
-                        <button class="filter-btn px-5 py-2 rounded-full border border-slate-300 dark:border-white/20 text-[10px] md:text-xs font-mono uppercase tracking-widest text-slate-700 dark:text-zinc-300 hover:border-geekRed interactive" data-filter="tech">Web & SaaS</button>
-                        <button class="filter-btn px-5 py-2 rounded-full border border-slate-300 dark:border-white/20 text-[10px] md:text-xs font-mono uppercase tracking-widest text-slate-700 dark:text-zinc-300 hover:border-geekRed interactive" data-filter="marketing">Marketing</button>
-                    </div>
+      <div class="pi" data-cat="branding">
+        <a href="https://www.behance.net" target="_blank" class="pc">
+          <div class="pc-img"><img src="https://images.unsplash.com/photo-1560472355-536de3962603?w=800&auto=format&fit=crop&q=80" alt="JamiiConnect"><div class="pc-ov"><span class="oc">Brand Identity</span><div class="ot">JamiiConnect</div><p class="od">Full rebrand for fintech startup. 3× investor meetings in 60 days.</p><span class="ol">View on Behance ↗</span></div></div>
+          <div class="pc-meta"><div><div class="pc-title">JamiiConnect</div><div class="pc-tag">Brand Identity · 2023</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-3);flex-shrink:0;"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+        </a>
+      </div>
 
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10" id="portfolio-grid">
-                        
-                        <div class="portfolio-item group interactive text-reveal" data-category="branding">
-                            <div class="h-64 md:h-80 w-full rounded-2xl img-placeholder overflow-hidden mb-5">
-                                <span>[Upload 'port-brand1.jpg']</span>
-                                <img src="port-brand1.jpg" alt="Brand Identity Project" class="group-hover:scale-105 transition-transform duration-1000">
-                                <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
-                                    <span class="text-white font-mono text-xs uppercase tracking-widest border border-white/30 px-4 py-2 rounded-full">View Case Study</span>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <h4 class="font-display font-bold text-lg md:text-xl text-slate-900 dark:text-white mb-1">Nunua Groceries</h4>
-                                    <p class="text-[10px] md:text-xs text-slate-500 font-mono uppercase tracking-wider">Brand Identity & Strategy</p>
-                                </div>
-                                <i data-lucide="arrow-up-right" class="w-5 h-5 text-slate-400 group-hover:text-geekRed group-hover:translate-x-1 group-hover:-translate-y-1 transition-all"></i>
-                            </div>
-                        </div>
+      <div class="pi" data-cat="video">
+        <a href="https://www.behance.net" target="_blank" class="pc">
+          <div class="pc-img"><img src="https://images.unsplash.com/photo-1598971861713-54ad16a7e72e?w=800&auto=format&fit=crop&q=80" alt="Brand film"><div class="pc-ov"><span class="oc">Brand Film</span><div class="ot">Serengeti Media</div><p class="od">2-minute brand film. Social reach grew 400% in 4 months.</p><span class="ol">Watch Film ↗</span></div></div>
+          <div class="pc-meta"><div><div class="pc-title">Serengeti Media Film</div><div class="pc-tag">Videography · 2024</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-3);flex-shrink:0;"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+        </a>
+      </div>
 
-                        <div class="portfolio-item group interactive text-reveal" data-category="tech">
-                            <div class="h-64 md:h-80 w-full rounded-2xl img-placeholder overflow-hidden mb-5">
-                                <span>[Upload 'port-tech1.jpg']</span>
-                                <img src="port-tech1.jpg" alt="SaaS Development Project" class="group-hover:scale-105 transition-transform duration-1000">
-                                <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
-                                    <span class="text-white font-mono text-xs uppercase tracking-widest border border-white/30 px-4 py-2 rounded-full">View Case Study</span>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <h4 class="font-display font-bold text-lg md:text-xl text-slate-900 dark:text-white mb-1">Stock Portfolio Tracker</h4>
-                                    <p class="text-[10px] md:text-xs text-slate-500 font-mono uppercase tracking-wider">Custom Web Application</p>
-                                </div>
-                                <i data-lucide="arrow-up-right" class="w-5 h-5 text-slate-400 group-hover:text-geekRed group-hover:translate-x-1 group-hover:-translate-y-1 transition-all"></i>
-                            </div>
-                        </div>
+      <div class="pi" data-cat="marketing">
+        <a href="https://www.behance.net" target="_blank" class="pc">
+          <div class="pc-img"><img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&auto=format&fit=crop&q=80" alt="Marketing"><div class="pc-ov"><span class="oc">Marketing Campaign</span><div class="ot">Kilimanjaro Breweries</div><p class="od">Meta + Google campaign. 5× ROAS in first quarter of activity.</p><span class="ol">View Results ↗</span></div></div>
+          <div class="pc-meta"><div><div class="pc-title">Kilimanjaro Breweries</div><div class="pc-tag">Marketing · 2024</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-3);flex-shrink:0;"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+        </a>
+      </div>
 
-                        <div class="portfolio-item group interactive text-reveal" data-category="marketing">
-                            <div class="h-64 md:h-80 w-full rounded-2xl img-placeholder overflow-hidden mb-5">
-                                <span>[Upload 'port-market1.jpg']</span>
-                                <img src="port-market1.jpg" alt="Marketing Campaign" class="group-hover:scale-105 transition-transform duration-1000">
-                                <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
-                                    <span class="text-white font-mono text-xs uppercase tracking-widest border border-white/30 px-4 py-2 rounded-full">View Case Study</span>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <h4 class="font-display font-bold text-lg md:text-xl text-slate-900 dark:text-white mb-1">Ramadan 2026 Campaign</h4>
-                                    <p class="text-[10px] md:text-xs text-slate-500 font-mono uppercase tracking-wider">Social Media Marketing</p>
-                                </div>
-                                <i data-lucide="arrow-up-right" class="w-5 h-5 text-slate-400 group-hover:text-geekRed group-hover:translate-x-1 group-hover:-translate-y-1 transition-all"></i>
-                            </div>
-                        </div>
+      <div class="pi" data-cat="web">
+        <a href="https://www.behance.net" target="_blank" class="pc">
+          <div class="pc-img"><img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800&auto=format&fit=crop&q=80" alt="Nyota Digital"><div class="pc-ov"><span class="oc">Web Development</span><div class="ot">Nyota Digital</div><p class="od">Agency site + client portal for Dar's top digital media house.</p><span class="ol">View Case Study ↗</span></div></div>
+          <div class="pc-meta"><div><div class="pc-title">Nyota Digital Portal</div><div class="pc-tag">Web Dev · 2023</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-3);flex-shrink:0;"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+        </a>
+      </div>
 
-                        <div class="portfolio-item group interactive text-reveal" data-category="tech">
-                            <div class="h-64 md:h-80 w-full rounded-2xl img-placeholder overflow-hidden mb-5">
-                                <span>[Upload 'port-tech2.jpg']</span>
-                                <img src="port-tech2.jpg" alt="Web Development" class="group-hover:scale-105 transition-transform duration-1000">
-                                <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
-                                    <span class="text-white font-mono text-xs uppercase tracking-widest border border-white/30 px-4 py-2 rounded-full">View Case Study</span>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <h4 class="font-display font-bold text-lg md:text-xl text-slate-900 dark:text-white mb-1">East Africa CRM</h4>
-                                    <p class="text-[10px] md:text-xs text-slate-500 font-mono uppercase tracking-wider">SaaS & Software Systems</p>
-                                </div>
-                                <i data-lucide="arrow-up-right" class="w-5 h-5 text-slate-400 group-hover:text-geekRed group-hover:translate-x-1 group-hover:-translate-y-1 transition-all"></i>
-                            </div>
-                        </div>
+      <div class="pi" data-cat="packaging">
+        <a href="https://www.behance.net" target="_blank" class="pc">
+          <div class="pc-img"><img src="https://images.unsplash.com/photo-1625772452859-1c03d5bf1137?w=800&auto=format&fit=crop&q=80" alt="Kili Coffee"><div class="pc-ov"><span class="oc">Packaging / Mockup</span><div class="ot">Kili Coffee Roasters</div><p class="od">Specialty coffee packaging. Now stocked in 3 countries.</p><span class="ol">View on Behance ↗</span></div></div>
+          <div class="pc-meta"><div><div class="pc-title">Kili Coffee Roasters</div><div class="pc-tag">Packaging · 2023</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-3);flex-shrink:0;"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+        </a>
+      </div>
 
-                        <div class="portfolio-item group interactive text-reveal" data-category="branding">
-                            <div class="h-64 md:h-80 w-full rounded-2xl img-placeholder overflow-hidden mb-5">
-                                <span>[Upload 'port-brand2.jpg']</span>
-                                <img src="port-brand2.jpg" alt="Packaging Design" class="group-hover:scale-105 transition-transform duration-1000">
-                                <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
-                                    <span class="text-white font-mono text-xs uppercase tracking-widest border border-white/30 px-4 py-2 rounded-full">View Case Study</span>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <h4 class="font-display font-bold text-lg md:text-xl text-slate-900 dark:text-white mb-1">Premium Coffee Roasters</h4>
-                                    <p class="text-[10px] md:text-xs text-slate-500 font-mono uppercase tracking-wider">Packaging & Print Design</p>
-                                </div>
-                                <i data-lucide="arrow-up-right" class="w-5 h-5 text-slate-400 group-hover:text-geekRed group-hover:translate-x-1 group-hover:-translate-y-1 transition-all"></i>
-                            </div>
-                        </div>
+      <div class="pi" data-cat="video">
+        <a href="https://www.behance.net" target="_blank" class="pc">
+          <div class="pc-img"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&auto=format&fit=crop&q=80" alt="Kili aerial"><div class="pc-ov"><span class="oc">Aerial Cinematic</span><div class="ot">Kili Sunrise Campaign</div><p class="od">Golden hour Kilimanjaro aerial for a luxury safari lodge.</p><span class="ol">Watch Film ↗</span></div></div>
+          <div class="pc-meta"><div><div class="pc-title">Kili Sunrise Campaign</div><div class="pc-tag">Drone Film · 2023</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-3);flex-shrink:0;"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+        </a>
+      </div>
 
-                        <div class="portfolio-item group interactive text-reveal" data-category="marketing">
-                            <div class="h-64 md:h-80 w-full rounded-2xl img-placeholder overflow-hidden mb-5">
-                                <span>[Upload 'port-market2.jpg']</span>
-                                <img src="port-market2.jpg" alt="Ad Campaign" class="group-hover:scale-105 transition-transform duration-1000">
-                                <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-sm">
-                                    <span class="text-white font-mono text-xs uppercase tracking-widest border border-white/30 px-4 py-2 rounded-full">View Case Study</span>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <h4 class="font-display font-bold text-lg md:text-xl text-slate-900 dark:text-white mb-1">Tanzania Safari Tours</h4>
-                                    <p class="text-[10px] md:text-xs text-slate-500 font-mono uppercase tracking-wider">Google & Meta Ads Strategy</p>
-                                </div>
-                                <i data-lucide="arrow-up-right" class="w-5 h-5 text-slate-400 group-hover:text-geekRed group-hover:translate-x-1 group-hover:-translate-y-1 transition-all"></i>
-                            </div>
-                        </div>
+      <div class="pi" data-cat="branding">
+        <a href="https://www.behance.net" target="_blank" class="pc">
+          <div class="pc-img"><img src="https://images.unsplash.com/photo-1586892478382-6dc3af8dfed5?w=800&auto=format&fit=crop&q=80" alt="Arusha Tech Hub"><div class="pc-ov"><span class="oc">Brand Identity</span><div class="ot">Arusha Tech Hub</div><p class="od">Full brand overhaul for Northern Tanzania's innovation hub.</p><span class="ol">View on Behance ↗</span></div></div>
+          <div class="pc-meta"><div><div class="pc-title">Arusha Tech Hub</div><div class="pc-tag">Brand Identity · 2023</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-3);flex-shrink:0;"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+        </a>
+      </div>
 
-                    </div>
-                </div>
-            </section>
-
-            <section class="py-24 px-6 bg-slate-50/95 dark:bg-charcoal/95 backdrop-blur-md border-t border-slate-200 dark:border-white/5 relative z-10 text-reveal">
-                <div class="max-w-4xl mx-auto text-center glass-card p-12 md:p-20 rounded-[40px]">
-                    <span class="font-mono text-geekRed text-[10px] md:text-xs uppercase tracking-[0.4em] block mb-4">Start Your Engine</span>
-                    <h2 class="font-display text-4xl md:text-6xl font-bold mb-8 text-slate-900 dark:text-white leading-tight">
-                        Ready to dominate<br>your market?
-                    </h2>
-                    <a href="index.html#contact" class="page-link inline-flex items-center gap-3 px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-black hover:bg-geekRed dark:hover:bg-geekRed hover:text-white dark:hover:text-white font-bold font-display text-sm uppercase tracking-widest transition-all rounded-full interactive group">
-                        <span>Initiate Sequence</span>
-                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                    </a>
-                </div>
-            </section>
-
-        </div>
-        
-        <footer class="text-reveal py-10 md:py-12 flex flex-col items-center justify-center text-center bg-[#F8F9FA]/95 dark:bg-charcoal/95 backdrop-blur-md border-t border-slate-200 dark:border-white/5 transition-colors relative z-10">
-            <a href="index.html" class="page-link mb-4 md:mb-6 cursor-pointer interactive block">
-                <img src="nav-logo-dark.png" alt="Geek Studio Design Agency" class="h-6 md:h-8 w-auto opacity-80 hover:opacity-100 transition-opacity block dark:hidden">
-                <img src="nav-logo-light.png" alt="Geek Studio Design Agency" class="h-6 md:h-8 w-auto opacity-50 hover:opacity-100 transition-opacity hidden dark:block">
-            </a>
-            <span class="font-mono text-[8px] md:text-[10px] text-slate-500 dark:text-zinc-700 tracking-[0.2em] md:tracking-[0.3em] block px-4">
-                © 2026 GEEK STUDIO // VISUAL SOUL & DIGITAL SYSTEM // ARUSHA
-            </span>
-        </footer>
+      <div class="pi" data-cat="marketing">
+        <a href="https://www.behance.net" target="_blank" class="pc">
+          <div class="pc-img"><img src="https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&auto=format&fit=crop&q=80" alt="Paid ads"><div class="pc-ov"><span class="oc">Paid Ads</span><div class="ot">Baobab Ventures</div><p class="od">Performance media strategy for East Africa's premier VC fund.</p><span class="ol">View Results ↗</span></div></div>
+          <div class="pc-meta"><div><div class="pc-title">Baobab Ventures</div><div class="pc-tag">Paid Ads · 2024</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-3);flex-shrink:0;"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+        </a>
+      </div>
 
     </div>
+  </div>
+</section>
 
-    <script>
-        lucide.createIcons();
-        gsap.registerPlugin(ScrollTrigger);
+<!-- CTA -->
+<section id="port-cta">
+  <div class="wrap">
+    <div class="cta-inner r">
+      <div>
+        <p style="font-family:var(--f-mono);font-size:9px;text-transform:uppercase;letter-spacing:.35em;color:var(--red);margin-bottom:.75rem;">Available for Projects</p>
+        <h2 style="font-family:var(--f-display);font-size:clamp(2rem,5vw,3.5rem);font-weight:900;line-height:1.05;">Ready to be<br><em style="font-style:italic;color:var(--text-2);">next on this list?</em></h2>
+      </div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
+        <a href="index.html#contact" class="btn btn-solid page-exit">Start a Project</a>
+        <a href="https://wa.me/255684200859" target="_blank" class="btn btn-ghost">WhatsApp Us</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const htmlElement = document.documentElement;
-        themeToggleBtn.addEventListener('click', () => { 
-            const isNowDark = !htmlElement.classList.contains('dark');
-            applyTheme(isNowDark);
-            localStorage.setItem('theme', isNowDark ? 'dark' : 'light');
-        });
+<footer>
+  <div class="fi">
+    <div class="fl">
+      <img src="nav-logo-dark.png" alt="Geek Studio" class="l-logo">
+      <img src="nav-logo-light.png" alt="Geek Studio" class="d-logo">
+    </div>
+    <span class="fc">© 2026 Geek Studio · Arusha, Tanzania</span>
+    <div class="flinks">
+      <a href="https://www.instagram.com/geekstudio.tz/" target="_blank">Instagram</a>
+      <a href="https://wa.me/255684200859" target="_blank">WhatsApp</a>
+      <a href="index.html" class="page-exit">Home</a>
+    </div>
+  </div>
+</footer>
 
-        // Smooth Mobile Menu Logic with GSAP Staggers
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const closeMenuBtn = document.getElementById('close-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileLinksWrappers = document.querySelectorAll('.mobile-link-wrapper');
+<script>
+gsap.registerPlugin && gsap.registerPlugin();
+const html = document.documentElement;
 
-        function openMenu() { 
-            mobileMenu.classList.add('mobile-menu-active'); 
-            gsap.to(mobileLinksWrappers, { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power3.out", delay: 0.2 });
-        }
-        function closeMenu() { 
-            gsap.to(mobileLinksWrappers, { y: 20, opacity: 0, duration: 0.4, stagger: -0.05, ease: "power2.in", onComplete: () => mobileMenu.classList.remove('mobile-menu-active') });
-        }
-        
-        mobileMenuBtn.addEventListener('click', openMenu);
-        closeMenuBtn.addEventListener('click', closeMenu);
-        document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', () => {
-            if(!link.classList.contains('page-link')) closeMenu();
-        }));
+function applyTheme(dark) {
+  if (dark) html.classList.add('dark'); else html.classList.remove('dark');
+  const favicon = document.getElementById('dynamic-favicon');
+  if (favicon) favicon.href = dark ? 'logo-light.png' : 'logo-dark.png';
+  const lld = document.getElementById('ll-dark'), lll = document.getElementById('ll-light');
+  if (lld) { lld.style.display = dark?'none':'block'; }
+  if (lll) { lll.style.display = dark?'block':'none'; }
+}
+applyTheme(html.classList.contains('dark'));
+document.getElementById('theme-btn').addEventListener('click', () => {
+  const nowDark = !html.classList.contains('dark');
+  applyTheme(nowDark);
+  localStorage.setItem('gs-theme', nowDark?'dark':'light');
+});
 
-        // Safe Loader & Navbar Sequence
-        document.addEventListener('DOMContentLoaded', () => {
-            const tl = gsap.timeline();
-            
-            tl.to('#loader-logo', { opacity: 1, scale: 1, duration: 1.2, ease: "power2.out" })
-              .to('.loader-bar-fill', { width: "100%", duration: 1.5, ease: "power2.inOut" }, "-=0.5")
-              .to(['.loader-text', '.loader-bar-bg'], { opacity: 0, duration: 0.5 }, "+=0.3")
-              .to('#loader-logo', { opacity: 0, scale: 1.1, duration: 0.6, ease: "power2.inOut" })
-              .to('#loader-screen', { 
-                  opacity: 0, duration: 0.8, ease: "power2.inOut",
-                  onComplete: () => {
-                      document.getElementById('loader-screen').style.display = 'none';
-                      document.body.classList.remove('scroll-lock'); 
-                      
-                      requestAnimationFrame(() => {
-                          ScrollTrigger.refresh(); 
-                          playHeroEntry();
-                          gsap.to(".nav-container", { y: 0, opacity: 1, duration: 1.2, ease: "power3.out" });
-                      });
-                  }
-              }, "-=0.2");
-        });
+// Loader
+(function(){
+  const loader = document.getElementById('loader');
+  const imgs = document.querySelectorAll('.ll-wrap img');
+  imgs.forEach(img => { if (img.style.display!=='none') img.classList.add('show'); });
+  setTimeout(()=>{ document.getElementById('l-sub').classList.add('show'); document.getElementById('l-track').classList.add('show'); }, 600);
+  let start=null, dur=2200;
+  function tick(ts) {
+    if(!start)start=ts;
+    const p = Math.min((ts-start)/dur, 1);
+    document.getElementById('l-fill').style.width = Math.min(p*110,100)+'%';
+    if(p<1){requestAnimationFrame(tick);return;}
+    loader.style.transition='opacity .7s ease'; loader.style.opacity='0';
+    setTimeout(()=>{
+      loader.style.display='none';
+      document.body.classList.remove('scroll-lock');
+      document.getElementById('nav-outer').classList.add('ready');
+      document.getElementById('main-nav').classList.add('visible');
+      const obs = new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target);}});},{threshold:.1});
+      document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+    }, 720);
+  }
+  requestAnimationFrame(tick);
+})();
 
-        function playHeroEntry() {
-            gsap.to(".hero-line", { y: 0, opacity: 1, duration: 1.8, stagger: 0.15, ease: "expo.out" });
-        }
+// Nav scroll
+window.addEventListener('scroll',()=>{const nav=document.getElementById('main-nav');if(window.scrollY>50)nav.classList.add('scrolled');else nav.classList.remove('scrolled');},{passive:true});
 
-        // Smooth Page Exit Transitions
-        document.querySelectorAll('.page-link').forEach(link => {
-            link.addEventListener('click', e => {
-                e.preventDefault();
-                const target = link.href;
-                document.body.classList.add('page-transitioning');
-                document.getElementById('smooth-wrapper').style.transform = "translateY(20px)";
-                setTimeout(() => { window.location.href = target; }, 500);
-            });
-        });
+// Mobile menu
+document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mob-menu').classList.add('open'));
+document.getElementById('mob-close').addEventListener('click',()=>document.getElementById('mob-menu').classList.remove('open'));
+document.querySelectorAll('.mob-link').forEach(l=>l.addEventListener('click',()=>document.getElementById('mob-menu').classList.remove('open')));
 
-        gsap.to(".hero-content", {
-            scrollTrigger: { trigger: "#hero-section", start: "top top", end: "bottom top", scrub: 1, invalidateOnRefresh: true },
-            y: 50, opacity: 0, ease: "none"
-        });
+// Page exit
+document.querySelectorAll('.page-exit').forEach(link=>{
+  link.addEventListener('click',e=>{
+    e.preventDefault();const href=link.href;
+    document.body.classList.add('exiting');
+    setTimeout(()=>{window.location.href=href;},460);
+  });
+});
 
-        const nav = document.getElementById('main-nav');
-        ScrollTrigger.create({
-            start: "top -10", 
-            onUpdate: (self) => {
-                if (self.direction === 1) { 
-                    nav.classList.remove('nav-top', 'border-transparent'); nav.classList.add('nav-scrolled');
-                } else if (self.scroll() < 10) { 
-                    nav.classList.add('nav-top', 'border-transparent'); nav.classList.remove('nav-scrolled');
-                }
-            }
-        });
+// Cursor
+if(window.matchMedia('(pointer:fine)').matches){
+  const glow=document.getElementById('cursor-glow'),dot=document.getElementById('cursor-dot');
+  let mx=innerWidth/2,my=innerHeight/2,gx=mx,gy=my,dx=mx,dy=my;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  document.querySelectorAll('a,button,input,select').forEach(el=>{
+    el.addEventListener('mouseenter',()=>dot.classList.add('hovered'));
+    el.addEventListener('mouseleave',()=>dot.classList.remove('hovered'));
+  });
+  (function anim(){gx+=(mx-gx)*.1;gy+=(my-gy)*.1;dx+=(mx-dx)*.38;dy+=(my-dy)*.38;glow.style.transform=`translate3d(${gx}px,${gy}px,0) translate(-50%,-50%)`;dot.style.transform=`translate3d(${dx}px,${dy}px,0) translate(-50%,-50%)`;requestAnimationFrame(anim);})();
+}
 
-        document.querySelectorAll('.text-reveal').forEach((el) => {
-            gsap.fromTo(el, 
-                { y: 20, opacity: 0 }, 
-                {
-                    scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play reverse play reverse" },
-                    y: 0, opacity: 1, duration: 1.4, ease: "power3.out"
-                }
-            );
-        });
-
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const portfolioItems = document.querySelectorAll('.portfolio-item');
-
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                const filterValue = btn.getAttribute('data-filter');
-
-                gsap.to(portfolioItems, {
-                    scale: 0.95, opacity: 0, duration: 0.3, stagger: 0.05,
-                    onComplete: () => {
-                        portfolioItems.forEach(item => {
-                            if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
-                                item.style.display = 'block';
-                            } else {
-                                item.style.display = 'none';
-                            }
-                        });
-                        
-                        ScrollTrigger.refresh();
-
-                        const visibleItems = Array.from(portfolioItems).filter(item => item.style.display === 'block');
-                        gsap.fromTo(visibleItems, 
-                            { scale: 0.95, opacity: 0, y: 20 }, 
-                            { scale: 1, opacity: 1, y: 0, duration: 0.5, stagger: 0.05, ease: "power3.out" }
-                        );
-                    }
-                });
-            });
-        });
-
-        if (window.matchMedia("(pointer: fine)").matches) {
-            const cursorGlow = document.getElementById('cursor-glow');
-            const cursorRing = document.getElementById('cursor-ring');
-            const interactives = document.querySelectorAll('.interactive, a, button, input, textarea, select');
-            
-            let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
-            let glowX = mouseX, glowY = mouseY;
-            let ringX = mouseX, ringY = mouseY;
-
-            document.addEventListener('mousemove', e => { 
-                mouseX = e.clientX; mouseY = e.clientY; 
-                const xOffset = (mouseX / window.innerWidth - 0.5) * 30; const yOffset = (mouseY / window.innerHeight - 0.5) * -30; 
-                gsap.to("#watermark-container", { rotationY: xOffset, rotationX: yOffset, x: mouseX * -0.05, y: mouseY * -0.05, duration: 1, ease: "power2.out" });
-            });
-
-            interactives.forEach(el => {
-                el.addEventListener('mouseenter', () => cursorRing.classList.add('cursor-hover'));
-                el.addEventListener('mouseleave', () => cursorRing.classList.remove('cursor-hover'));
-            });
-
-            function animateCursor() {
-                glowX += (mouseX - glowX) * 0.15; glowY += (mouseY - glowY) * 0.15;
-                cursorGlow.style.transform = `translate3d(${glowX}px, ${glowY}px, 0) translate(-50%, -50%)`;
-                ringX += (mouseX - ringX) * 0.4; ringY += (mouseY - ringY) * 0.4;
-                cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
-                requestAnimationFrame(animateCursor);
-            }
-            animateCursor();
-        }
-    </script>
+// Filter
+document.querySelectorAll('.fbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+    document.querySelectorAll('.pi').forEach(item=>{
+      const match = f==='all'||item.dataset.cat===f;
+      item.style.transition='opacity .3s,transform .3s';
+      if(match){item.style.display='';requestAnimationFrame(()=>{item.style.opacity='1';item.style.transform='translateY(0)';});}
+      else{item.style.opacity='0';item.style.transform='translateY(10px)';setTimeout(()=>item.style.display='none',300);}
+    });
+  });
+});
+</script>
 </body>
 </html>
