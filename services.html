@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ═══ PRIMARY SEO ═══════════════════════════════════════════ -->
+  <title>Services | Brand Design, Videography & Digital Marketing by Geek Studio Tanzania</title>
+  <meta name="description" content="Explore Geek Studio's full range of creative services: brand identity, cinematic videography, web development, social media management, SEO, content creation, and aerial drone shoots in Arusha, Tanzania.">
+  <meta name="keywords" content="services Geek Studio Tanzania, brand design services Arusha, cinematography Tanzania, web development Tanzania, social media management East Africa, SEO services Arusha, drone videography Tanzania">
+  <meta name="author" content="Geek Studio Tanzania">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://geekstudio.co.tz/services.html">
+
+  <!-- ═══ OPEN GRAPH ══════════════════════════════════════════════ -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://geekstudio.co.tz/services.html">
+  <meta property="og:title" content="Creative & Digital Services | Geek Studio Tanzania">
+  <meta property="og:description" content="Complete creative solutions: brand identity, cinematic video, web development, social media, SEO, and more under one roof in Arusha, Tanzania.">
+  <meta property="og:image" content="https://geekstudio.co.tz/og-image.jpg">
+  <meta property="og:site_name" content="Geek Studio Tanzania">
+  <meta property="og:locale" content="en_TZ">
+
+  <!-- ═══ TWITTER CARD ═══════════════════════════════════════════ -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Services | Geek Studio Tanzania">
+  <meta name="twitter:description" content="Brand identity, cinematic video, web dev, social media & SEO — all crafted in Arusha, Tanzania.">
+  <meta name="twitter:image" content="https://geekstudio.co.tz/og-image.jpg">
+
+  <!-- ═══ SCHEMA MARKUP ═══════════════════════════════════════════ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Creative & Digital Services",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "Geek Studio Tanzania",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Arusha City Centre",
+        "addressLocality": "Arusha",
+        "addressRegion": "Arusha Region",
+        "addressCountry": "TZ"
+      }
+    },
+    "description": "Complete creative and digital services including brand identity, cinematic videography, web development, social media management, SEO, content creation, and aerial drone shoots in Arusha, Tanzania.",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Services",
+      "itemListElement": [
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Brand Identity Design","description":"Logo design, brand guidelines, visual language systems."}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Cinematic Videography","description":"Drone aerials, corporate films, TV commercials."}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Web Development","description":"High-performance websites, e-commerce platforms."}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Social Media Management","description":"Full management, content calendars, community engagement."}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"SEO & Digital Marketing","description":"Search optimisation, Google Ads, Meta campaigns."}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Print & Packaging","description":"Business cards, signage, packaging."}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Content Creation","description":"Photography, reels, motion graphics."}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Brand Strategy","description":"Positioning, competitor analysis, messaging frameworks."}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Aerial Drone Shoots","description":"Licensed aerial videography for real estate, tourism."}}
+      ]
+    },
+    "url": "https://geekstudio.co.tz/services.html"
+  }
+  </script>
+
+  <link id="dynamic-favicon" rel="icon" type="image/png" href="logo-light.png">
+  <script>(function(){var t=localStorage.getItem('gs-theme')||(window.matchMedia('(prefers-color-scheme:light)').matches?'light':'dark');document.documentElement.setAttribute('data-theme',t);})();</script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Syne+Mono:wght@400&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <style>
+    /* ═══ TOKENS ═══════════════════════════════════════════════ */
+    :root {
+      --ease: cubic-bezier(.16,1,.3,1);
+      --ease-in: cubic-bezier(.65,0,.35,1);
+      --f-serif: 'Cormorant Garamond', Georgia, serif;
+      --f-sans: 'DM Sans', system-ui, sans-serif;
+      --f-mono: 'Syne Mono', monospace;
+      --red: #D63F38;
+      --red-dim: rgba(214,63,56,.12);
+      --tt: background .4s var(--ease), color .4s var(--ease), border-color .4s var(--ease), box-shadow .4s;
+    }
+    [data-theme="dark"]{
+      --bg:#0A0908; --bg2:#121110; --bg3:#1C1A17;
+      --text:#F0EDE6; --text2:#B0ADA8; --text3:#707068;
+      --border:rgba(255,255,255,.07); --border-m:rgba(255,255,255,.14);
+      --shadow:0 4px 28px rgba(0,0,0,.55); --shadow-lg:0 24px 70px rgba(0,0,0,.75);
+      --nav-bg:rgba(10,9,8,.93); --card:rgba(22,20,18,.92);
+      --noise-op:.022; --noise-blend:screen;
+      --mq-text:#F0EDE6;
+    }
+    [data-theme="light"]{
+      --bg:#F5F5F7; --bg2:#EAEAEC; --bg3:#DEDEE0;
+      --text:#141210; --text2:#52504C; --text3:#9A9790;
+      --border:rgba(0,0,0,.08); --border-m:rgba(0,0,0,.13);
+      --shadow:0 4px 28px rgba(0,0,0,.06); --shadow-lg:0 24px 70px rgba(0,0,0,.1);
+      --nav-bg:rgba(245,245,247,.95); --card:rgba(255,255,255,.97);
+      --noise-op:.02; --noise-blend:multiply;
+      --mq-text:#1A1A1A;
+    }
+    /* ═══ RESET ════════════════════════════════════════════════ */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{font-size:17px;scroll-behavior:smooth;}
+    body{font-family:var(--f-sans);background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:var(--tt);}
+    body.locking{overflow:hidden;}
+    a{text-decoration:none;color:inherit;}
+    img,video{display:block;max-width:100%;}
+    button{cursor:pointer;background:none;border:none;color:inherit;font-family:inherit;}
+    ::selection{background:var(--red);color:#fff;}
+
+    .noise{position:fixed;inset:0;pointer-events:none;z-index:200;opacity:var(--noise-op);mix-blend-mode:var(--noise-blend);background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");transition:opacity .4s;}
+
+    /* Loader */
+    #loader{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .65s var(--ease);}
+    #loader.out{opacity:0;pointer-events:none;}
+    .ld-logo{width:clamp(90px,12vw,130px);opacity:0;transform:scale(.88);transition:all 1s var(--ease);}
+    .ld-logo.in{opacity:1;transform:scale(1);}
+    .ld-bar{width:160px;height:1px;background:var(--border-m);margin-top:2.8rem;overflow:hidden;border-radius:1px;}
+    .ld-fill{height:100%;width:0;background:var(--red);}
+    .ld-label{font-family:var(--f-mono);font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:var(--red);margin-top:1.6rem;opacity:0;animation:blink 1.6s ease infinite;}
+    .ld-label.in{opacity:1;}
+    @keyframes blink{0%,100%{opacity:.15}50%{opacity:1}}
+
+    /* Cursor */
+    @media(pointer:fine){body{cursor:none;}}
+    #c-dot,#c-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);will-change:transform;}
+    #c-dot{width:6px;height:6px;border-radius:50%;background:var(--red);}
+    #c-ring{width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(214,63,56,.4);transition:width .35s var(--ease),height .35s var(--ease),border-color .3s;}
+    #c-ring.hov{width:64px;height:64px;border-color:var(--red);}
+    #c-ring.press{width:26px;height:26px;border-color:var(--red);}
+    @media(pointer:coarse){#c-dot,#c-ring{display:none!important;}body{cursor:auto!important;}}
+
+    /* Theme toggle */
+    .th-btn{
+      display:flex;align-items:center;justify-content:center;
+      width:38px;height:38px;border-radius:50%;
+      border:1px solid var(--border-m);
+      color:var(--text2);transition:all .3s;cursor:pointer;background:transparent;
+    }
+    .th-btn:hover{border-color:var(--red);color:var(--red);transform:rotate(15deg);}
+    .th-btn svg{width:16px;height:16px;}
+    .th-sun{display:none;} .th-moon{display:block;}
+    [data-theme="light"] .th-sun{display:block;} [data-theme="light"] .th-moon{display:none;}
+
+    /* Nav */
+    #nav{
+      position:fixed;top:0;left:0;width:100%;z-index:500;
+      padding:1.4rem 3rem;
+      display:flex;align-items:center;justify-content:space-between;
+      opacity:0;transition:padding .5s var(--ease),background .4s,opacity .5s var(--ease),box-shadow .4s;
+    }
+    #nav.vis{opacity:1;}
+    #nav.scrolled{padding:.75rem 2rem;background:var(--nav-bg);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);box-shadow:var(--shadow);}
+    .nav-logo img{height:32px;width:auto;transition:opacity .3s;}
+    .nav-logo:hover img{opacity:.7;}
+    .nav-links{display:flex;gap:2.6rem;list-style:none;}
+    .nav-links a{font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.2em;color:var(--text2);transition:color .2s;position:relative;}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--red);transition:width .3s var(--ease);}
+    .nav-links a:hover{color:var(--text);}
+    .nav-links a:hover::after{width:100%;}
+    .nav-r{display:flex;align-items:center;gap:.9rem;}
+    .nav-cta{font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:.55rem 1.4rem;border:1px solid var(--border-m);color:var(--text2);transition:all .25s;border-radius:3px;}
+    .nav-cta:hover{background:var(--red);border-color:var(--red);color:#fff;transform:translateY(-1px);}
+    #nav-burger{display:none;flex-direction:column;gap:5px;padding:.4rem;}
+    #nav-burger span{display:block;width:24px;height:1.5px;background:var(--text);transition:all .35s var(--ease);border-radius:2px;}
+    #nav-burger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+    #nav-burger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+    #nav-burger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+    @media(max-width:900px){
+      .nav-links,.nav-cta{display:none;}
+      #nav-burger{display:flex;}
+      #nav{padding:1rem 1.4rem;}
+      #nav.scrolled{padding:.75rem 1.4rem;}
+      .nav-logo img{height:28px;}
+    }
+
+    /* Mobile menu */
+    #mob-menu{
+      position:fixed;inset:0;z-index:800;
+      background:var(--bg);
+      display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+      padding:0 2rem;
+      opacity:0;visibility:hidden;pointer-events:none;
+      transition:opacity .4s var(--ease),visibility .4s;
+    }
+    #mob-menu.open{opacity:1;visibility:visible;pointer-events:auto;}
+    #mob-close{position:absolute;top:1.2rem;right:1.4rem;font-size:1.5rem;color:var(--text3);padding:.4rem;transition:color .2s;}
+    #mob-close:hover{color:var(--red);}
+    .mob-item{
+      font-family:var(--f-serif);
+      font-size:clamp(2.5rem,10vw,4.5rem);
+      font-weight:300;font-style:italic;
+      color:var(--text);padding:.15rem 0;
+      opacity:0;transform:translateX(-24px);
+      transition:color .2s,transform .4s var(--ease),opacity .4s var(--ease);
+    }
+    .mob-item:hover{color:var(--red);}
+    #mob-menu.open .mob-item{opacity:1;transform:translateX(0);}
+    #mob-menu.open .mob-item:nth-child(2){transition-delay:.05s;}
+    #mob-menu.open .mob-item:nth-child(3){transition-delay:.1s;}
+    #mob-menu.open .mob-item:nth-child(4){transition-delay:.15s;}
+    #mob-menu.open .mob-item:nth-child(5){transition-delay:.2s;}
+    #mob-menu.open .mob-item:nth-child(6){transition-delay:.25s;}
+    .mob-footer{position:absolute;bottom:2.5rem;left:2rem;font-family:var(--f-mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--text3);opacity:0;transition:opacity .4s .35s;}
+    #mob-menu.open .mob-footer{opacity:1;}
+
+    /* Marquee (same as homepage) */
+    .mq{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:.9rem 0;background:var(--bg2);transition:var(--tt);}
+    .mq-track{display:flex;gap:2.8rem;white-space:nowrap;animation:mq 34s linear infinite;}
+    .mq-track:hover{animation-play-state:paused;}
+    .mq-item{font-family:var(--f-serif);font-size:1.05rem;font-style:italic;color:var(--mq-text);display:flex;align-items:center;gap:2.8rem;flex-shrink:0;transition:color .3s;}
+    .mq-item:hover{color:var(--red);}
+    .mq-dot{width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0;animation:pulse-dot 1.8s ease infinite;}
+    @keyframes pulse-dot{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.8);opacity:1}}
+    @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+    /* Sections */
+    .section{padding:5rem 3rem;}
+    .wrap{max-width:1340px;margin:0 auto;}
+    .lbl{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.35em;text-transform:uppercase;color:var(--red);margin-bottom:1.2rem;display:flex;align-items:center;gap:.8rem;}
+    .lbl::before{content:'';width:22px;height:1px;background:var(--red);}
+    .h2{font-family:var(--f-serif);font-size:clamp(2.6rem,5.2vw,5.4rem);font-weight:300;line-height:1.03;letter-spacing:-.02em;}
+    .h2 em{font-style:italic;color:var(--text2);}
+    .copy{color:var(--text2);line-height:1.9;font-weight:400;font-size:1rem;}
+
+    /* scroll reveal */
+    .r{opacity:0;transform:translateY(28px);transition:opacity .85s var(--ease),transform .85s var(--ease);}
+    .r.v{opacity:1;transform:translateY(0);}
+    .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+    @media(max-width:900px){.section{padding:4rem 1.4rem;}}
+
+    /* Page transition */
+    body.out{opacity:0;transform:translateY(10px);transition:opacity .38s var(--ease-in),transform .38s var(--ease-in);}
+
+    /* Services hero */
+    .services-hero{padding-top:10rem;padding-bottom:5rem;background:var(--bg);}
+
+    /* Service card grid (simplified) */
+    .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem 1.5rem;margin-top:3rem;}
+    @media(max-width:900px){.svc-grid{grid-template-columns:1fr 1fr;gap:1.5rem;}}
+    @media(max-width:600px){.svc-grid{grid-template-columns:1fr;}}
+
+    .svc-card{
+      background:var(--card);border:1px solid var(--border);
+      padding:2rem;transition:transform .3s,box-shadow .3s;
+      display:flex;flex-direction:column;
+      position:relative;overflow:hidden;
+    }
+    .svc-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
+    .svc-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease);}
+    .svc-card:hover::before{transform:scaleX(1);}
+    .svc-icon{font-size:1.8rem;color:var(--red);margin-bottom:1.2rem;}
+    .svc-name{font-family:var(--f-serif);font-size:1.35rem;font-weight:400;margin-bottom:.7rem;color:var(--text);}
+    .svc-desc{font-size:.92rem;color:var(--text3);line-height:1.8;margin-bottom:1.5rem;flex:1;}
+    .svc-link{font-family:var(--f-mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-top:auto;display:inline-block;transition:color .2s;}
+    .svc-link:hover{color:var(--text);}
+
+    /* CTA Section */
+    .cta-section{background:var(--bg2);text-align:center;padding:5rem 2rem;}
+    .cta-section .h2{margin-bottom:1.5rem;}
+    .btn-send{font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:1rem 2.4rem;background:var(--red);color:#fff;cursor:pointer;transition:all .3s;border-radius:3px;border:none;display:inline-flex;align-items:center;gap:.6rem;}
+    .btn-send:hover{background:#b8302a;transform:translateY(-2px);}
+
+    /* Footer */
+    footer{padding:2.5rem 3rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;background:var(--bg);}
+    .f-logo img{height:26px;width:auto;}
+    .f-copy{font-family:var(--f-mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);}
+    .f-links{display:flex;gap:1.6rem;}
+    .f-links a{font-family:var(--f-mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--text3);transition:color .2s;}
+    .f-links a:hover{color:var(--red);}
+    @media(max-width:900px){footer{flex-direction:column;align-items:flex-start;padding:2rem 1.4rem;gap:1rem;}}
+  </style>
+</head>
+<body class="locking">
+
+<div class="noise" aria-hidden="true"></div>
+<div id="c-dot"></div>
+<div id="c-ring"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <img src="logo-light.png" alt="Geek Studio" class="ld-logo" id="ld-logo" onerror="this.style.display='none'">
+  <div class="ld-bar"><div class="ld-fill" id="ld-fill"></div></div>
+  <span class="ld-label" id="ld-label">Loading</span>
+</div>
+
+<!-- NAV -->
+<header id="nav" role="banner">
+  <a href="index.html" class="nav-logo" aria-label="Geek Studio Home">
+    <img id="nav-logo-img" src="nav-logo-light.png" alt="Geek Studio Tanzania"
+      onerror="this.outerHTML='<span style=\'font-family:serif;font-style:italic;font-size:1.2rem;\'>Geek Studio</span>'">
+  </a>
+  <nav aria-label="Main navigation">
+    <ul class="nav-links">
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="services.html" class="pe" style="color:var(--red);">Services</a></li>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="founder.html" class="pe">Founder</a></li>
+      <li><a href="portfolio.html" class="pe">Portfolio</a></li>
+      <li><a href="contact.html" class="pe">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="nav-r">
+    <button class="th-btn" id="theme-btn" aria-label="Toggle theme">
+      <svg class="th-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <svg class="th-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <a href="contact.html" class="nav-cta pe">Start a Project</a>
+    <button id="nav-burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE MENU -->
+<div id="mob-menu" role="dialog" aria-modal="true" aria-label="Navigation">
+  <button id="mob-close" aria-label="Close menu">✕</button>
+  <a href="index.html#about" class="mob-item">About</a>
+  <a href="services.html" class="mob-item pe">Services</a>
+  <a href="index.html#work" class="mob-item">Work</a>
+  <a href="founder.html" class="mob-item pe">Founder</a>
+  <a href="portfolio.html" class="mob-item pe">Portfolio</a>
+  <a href="contact.html" class="mob-item pe">Contact</a>
+  <div class="mob-footer">Arusha, Tanzania · Est. 2021</div>
+</div>
+
+<!-- MARQUEE (same as homepage) -->
+<div class="mq" aria-hidden="true">
+  <div class="mq-track">
+    <span class="mq-item">Brand Identity<span class="mq-dot"></span></span>
+    <span class="mq-item">Cinematic Videography<span class="mq-dot"></span></span>
+    <span class="mq-item">Web Development<span class="mq-dot"></span></span>
+    <span class="mq-item">Social Media Management<span class="mq-dot"></span></span>
+    <span class="mq-item">SEO &amp; Digital Marketing<span class="mq-dot"></span></span>
+    <span class="mq-item">Drone Aerial Shoots<span class="mq-dot"></span></span>
+    <span class="mq-item">Brand Strategy<span class="mq-dot"></span></span>
+    <span class="mq-item">Content Creation<span class="mq-dot"></span></span>
+    <span class="mq-item">Print &amp; Packaging<span class="mq-dot"></span></span>
+    <span class="mq-item">Brand Identity<span class="mq-dot"></span></span>
+    <span class="mq-item">Cinematic Videography<span class="mq-dot"></span></span>
+    <span class="mq-item">Web Development<span class="mq-dot"></span></span>
+    <span class="mq-item">Social Media Management<span class="mq-dot"></span></span>
+    <span class="mq-item">SEO &amp; Digital Marketing<span class="mq-dot"></span></span>
+    <span class="mq-item">Drone Aerial Shoots<span class="mq-dot"></span></span>
+    <span class="mq-item">Brand Strategy<span class="mq-dot"></span></span>
+    <span class="mq-item">Content Creation<span class="mq-dot"></span></span>
+    <span class="mq-item">Print &amp; Packaging<span class="mq-dot"></span></span>
+  </div>
+</div>
+
+<!-- SERVICES HERO -->
+<section class="section services-hero">
+  <div class="wrap">
+    <div class="lbl r">What We Do</div>
+    <h2 class="h2 r d1">Every service,<br><em>one standard.</em></h2>
+    <p class="copy r d2" style="margin-top:1.5rem;max-width:700px;">From brand identity to aerial drone shoots, we deliver every project with the same obsessive craftsmanship. No handoffs — just a seamless creative partnership.</p>
+  </div>
+</section>
+
+<!-- SERVICE CARDS (simplified) -->
+<section class="section" style="background:var(--bg2);padding-top:3rem;">
+  <div class="wrap">
+    <div class="svc-grid">
+      <div class="svc-card r">
+        <div class="svc-icon">◈</div>
+        <div class="svc-name">Brand Identity</div>
+        <p class="svc-desc">Logo design, brand guidelines, and complete visual language systems that define your brand for the long run.</p>
+        <a href="contact.html" class="svc-link pe">Start a project →</a>
+      </div>
+      <div class="svc-card r d1">
+        <div class="svc-icon">▶</div>
+        <div class="svc-name">Cinematic Videography</div>
+        <p class="svc-desc">Television commercials, corporate films, product launches — shot and edited to cinema standards.</p>
+        <a href="contact.html" class="svc-link pe">Discuss your film →</a>
+      </div>
+      <div class="svc-card r d2">
+        <div class="svc-icon">⬡</div>
+        <div class="svc-name">Web Development</div>
+        <p class="svc-desc">High‑performance websites and e‑commerce platforms built to convert visitors into customers.</p>
+        <a href="contact.html" class="svc-link pe">Launch a website →</a>
+      </div>
+      <div class="svc-card r">
+        <div class="svc-icon">◎</div>
+        <div class="svc-name">Social Media Management</div>
+        <p class="svc-desc">Full management, content calendars, copywriting, and community engagement — all in one place.</p>
+        <a href="contact.html" class="svc-link pe">Grow your audience →</a>
+      </div>
+      <div class="svc-card r d1">
+        <div class="svc-icon">↗</div>
+        <div class="svc-name">SEO & Digital Marketing</div>
+        <p class="svc-desc">Data‑driven search optimisation, Google Ads, and Meta campaigns focused on measurable ROI.</p>
+        <a href="contact.html" class="svc-link pe">Rank higher →</a>
+      </div>
+      <div class="svc-card r d2">
+        <div class="svc-icon">✦</div>
+        <div class="svc-name">Print & Packaging</div>
+        <p class="svc-desc">Business cards, signage, menus, packaging — every tangible touchpoint of your brand.</p>
+        <a href="contact.html" class="svc-link pe">Print with impact →</a>
+      </div>
+      <div class="svc-card r">
+        <div class="svc-icon">◷</div>
+        <div class="svc-name">Content Creation</div>
+        <p class="svc-desc">Photography, reels, motion graphics — scroll‑stopping content for every platform.</p>
+        <a href="contact.html" class="svc-link pe">Create content →</a>
+      </div>
+      <div class="svc-card r d1">
+        <div class="svc-icon">⌘</div>
+        <div class="svc-name">Brand Strategy</div>
+        <p class="svc-desc">Market positioning, competitor analysis, and messaging frameworks aligned with business goals.</p>
+        <a href="contact.html" class="svc-link pe">Define your strategy →</a>
+      </div>
+      <div class="svc-card r d2">
+        <div class="svc-icon">◉</div>
+        <div class="svc-name">Aerial Drone Shoots</div>
+        <p class="svc-desc">Licensed 4K aerial videography for real estate, tourism, and large‑scale events across Tanzania.</p>
+        <a href="contact.html" class="svc-link pe">Take to the sky →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="wrap">
+    <div class="lbl r" style="justify-content:center;">Let's Build Together</div>
+    <h2 class="h2 r d1">Ready to craft <em>your next chapter?</em></h2>
+    <p class="copy r d2" style="margin-bottom:2rem;">Tell us about your project — we'll tailor a plan that fits your vision.</p>
+    <a href="contact.html" class="btn-send pe r d3">Start Your Project →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" class="f-logo" aria-label="Home">
+    <img id="footer-logo-img" src="nav-logo-light.png" alt="Geek Studio Tanzania"
+      onerror="this.outerHTML='<span style=\'font-family:serif;font-style:italic;font-size:1.1rem;\'>Geek Studio</span>'">
+  </a>
+  <span class="f-copy">© 2026 Geek Studio Tanzania · Arusha</span>
+  <nav class="f-links" aria-label="Footer navigation">
+    <a href="founder.html" class="pe">Founder</a>
+    <a href="services.html" class="pe">Services</a>
+    <a href="portfolio.html" class="pe">Portfolio</a>
+    <a href="contact.html" class="pe">Contact</a>
+    <a href="https://www.instagram.com/geekstudio.tz/" target="_blank" rel="noopener">Instagram</a>
+  </nav>
+</footer>
+
+<script>
+'use strict';
+gsap.registerPlugin(ScrollTrigger);
+
+/* THEME */
+const html=document.documentElement;
+function applyTheme(t,save){
+  html.setAttribute('data-theme',t);
+  if(save)localStorage.setItem('gs-theme',t);
+  ['nav-logo-img','footer-logo-img'].forEach(id=>{const el=document.getElementById(id);if(el)el.src=t==='dark'?'nav-logo-light.png':'nav-logo-dark.png';});
+  const ll=document.getElementById('ld-logo');if(ll)ll.src=t==='dark'?'logo-light.png':'logo-dark.png';
+  document.getElementById('dynamic-favicon').href=t==='dark'?'logo-light.png':'logo-dark.png';
+}
+const initT=localStorage.getItem('gs-theme')||(window.matchMedia('(prefers-color-scheme:light)').matches?'light':'dark');
+applyTheme(initT,false);
+document.getElementById('theme-btn').addEventListener('click',()=>{
+  const cur=html.getAttribute('data-theme');
+  applyTheme(cur==='dark'?'light':'dark',true);
+});
+
+/* LOADER */
+(function(){
+  const loader=document.getElementById('loader'),logo=document.getElementById('ld-logo'),
+    fill=document.getElementById('ld-fill'),label=document.getElementById('ld-label');
+  let s=null,dur=1800;
+  setTimeout(()=>{if(logo)logo.classList.add('in');},120);
+  setTimeout(()=>{label.classList.add('in');},500);
+  function tick(ts){
+    if(!s)s=ts;
+    const p=Math.min((ts-s)/dur,1);
+    fill.style.width=Math.min(p*108,100)+'%';
+    if(p<1){requestAnimationFrame(tick);return;}
+    loader.classList.add('out');
+    setTimeout(()=>{
+      loader.style.display='none';
+      document.body.classList.remove('locking');
+      document.getElementById('nav').classList.add('vis');
+      const obs=new IntersectionObserver(ens=>{ens.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target);}});},{threshold:.07});
+      document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+    },500);
+  }
+  requestAnimationFrame(tick);
+})();
+
+/* NAV */
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>55),{passive:true});
+
+/* MOB MENU */
+const mob=document.getElementById('mob-menu'),burger=document.getElementById('nav-burger');
+function openMob(){mob.classList.add('open');burger.classList.add('open');burger.setAttribute('aria-expanded','true');document.body.classList.add('locking');}
+function closeMob(){mob.classList.remove('open');burger.classList.remove('open');burger.setAttribute('aria-expanded','false');document.body.classList.remove('locking');}
+burger.addEventListener('click',()=>mob.classList.contains('open')?closeMob():openMob());
+document.getElementById('mob-close').addEventListener('click',closeMob);
+mob.querySelectorAll('.mob-item').forEach(l=>l.addEventListener('click',closeMob));
+
+/* CURSOR */
+if(window.matchMedia('(pointer:fine)').matches){
+  const dot=document.getElementById('c-dot'),ring=document.getElementById('c-ring');
+  let mx=0,my=0,dx=0,dy=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  document.addEventListener('mousedown',()=>ring.classList.add('press'));
+  document.addEventListener('mouseup',()=>ring.classList.remove('press'));
+  document.querySelectorAll('a,button,.svc-card').forEach(el=>{
+    el.addEventListener('mouseenter',()=>ring.classList.add('hov'));
+    el.addEventListener('mouseleave',()=>ring.classList.remove('hov'));
+  });
+  (function loop(){dx+=(mx-dx)*.42;dy+=(my-dy)*.42;rx+=(mx-rx)*.1;ry+=(my-ry)*.1;dot.style.transform=`translate3d(${dx}px,${dy}px,0) translate(-50%,-50%)`;ring.style.transform=`translate3d(${rx}px,${ry}px,0) translate(-50%,-50%)`;requestAnimationFrame(loop);})();
+}
+
+/* PAGE EXIT */
+document.querySelectorAll('.pe').forEach(link=>{
+  link.addEventListener('click',e=>{
+    e.preventDefault();const href=link.href;
+    document.body.classList.add('out');
+    setTimeout(()=>{window.location.href=href;},380);
+  });
+});
+</script>
+</body>
+</html>
