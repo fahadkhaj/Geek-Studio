@@ -127,14 +127,27 @@
     @keyframes blink{0%,100%{opacity:.15}50%{opacity:1}}
 
     /* Cursor */
-    @media(pointer:fine){body{cursor:none;}}
-    #c-dot,#c-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);will-change:transform;}
-    #c-dot{width:6px;height:6px;border-radius:50%;background:var(--red);}
-    #c-ring{width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(214,63,56,.4);transition:width .35s var(--ease),height .35s var(--ease),border-color .3s;}
-    #c-ring.hov{width:64px;height:64px;border-color:var(--red);}
-    #c-ring.press{width:26px;height:26px;border-color:var(--red);}
-    @media(pointer:coarse){#c-dot,#c-ring{display:none!important;}body{cursor:auto!important;}}
-
+   /* Cursor accessibility */
+@media (prefers-reduced-motion: reduce), (forced-colors: active) {
+  #c-dot, #c-ring { display: none !important; }
+  body { cursor: auto !important; }
+}
+/* Normal custom cursor only if fine pointer and no reduced motion */
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  body { cursor: none; }
+  #c-dot, #c-ring {
+    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999;
+    transform: translate(-50%, -50%); will-change: transform;
+  }
+  #c-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); }
+  #c-ring {
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 1.5px solid rgba(214,63,56,.4);
+    transition: width .35s var(--ease), height .35s var(--ease), border-color .3s;
+  }
+  #c-ring.hov { width: 64px; height: 64px; border-color: var(--red); }
+  #c-ring.press { width: 26px; height: 26px; border-color: var(--red); }
+}
     /* Theme toggle */
     .th-btn{
       display:flex;align-items:center;justify-content:center;
@@ -216,6 +229,9 @@
     .mq-item{font-family:var(--f-serif);font-size:1.05rem;font-style:italic;color:var(--mq-text);display:flex;align-items:center;gap:2.8rem;flex-shrink:0;transition:color .3s;}
     .mq-item:hover{color:var(--red);}
     .mq-dot{width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0;animation:pulse-dot 1.8s ease infinite;}
+    .mq {
+  margin-top: 72px; /* match nav height */
+}
     @keyframes pulse-dot{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.8);opacity:1}}
     @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
@@ -526,6 +542,16 @@ document.querySelectorAll('.pe').forEach(link=>{
     e.preventDefault();const href=link.href;
     document.body.classList.add('out');
     setTimeout(()=>{window.location.href=href;},380);
+  });
+});
+// Better mobile tap handling
+document.querySelectorAll('.svc').forEach(card => {
+  card.addEventListener('click', function(e) {
+    // Close all other cards first
+    document.querySelectorAll('.svc.tapped').forEach(c => {
+      if (c !== this) c.classList.remove('tapped');
+    });
+    this.classList.toggle('tapped');
   });
 });
 </script>

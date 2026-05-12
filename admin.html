@@ -61,13 +61,27 @@
     .noise{position:fixed;inset:0;pointer-events:none;z-index:200;opacity:var(--noise-op);mix-blend-mode:var(--noise-blend);background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");transition:opacity .4s;}
 
     /* cursor */
-    @media(pointer:fine){body{cursor:none;}}
-    #c-dot,#c-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);will-change:transform;}
-    #c-dot{width:6px;height:6px;border-radius:50%;background:var(--red);}
-    #c-ring{width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(214,63,56,.4);transition:width .35s var(--ease),height .35s var(--ease),border-color .3s;}
-    #c-ring.hov{width:64px;height:64px;border-color:var(--red);}
-    #c-ring.press{width:26px;height:26px;border-color:var(--red);}
-    @media(pointer:coarse){#c-dot,#c-ring{display:none!important;}body{cursor:auto!important;}}
+    /* Cursor accessibility */
+@media (prefers-reduced-motion: reduce), (forced-colors: active) {
+  #c-dot, #c-ring { display: none !important; }
+  body { cursor: auto !important; }
+}
+/* Normal custom cursor only if fine pointer and no reduced motion */
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  body { cursor: none; }
+  #c-dot, #c-ring {
+    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999;
+    transform: translate(-50%, -50%); will-change: transform;
+  }
+  #c-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); }
+  #c-ring {
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 1.5px solid rgba(214,63,56,.4);
+    transition: width .35s var(--ease), height .35s var(--ease), border-color .3s;
+  }
+  #c-ring.hov { width: 64px; height: 64px; border-color: var(--red); }
+  #c-ring.press { width: 26px; height: 26px; border-color: var(--red); }
+}
 
     /* AUTH */
     #auth-screen{

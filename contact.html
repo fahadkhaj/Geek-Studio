@@ -110,13 +110,27 @@
     @keyframes blink{0%,100%{opacity:.15}50%{opacity:1}}
 
     /* Cursor */
-    @media(pointer:fine){body{cursor:none;}}
-    #c-dot,#c-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);will-change:transform;}
-    #c-dot{width:6px;height:6px;border-radius:50%;background:var(--red);}
-    #c-ring{width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(214,63,56,.4);transition:width .35s var(--ease),height .35s var(--ease),border-color .3s;}
-    #c-ring.hov{width:64px;height:64px;border-color:var(--red);}
-    #c-ring.press{width:26px;height:26px;border-color:var(--red);}
-    @media(pointer:coarse){#c-dot,#c-ring{display:none!important;}body{cursor:auto!important;}}
+    /* Cursor accessibility */
+@media (prefers-reduced-motion: reduce), (forced-colors: active) {
+  #c-dot, #c-ring { display: none !important; }
+  body { cursor: auto !important; }
+}
+/* Normal custom cursor only if fine pointer and no reduced motion */
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  body { cursor: none; }
+  #c-dot, #c-ring {
+    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999;
+    transform: translate(-50%, -50%); will-change: transform;
+  }
+  #c-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); }
+  #c-ring {
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 1.5px solid rgba(214,63,56,.4);
+    transition: width .35s var(--ease), height .35s var(--ease), border-color .3s;
+  }
+  #c-ring.hov { width: 64px; height: 64px; border-color: var(--red); }
+  #c-ring.press { width: 26px; height: 26px; border-color: var(--red); }
+}
 
     /* Theme toggle */
     .th-btn{
@@ -460,7 +474,13 @@ window.addEventListener('scroll',()=>document.getElementById('nav').classList.to
 /* MOB MENU */
 const mob=document.getElementById('mob-menu'),burger=document.getElementById('nav-burger');
 function openMob(){mob.classList.add('open');burger.classList.add('open');burger.setAttribute('aria-expanded','true');document.body.classList.add('locking');}
-function closeMob(){mob.classList.remove('open');burger.classList.remove('open');burger.setAttribute('aria-expanded','false');document.body.classList.remove('locking');}
+function closeMob() {
+  mob.classList.remove('open');
+  burger.classList.remove('open');
+  burger.setAttribute('aria-expanded','false');
+  document.body.classList.remove('locking');
+  burger.focus();  // <-- add this line
+}
 burger.addEventListener('click',()=>mob.classList.contains('open')?closeMob():openMob());
 document.getElementById('mob-close').addEventListener('click',closeMob);
 mob.querySelectorAll('.mob-item').forEach(l=>l.addEventListener('click',closeMob));
