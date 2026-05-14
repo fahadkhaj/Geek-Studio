@@ -333,6 +333,20 @@ button {cursor:pointer;background:none;border:none;color:inherit;font-family:inh
     radial-gradient(ellipse 80% 70% at 65% 40%, rgba(200,64,26,.08) 0%, transparent 60%);
   z-index:1;
 }
+
+/* Light theme video overlay fix */
+[data-theme="light"] .hero-overlay {
+  background:
+    linear-gradient(to top, var(--bg) 0%, transparent 45%),
+    linear-gradient(175deg, rgba(245,242,238,.85) 0%, rgba(245,242,238,.4) 60%),
+    radial-gradient(ellipse 80% 70% at 65% 40%, rgba(200,64,26,.06) 0%, transparent 60%);
+}
+
+/* Reduce video opacity in light mode for better blending */
+[data-theme="light"] #hero-video.loaded {
+  opacity: 0.35;
+}
+
 .hero-inner {
   position:relative;z-index:2;
   padding:0 3rem 5rem;
