@@ -3,22 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio | Geek Studio — Arusha, Tanzania</title>
-  <meta name="description" content="Explore Geek Studio's portfolio — brand identities, cinematic videography, web platforms, and marketing campaigns built for Tanzania's boldest businesses.">
-  <link id="dynamic-favicon" rel="icon" type="image/png" href="logo-light.png">
+  <title>Portfolio | Branding, Video & Web Projects – Geek Studio Tanzania</title>
+  <meta name="description" content="Explore Geek Studio's work: logo designs, cinematic videos, websites & social campaigns for Tanzanian businesses. Based in Arusha, serving East Africa.">
+  <meta name="keywords" content="branding portfolio Tanzania, video production Tanzania samples, web design portfolio Arusha, social media campaign examples Tanzania, Geek Studio work">
+  <link rel="canonical" href="https://geekstudio.co.tz/portfolio.html">
+  <link rel="alternate" hreflang="en-TZ" href="https://geekstudio.co.tz/portfolio.html">
 
-  <script>
-    (function(){
-      var t=localStorage.getItem('gs-theme')||(window.matchMedia('(prefers-color-scheme:light)').matches?'light':'dark');
-      document.documentElement.setAttribute('data-theme',t);
-    })();
+  <meta property="og:title" content="Portfolio | Geek Studio Tanzania">
+  <meta property="og:description" content="Brand identities, drone videos, websites — see our latest work.">
+  <meta property="og:image" content="https://geekstudio.co.tz/og-image.jpg">
+  <meta property="og:url" content="https://geekstudio.co.tz/portfolio.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Portfolio | Geek Studio">
+  <meta name="twitter:description" content="Our work speaks for itself.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "name": "Portfolio",
+        "description": "A collection of creative and digital projects by Geek Studio Tanzania.",
+        "url": "https://geekstudio.co.tz/portfolio.html",
+        "mainEntity": { "@type": "ItemList", "itemListElement": [] }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type":"ListItem","position":1,"name":"Home","item":"https://geekstudio.co.tz/"},
+          {"@type":"ListItem","position":2,"name":"Portfolio","item":"https://geekstudio.co.tz/portfolio.html"}
+        ]
+      }
+    ]
+  }
   </script>
+
+  <link id="dynamic-favicon" rel="icon" type="image/png" href="logo-light.png">
+  <script>(function(){var t=localStorage.getItem('gs-theme')||(window.matchMedia('(prefers-color-scheme:light)').matches?'light':'dark');document.documentElement.setAttribute('data-theme',t);})();</script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://epdzpxglpggdcdpekpxk.supabase.co">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Syne+Mono&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
 
   <style>
     :root {
@@ -61,7 +90,15 @@
     button{cursor:pointer;background:none;border:none;color:inherit;font-family:inherit;}
     ::selection{background:var(--red);color:#fff;}
 
-    /* Noise */
+    .skip-link {
+      position: fixed; top: -60px; left: 1rem;
+      background: var(--red); color: #fff; padding: .6rem 1.4rem;
+      font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em;
+      text-transform: uppercase; z-index: 10000; border-radius: 0 0 3px 3px;
+      text-decoration: none; transition: top .2s;
+    }
+    .skip-link:focus { top: 0; }
+
     .noise{
       position:fixed;inset:0;pointer-events:none;z-index:200;
       opacity:var(--noise-op);mix-blend-mode:var(--noise-blend);
@@ -76,8 +113,13 @@
       transition:opacity .65s var(--ease);
     }
     #loader.out{opacity:0;pointer-events:none;}
-    .ld-logo{width:clamp(90px,12vw,130px);opacity:0;transform:scale(.88);transition:all 1s var(--ease);}
-    .ld-logo.in{opacity:1;transform:scale(1);}
+    .ld-logo-text{
+      font-family:var(--f-serif);font-size:clamp(2.2rem,5vw,4rem);
+      font-style:italic;font-weight:300;color:var(--text);
+      opacity:0;transform:scale(.88);transition:all 1s var(--ease);
+      letter-spacing:-.01em;line-height:1;
+    }
+    .ld-logo-text.in{opacity:1;transform:scale(1);}
     .ld-bar{width:160px;height:1px;background:var(--border-m);margin-top:2.8rem;overflow:hidden;border-radius:1px;}
     .ld-fill{height:100%;width:0;background:var(--red);}
     .ld-label{
@@ -88,29 +130,27 @@
     @keyframes blink{0%,100%{opacity:.15}50%{opacity:1}}
 
     /* Cursor */
-    /* Cursor accessibility */
-@media (prefers-reduced-motion: reduce), (forced-colors: active) {
-  #c-dot, #c-ring { display: none !important; }
-  body { cursor: auto !important; }
-}
-/* Normal custom cursor only if fine pointer and no reduced motion */
-@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  body { cursor: none; }
-  #c-dot, #c-ring {
-    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999;
-    transform: translate(-50%, -50%); will-change: transform;
-  }
-  #c-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); }
-  #c-ring {
-    width: 38px; height: 38px; border-radius: 50%;
-    border: 1.5px solid rgba(214,63,56,.4);
-    transition: width .35s var(--ease), height .35s var(--ease), border-color .3s;
-  }
-  #c-ring.hov { width: 64px; height: 64px; border-color: var(--red); }
-  #c-ring.press { width: 26px; height: 26px; border-color: var(--red); }
-}
+    @media (prefers-reduced-motion: reduce), (forced-colors: active) {
+      #c-dot, #c-ring { display: none !important; }
+      body { cursor: auto !important; }
+    }
+    @media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+      body { cursor: none; }
+      #c-dot,#c-ring{
+        position:fixed;top:0;left:0;pointer-events:none;z-index:99999;
+        transform:translate(-50%,-50%);will-change:transform;
+      }
+      #c-dot{width:6px;height:6px;border-radius:50%;background:var(--red);}
+      #c-ring{
+        width:38px;height:38px;border-radius:50%;
+        border:1.5px solid rgba(214,63,56,.4);
+        transition:width .35s var(--ease),height .35s var(--ease),border-color .3s;
+      }
+      #c-ring.hov{width:64px;height:64px;border-color:var(--red);}
+      #c-ring.press{width:26px;height:26px;border-color:var(--red);}
+    }
 
-    /* Theme toggle (circle) */
+    /* Theme toggle */
     .th-btn{
       display:flex;align-items:center;justify-content:center;
       width:38px;height:38px;border-radius:50%;
@@ -136,8 +176,12 @@
       background:var(--nav-bg);backdrop-filter:blur(24px);
       border-bottom:1px solid var(--border);box-shadow:var(--shadow);
     }
-    .nav-logo img{height:32px;width:auto;transition:opacity .3s;}
-    .nav-logo:hover img{opacity:.7;}
+    .nav-logo{
+      font-family:var(--f-serif);font-style:italic;font-size:1.4rem;
+      font-weight:300;color:var(--text);letter-spacing:-.02em;
+      transition:opacity .3s;
+    }
+    .nav-logo:hover{opacity:.7;}
     .nav-links{display:flex;gap:2.6rem;list-style:none;}
     .nav-links a{
       font-family:var(--f-mono);font-size:11px;text-transform:uppercase;
@@ -180,7 +224,8 @@
     #mob-close{position:absolute;top:1.2rem;right:1.4rem;font-size:1.5rem;color:var(--text3);padding:.4rem;transition:color .2s;}
     #mob-close:hover{color:var(--red);}
     .mob-item{
-      font-family:var(--f-serif);font-size:clamp(2.5rem,10vw,4.5rem);font-weight:300;font-style:italic;
+      font-family:var(--f-serif);font-size:clamp(2.5rem,10vw,4.5rem);
+      font-weight:300;font-style:italic;
       color:var(--text);padding:.15rem 0;
       opacity:0;transform:translateX(-24px);
       transition:color .2s,transform .4s var(--ease),opacity .4s var(--ease);
@@ -305,7 +350,11 @@
       display:flex;align-items:center;justify-content:space-between;
       flex-wrap:wrap;gap:1.2rem;background:var(--bg);
     }
-    .f-logo img{height:26px;width:auto;}
+    .f-logo{
+      font-family:var(--f-serif);font-style:italic;font-size:1.2rem;
+      font-weight:300;color:var(--text);letter-spacing:-.01em;
+    }
+    .f-logo:hover{opacity:.7;}
     .f-copy{font-family:var(--f-mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);}
     .f-links{display:flex;gap:1.6rem;}
     .f-links a{
@@ -317,6 +366,34 @@
 
     /* Page transition */
     body.out{opacity:0;transform:translateY(10px);transition:opacity .38s var(--ease-in),transform .38s var(--ease-in);}
+
+    /* WhatsApp Float */
+    .wa-float {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      z-index: 1500;
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: #25D366;
+      box-shadow: 0 4px 18px rgba(0,0,0,.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .wa-float:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 22px rgba(0,0,0,.5);
+    }
+    .wa-float svg {
+      width: 32px;
+      height: 32px;
+      fill: #fff;
+    }
+    @media(max-width:768px){
+      .wa-float { bottom: 1.4rem; right: 1.4rem; width: 52px; height: 52px; }
+      .wa-float svg { width: 28px; height: 28px; }
+    }
   </style>
 </head>
 <body class="locking">
@@ -327,20 +404,18 @@
 
 <!-- LOADER -->
 <div id="loader">
-  <img src="logo-light.png" alt="Geek Studio" class="ld-logo" id="ld-logo" onerror="this.style.display='none'">
+  <div class="ld-logo-text" id="ld-logo-text">Geek Studio</div>
   <div class="ld-bar"><div class="ld-fill" id="ld-fill"></div></div>
   <span class="ld-label" id="ld-label">Loading Portfolio</span>
 </div>
 
 <!-- NAV -->
 <header id="nav" role="banner">
-  <a href="index.html" class="nav-logo pe">
-    <img id="nav-logo-img" src="nav-logo-light.png" alt="Geek Studio Tanzania" onerror="this.outerHTML='<span style=\'font-family:serif;font-style:italic;font-size:1.2rem;\'>Geek Studio</span>'">
-  </a>
+  <a href="index.html" class="nav-logo pe">Geek Studio</a>
   <nav aria-label="Main navigation">
     <ul class="nav-links">
       <li><a href="index.html#about" class="pe">About</a></li>
-      <li><a href="index.html#services" class="pe">Services</a></li>
+      <li><a href="services.html" class="pe">Services</a></li>
       <li><a href="portfolio.html" class="active" style="color:var(--red);">Portfolio</a></li>
       <li><a href="founder.html" class="pe">Founder</a></li>
       <li><a href="contact.html" class="pe">Contact</a></li>
@@ -362,7 +437,7 @@
 <div id="mob-menu" role="dialog" aria-modal="true" aria-label="Navigation">
   <button id="mob-close">✕</button>
   <a href="index.html#about" class="mob-item pe">About</a>
-  <a href="index.html#services" class="mob-item pe">Services</a>
+  <a href="services.html" class="mob-item pe">Services</a>
   <a href="index.html#work" class="mob-item pe">Work</a>
   <a href="founder.html" class="mob-item pe">Founder</a>
   <a href="portfolio.html" class="mob-item">Portfolio</a>
@@ -393,31 +468,7 @@
 <!-- PROJECTS GRID -->
 <div class="port-section">
   <div class="port-grid" id="port-grid">
-    <!-- Fallback items (will be replaced by Supabase if connected) -->
-    <div class="pi r" data-cat="brand">
-      <div class="pi-ph"><span>Brand</span></div>
-      <div class="pi-ov"><div class="pi-cat">Brand Identity</div><div class="pi-title">Saadka Logistics</div></div>
-    </div>
-    <div class="pi r d1" data-cat="video">
-      <div class="pi-ph"><span>Film</span></div>
-      <div class="pi-ov"><div class="pi-cat">Cinematic Videography</div><div class="pi-title">Aerial Campaign</div></div>
-    </div>
-    <div class="pi r d2" data-cat="web">
-      <div class="pi-ph"><span>Web</span></div>
-      <div class="pi-ov"><div class="pi-cat">Web Development</div><div class="pi-title">E-Commerce Platform</div></div>
-    </div>
-    <div class="pi r" data-cat="social">
-      <div class="pi-ph"><span>Social</span></div>
-      <div class="pi-ov"><div class="pi-cat">Social Media</div><div class="pi-title">Tourism Campaign</div></div>
-    </div>
-    <div class="pi r d1" data-cat="brand">
-      <div class="pi-ph"><span>Logo</span></div>
-      <div class="pi-ov"><div class="pi-cat">Brand Identity</div><div class="pi-title">Restaurant Group</div></div>
-    </div>
-    <div class="pi r d2" data-cat="print">
-      <div class="pi-ph"><span>Print</span></div>
-      <div class="pi-ov"><div class="pi-cat">Print &amp; Packaging</div><div class="pi-title">Product Packaging</div></div>
-    </div>
+    <!-- Dynamically populated by Supabase -->
   </div>
 </div>
 
@@ -437,9 +488,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <a href="index.html" class="f-logo pe">
-    <img id="footer-logo-img" src="nav-logo-light.png" alt="Geek Studio Tanzania" onerror="this.outerHTML='<span style=\'font-family:serif;font-style:italic;font-size:1.1rem;\'>Geek Studio</span>'">
-  </a>
+  <a href="index.html" class="f-logo pe">Geek Studio</a>
   <span class="f-copy">© 2026 Geek Studio Tanzania · Arusha</span>
   <nav class="f-links" aria-label="Footer navigation">
     <a href="founder.html" class="pe">Founder</a>
@@ -449,6 +498,13 @@
     <a href="https://www.instagram.com/geekstudio.tz/" target="_blank" rel="noopener">Instagram</a>
   </nav>
 </footer>
+
+<!-- WhatsApp floating button -->
+<a href="https://wa.me/255684200859?text=Hello%20Geek%20Studio%2C%20I%27d%20like%20to%20discuss%20a%20project" class="wa-float" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 0C7.164 0 0 7.164 0 16c0 2.836.74 5.5 2.023 7.82L0 32l8.5-2.156A15.94 15.94 0 0016 32c8.836 0 16-7.164 16-16S24.836 0 16 0zm0 29.333c-2.434 0-4.73-.635-6.72-1.738l-.463-.258-4.822 1.223 1.266-4.586-.323-.493A13.33 13.33 0 0113.333 2.667 13.334 13.334 0 0129.333 16c0 7.364-5.97 13.333-13.333 13.333zM23.25 19.3c-.36-.12-2.13-1.04-2.46-1.16-.33-.12-.57-.18-.81.18s-.93 1.16-1.14 1.4c-.21.24-.42.27-.78.09-.36-.18-1.53-.56-2.91-1.77-1.08-.95-1.81-2.13-2.02-2.49-.21-.36-.02-.56.16-.74.16-.16.36-.42.54-.63.18-.21.24-.36.36-.6.12-.24.06-.45-.03-.63-.09-.18-.81-1.95-1.11-2.67-.29-.7-.58-.61-.81-.62-.21-.01-.45-.02-.69-.02s-.63.09-.96.45c-.33.36-1.26 1.23-1.26 3s1.29 3.48 1.47 3.72c.18.24 2.52 3.87 6.12 5.43.85.37 1.52.59 2.04.76.86.27 1.64.23 2.25.14.69-.1 2.13-.87 2.43-1.71.3-.84.3-1.56.21-1.71-.09-.15-.33-.24-.69-.42z"/>
+  </svg>
+</a>
 
 <!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -461,12 +517,6 @@ const html = document.documentElement;
 function applyTheme(theme, save) {
   html.setAttribute('data-theme', theme);
   if (save) localStorage.setItem('gs-theme', theme);
-  const nl = document.getElementById('nav-logo-img');
-  const fl = document.getElementById('footer-logo-img');
-  const ll = document.getElementById('ld-logo');
-  if (nl) nl.src = theme === 'dark' ? 'nav-logo-light.png' : 'nav-logo-dark.png';
-  if (fl) fl.src = theme === 'dark' ? 'nav-logo-light.png' : 'nav-logo-dark.png';
-  if (ll) ll.src = theme === 'dark' ? 'logo-light.png' : 'logo-dark.png';
   document.getElementById('dynamic-favicon').href = theme === 'dark' ? 'logo-light.png' : 'logo-dark.png';
 }
 const savedTheme = localStorage.getItem('gs-theme') || (window.matchMedia('(prefers-color-scheme:light)').matches ? 'light' : 'dark');
@@ -479,9 +529,9 @@ document.getElementById('theme-btn').addEventListener('click', () => {
 /* LOADER */
 (function(){
   const loader = document.getElementById('loader'),
-        logo   = document.getElementById('ld-logo'),
-        fill   = document.getElementById('ld-fill'),
-        label  = document.getElementById('ld-label');
+        logo = document.getElementById('ld-logo-text'),
+        fill = document.getElementById('ld-fill'),
+        label = document.getElementById('ld-label');
   let s = null, dur = 2000;
   setTimeout(() => { if(logo) logo.classList.add('in'); }, 120);
   setTimeout(() => { label.classList.add('in'); }, 600);
@@ -511,13 +561,13 @@ window.addEventListener('scroll', () => document.getElementById('nav').classList
 const mob = document.getElementById('mob-menu'),
       burger = document.getElementById('nav-burger');
 function openMob() { mob.classList.add('open'); burger.classList.add('open'); burger.setAttribute('aria-expanded','true'); document.body.classList.add('locking'); }
-function closeMob() { mob.classList.remove('open'); burger.classList.remove('open'); burger.setAttribute('aria-expanded','false'); document.body.classList.remove('locking'); }
+function closeMob() { mob.classList.remove('open'); burger.classList.remove('open'); burger.setAttribute('aria-expanded','false'); document.body.classList.remove('locking'); burger.focus(); }
 burger.addEventListener('click', () => mob.classList.contains('open') ? closeMob() : openMob());
 document.getElementById('mob-close').addEventListener('click', closeMob);
 mob.querySelectorAll('.mob-item').forEach(l => l.addEventListener('click', closeMob));
 
 /* CURSOR */
-if (window.matchMedia('(pointer:fine)').matches) {
+if (window.matchMedia('(pointer:fine)').matches && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
   const dot = document.getElementById('c-dot'),
         ring = document.getElementById('c-ring');
   let mx = 0, my = 0, dx = 0, dy = 0, rx = 0, ry = 0;
@@ -570,15 +620,15 @@ document.querySelectorAll('.fbtn').forEach(btn => {
     grid.innerHTML = '';
     data.forEach((item, i) => {
       const d = i % 3;
-      let filterClass = 'all';
-      const catText = (item.category || '').toLowerCase();
-      if (catText.includes('brand') || catText.includes('logo')) filterClass = 'brand';
-      else if (catText.includes('video') || catText.includes('film')) filterClass = 'video';
-      else if (catText.includes('web') || catText.includes('digital') || catText.includes('e-commerce')) filterClass = 'web';
-      else if (catText.includes('social')) filterClass = 'social';
-      else if (catText.includes('print') || catText.includes('pack')) filterClass = 'print';
+      let filterCat = 'all';
+      const catLower = (item.category || '').toLowerCase();
+      if (catLower.includes('brand') || catLower.includes('logo')) filterCat = 'brand';
+      else if (catLower.includes('video') || catLower.includes('film')) filterCat = 'video';
+      else if (catLower.includes('web') || catLower.includes('digital') || catLower.includes('e-commerce')) filterCat = 'web';
+      else if (catLower.includes('social')) filterCat = 'social';
+      else if (catLower.includes('print') || catLower.includes('pack')) filterCat = 'print';
 
-      grid.innerHTML += `<div class="pi r${d ? ' d' + d : ''}" data-cat="${filterClass}">
+      grid.innerHTML += `<div class="pi r${d ? ' d' + d : ''}" data-cat="${filterCat}">
         <img class="pi-img" src="${item.media_url}" alt="${item.title}" loading="lazy"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="pi-ph" style="display:none;"><span>${item.category}</span></div>
