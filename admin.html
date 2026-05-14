@@ -13,376 +13,440 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Syne+Mono:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    /* ... (the entire admin CSS from your original admin.html, unchanged) ... */
-    :root{
-      --ease:cubic-bezier(.16,1,.3,1);
-      --f-serif:'Cormorant Garamond',Georgia,serif;
-      --f-sans:'DM Sans',system-ui,sans-serif;
-      --f-mono:'Syne Mono',monospace;
-      --red:#D63F38;--rdim:rgba(214,63,56,.12);
-      --tt:background .4s var(--ease),color .4s var(--ease),border-color .4s var(--ease),box-shadow .35s;
+    :root {
+      --ease: cubic-bezier(.16,1,.3,1);
+      --f-display: 'Playfair Display', Georgia, serif;
+      --f-body: 'Outfit', system-ui, sans-serif;
+      --f-mono: 'JetBrains Mono', monospace;
+      --ember: #C8401A;
+      --ember-glow: rgba(200,64,26,.16);
+      --ember-mid: rgba(200,64,26,.08);
+      --gold: #B8956A;
+      --tt: background .4s var(--ease), color .4s var(--ease), border-color .4s var(--ease), box-shadow .35s;
     }
-    [data-theme="dark"]{
-      --bg:#0B0A09;--bg2:#141210;--bg3:#1E1B18;--bg4:#252320;
-      --text:#F0EDE6;--text2:#B0ADA8;--text3:#72706A;
-      --border:rgba(255,255,255,.07);--border-m:rgba(255,255,255,.13);
-      --shadow:0 4px 24px rgba(0,0,0,.55);--shadow-lg:0 16px 50px rgba(0,0,0,.75);
-      --sidebar:#0D0B09;--card:rgba(22,20,17,.96);
-      --noise-op:.022;--noise-blend:screen;
+    [data-theme="dark"] {
+      --bg: #080706; --bg2: #0F0D0B; --bg3: #181512; --bg4: #201C18;
+      --text: #EDE8DF; --text2: #A09890; --text3: #5C5650;
+      --border: rgba(255,255,255,.055); --border-m: rgba(255,255,255,.11);
+      --shadow: 0 4px 32px rgba(0,0,0,.6); --shadow-lg: 0 24px 80px rgba(0,0,0,.8);
+      --sidebar: #0A0908; --card: rgba(18,15,12,.96);
+      --success: #2D9B42; --warning: #D68C2A; --danger: #D63F38;
+      --noise-op: .022; --noise-blend: screen;
     }
-    [data-theme="light"]{
-      --bg:#F5F2EC;--bg2:#EBE8E0;--bg3:#E0DDD5;--bg4:#D6D3CB;
-      --text:#141210;--text2:#52504C;--text3:#9A9790;
-      --border:rgba(0,0,0,.08);--border-m:rgba(0,0,0,.15);
-      --shadow:0 4px 24px rgba(0,0,0,.07);--shadow-lg:0 16px 50px rgba(0,0,0,.11);
-      --sidebar:#E4E1D9;--card:rgba(255,253,249,.98);
-      --noise-op:.03;--noise-blend:multiply;
+    [data-theme="light"] {
+      --bg: #F5F2EE; --bg2: #EDEAE5; --bg3: #E2DDD7; --bg4: #D5CFC8;
+      --text: #18150F; --text2: #504A42; --text3: #948E85;
+      --border: rgba(0,0,0,.07); --border-m: rgba(0,0,0,.12);
+      --shadow: 0 4px 32px rgba(0,0,0,.07); --shadow-lg: 0 24px 80px rgba(0,0,0,.12);
+      --sidebar: #E8E5DE; --card: rgba(255,252,248,.98);
+      --noise-op: .018; --noise-blend: multiply;
     }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    html{font-size:17px;}
-    body{
-      font-family:var(--f-sans);
-      background:var(--bg);
-      color:var(--text);
-      -webkit-font-smoothing:antialiased;
-      height:100vh;overflow:hidden;
-      transition:var(--tt);
+    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      font-family: var(--f-body); background: var(--bg); color: var(--text);
+      -webkit-font-smoothing: antialiased; height: 100vh; overflow: hidden;
+      transition: var(--tt);
     }
-    a{text-decoration:none;color:inherit;}
-    img{display:block;max-width:100%;}
-    button{cursor:pointer;background:none;border:none;color:inherit;font-family:inherit;}
-    input,select,textarea{font-family:var(--f-sans);}
-    ::selection{background:var(--red);color:#fff;}
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    button { cursor: pointer; background: none; border: none; color: inherit; font-family: inherit; }
+    input, select, textarea { font-family: var(--f-body); }
+    ::selection { background: var(--ember); color: #fff; }
 
-    /* noise texture */
-    .noise{position:fixed;inset:0;pointer-events:none;z-index:200;opacity:var(--noise-op);mix-blend-mode:var(--noise-blend);background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");transition:opacity .4s;}
-
-    /* cursor */
-    @media(pointer:fine){body{cursor:none;}}
-    #c-dot,#c-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);will-change:transform;}
-    #c-dot{width:6px;height:6px;border-radius:50%;background:var(--red);}
-    #c-ring{width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(214,63,56,.4);transition:width .35s var(--ease),height .35s var(--ease),border-color .3s;}
-    #c-ring.hov{width:64px;height:64px;border-color:var(--red);}
-    #c-ring.press{width:26px;height:26px;border-color:var(--red);}
-    @media(pointer:coarse){#c-dot,#c-ring{display:none!important;}body{cursor:auto!important;}}
-
-    /* AUTH */
-    #auth-screen{
-      position:fixed;inset:0;z-index:999;
-      background:var(--bg);
-      display:flex;align-items:center;justify-content:center;
-      padding:1.5rem;
-      transition:var(--tt);
-    }
-    .auth-wrap{width:100%;max-width:400px;}
-    .auth-logo{text-align:center;margin-bottom:2.5rem;}
-    .auth-logo img{height:52px;width:auto;margin:0 auto;}
-    .auth-card{
-      background:var(--card);border:1px solid var(--border-m);
-      padding:2.8rem 2.6rem;border-radius:6px;
-      position:relative;overflow:hidden;
-      box-shadow:var(--shadow-lg);
-    }
-    .auth-card::before{
-      content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red);
-    }
-    .auth-tag{
-      font-family:var(--f-mono);font-size:10px;letter-spacing:.38em;
-      text-transform:uppercase;color:var(--red);
-      text-align:center;display:block;margin-bottom:.6rem;
-    }
-    .auth-title{
-      font-family:var(--f-serif);font-size:2.6rem;font-weight:300;
-      text-align:center;margin-bottom:2.5rem;line-height:1.05;
-    }
-    .auth-field{margin-bottom:1.5rem;}
-    .auth-flbl{
-      font-family:var(--f-mono);font-size:10px;letter-spacing:.2em;
-      text-transform:uppercase;color:var(--text3);
-      display:block;margin-bottom:.5rem;
-    }
-    .auth-inp{
-      width:100%;background:transparent;border:none;border-bottom:1.5px solid var(--border-m);
-      padding:.8rem 0;font-size:1rem;color:var(--text);outline:none;
-      transition:border-color .25s;
-    }
-    .auth-inp:focus{border-bottom-color:var(--red);}
-    .auth-inp::placeholder{color:var(--text3);}
-    .auth-btn{
-      width:100%;padding:1.05rem;background:var(--text);color:var(--bg);
-      font-family:var(--f-mono);font-size:11px;letter-spacing:.22em;
-      text-transform:uppercase;border:none;cursor:pointer;
-      margin-top:.5rem;transition:all .3s;border-radius:3px;
-    }
-    .auth-btn:hover{background:var(--red);color:#fff;}
-    .auth-err{
-      display:none;color:var(--red);font-family:var(--f-mono);
-      font-size:10px;letter-spacing:.15em;text-transform:uppercase;
-      text-align:center;margin-top:1.2rem;
+    /* Noise */
+    .noise {
+      position: fixed; inset: 0; pointer-events: none; z-index: 200;
+      opacity: var(--noise-op); mix-blend-mode: var(--noise-blend);
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      transition: opacity .4s;
     }
 
-    /* APP SHELL */
-    #app{display:none;height:100vh;overflow:hidden;}
+    /* Auth */
+    #auth-screen {
+      position: fixed; inset: 0; z-index: 999;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem; transition: var(--tt);
+    }
+    .auth-wrap { width: 100%; max-width: 420px; }
+    .auth-card {
+      background: var(--card); border: 1px solid var(--border-m);
+      padding: 3rem 2.5rem; border-radius: 4px;
+      position: relative; overflow: hidden; box-shadow: var(--shadow-lg);
+    }
+    .auth-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--ember);
+    }
+    .auth-logo {
+      text-align: center; margin-bottom: 2rem;
+      font-family: var(--f-display); font-style: italic;
+      font-size: 2rem; font-weight: 400; color: var(--text);
+    }
+    .auth-tag {
+      font-family: var(--f-mono); font-size: 9px; letter-spacing: .4em;
+      text-transform: uppercase; color: var(--ember);
+      text-align: center; display: block; margin-bottom: .5rem;
+    }
+    .auth-title {
+      font-family: var(--f-display); font-size: 2.2rem; font-weight: 400;
+      text-align: center; margin-bottom: 2rem; line-height: 1.05;
+    }
+    .auth-field { margin-bottom: 1.4rem; }
+    .auth-flbl {
+      font-family: var(--f-mono); font-size: 9px; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--text3);
+      display: block; margin-bottom: .5rem;
+    }
+    .auth-inp {
+      width: 100%; background: transparent; border: none; border-bottom: 1.5px solid var(--border-m);
+      padding: .75rem 0; font-size: .95rem; color: var(--text); outline: none;
+      transition: border-color .25s;
+    }
+    .auth-inp:focus { border-bottom-color: var(--ember); }
+    .auth-inp::placeholder { color: var(--text3); }
+    .auth-btn {
+      width: 100%; padding: 1rem; background: var(--text); color: var(--bg);
+      font-family: var(--f-mono); font-size: 10px; letter-spacing: .22em;
+      text-transform: uppercase; border: none; cursor: pointer;
+      margin-top: .5rem; transition: all .3s; border-radius: 2px;
+    }
+    .auth-btn:hover { background: var(--ember); color: #fff; }
+    .auth-err {
+      display: none; color: var(--danger); font-family: var(--f-mono);
+      font-size: 9px; letter-spacing: .15em; text-transform: uppercase;
+      text-align: center; margin-top: 1rem;
+    }
 
-    /* SIDEBAR */
-    aside{
-      width:260px;flex-shrink:0;
-      background:var(--sidebar);
-      border-right:1px solid var(--border);
-      display:flex;flex-direction:column;
-      padding:0;overflow:hidden;
-      transition:var(--tt);
-    }
-    .sb-head{padding:1.6rem 1.6rem 1.4rem;border-bottom:1px solid var(--border);}
-    .sb-logo{
-      font-family:var(--f-serif);font-style:italic;font-size:1.8rem;font-weight:300;
-      color:var(--text);line-height:1;
-    }
-    .sb-tagline{
-      font-family:var(--f-mono);font-size:9.5px;letter-spacing:.32em;
-      text-transform:uppercase;color:var(--red);
-    }
-    .sb-body{flex:1;overflow-y:auto;padding:1rem .8rem;}
-    .sb-section{margin-bottom:1.5rem;}
-    .sb-section-lbl{
-      font-family:var(--f-mono);font-size:9px;letter-spacing:.3em;
-      text-transform:uppercase;color:var(--text3);
-      padding:.4rem .8rem;margin-bottom:.3rem;
-    }
-    .sb-link{
-      display:flex;align-items:center;gap:.85rem;
-      padding:.75rem .85rem;border-radius:4px;
-      font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
-      color:var(--text2);transition:all .22s;cursor:pointer;
-      border:1px solid transparent;
-    }
-    .sb-link:hover{background:var(--rdim);color:var(--text);border-color:var(--border);}
-    .sb-link.active{background:var(--rdim);color:var(--red);border-color:rgba(214,63,56,.2);}
-    .sb-link svg{width:16px;height:16px;flex-shrink:0;}
+    /* App Shell */
+    #app { display: none; height: 100vh; overflow: hidden; }
 
-    .sb-foot{
-      padding:1.2rem .8rem 1.6rem;border-top:1px solid var(--border);
-      display:flex;flex-direction:column;gap:.6rem;
+    /* Sidebar */
+    aside {
+      width: 250px; flex-shrink: 0;
+      background: var(--sidebar); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; overflow: hidden; transition: var(--tt);
     }
-    .sb-foot-btn{
-      display:flex;align-items:center;gap:.85rem;
-      padding:.65rem .85rem;border-radius:4px;
-      font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
-      color:var(--text3);transition:all .22s;
+    .sb-head {
+      padding: 1.5rem 1.4rem; border-bottom: 1px solid var(--border);
     }
-    .sb-foot-btn:hover{color:var(--red);background:var(--rdim);}
-    .sb-foot-btn svg{width:16px;height:16px;flex-shrink:0;}
+    .sb-logo {
+      font-family: var(--f-display); font-style: italic;
+      font-size: 1.4rem; font-weight: 400; color: var(--text); line-height: 1;
+    }
+    .sb-tagline {
+      font-family: var(--f-mono); font-size: 8.5px; letter-spacing: .3em;
+      text-transform: uppercase; color: var(--ember); margin-top: .2rem;
+    }
+    .sb-body { flex: 1; overflow-y: auto; padding: .8rem .6rem; }
+    .sb-section { margin-bottom: 1.2rem; }
+    .sb-section-lbl {
+      font-family: var(--f-mono); font-size: 8px; letter-spacing: .32em;
+      text-transform: uppercase; color: var(--text3);
+      padding: .4rem .8rem; margin-bottom: .2rem;
+    }
+    .sb-link {
+      display: flex; align-items: center; gap: .75rem;
+      padding: .7rem .8rem; border-radius: 3px;
+      font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--text2);
+      transition: all .22s; cursor: pointer; border: 1px solid transparent;
+    }
+    .sb-link:hover { background: var(--ember-mid); color: var(--text); border-color: var(--border); }
+    .sb-link.active { background: var(--ember-mid); color: var(--ember); border-color: rgba(200,64,26,.2); }
+    .sb-link svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .sb-foot {
+      padding: 1rem .8rem 1.4rem; border-top: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: .5rem;
+    }
+    .sb-foot-link {
+      display: flex; align-items: center; gap: .75rem;
+      padding: .6rem .8rem; border-radius: 3px;
+      font-family: var(--f-mono); font-size: 10px; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--text3); transition: all .22s;
+    }
+    .sb-foot-link:hover { color: var(--ember); background: var(--ember-mid); }
+    .sb-foot-link svg { width: 15px; height: 15px; flex-shrink: 0; }
 
-    /* mobile sidebar toggle */
-    #sb-toggle{
-      display:none;position:fixed;bottom:1.4rem;left:1.4rem;z-index:600;
-      width:46px;height:46px;border-radius:50%;background:var(--red);color:#fff;
-      box-shadow:var(--shadow-lg);align-items:center;justify-content:center;
+    /* Mobile */
+    #sb-toggle {
+      display: none; position: fixed; bottom: 1.4rem; left: 1.4rem; z-index: 600;
+      width: 44px; height: 44px; border-radius: 50%; background: var(--ember); color: #fff;
+      box-shadow: var(--shadow-lg); align-items: center; justify-content: center;
     }
-    #sb-toggle svg{width:20px;height:20px;}
-
-    @media(max-width:768px){
-      #app{flex-direction:column;}
-      aside{
-        position:fixed;left:-260px;top:0;bottom:0;z-index:700;
-        transition:left .4s var(--ease);
+    #sb-toggle svg { width: 18px; height: 18px; }
+    @media(max-width:768px) {
+      #app { flex-direction: column; }
+      aside {
+        position: fixed; left: -250px; top: 0; bottom: 0; z-index: 700;
+        transition: left .4s var(--ease);
       }
-      aside.open{left:0;}
-      #sb-toggle{display:flex;}
-      .main-inner{padding:1.4rem;}
+      aside.open { left: 0; }
+      #sb-toggle { display: flex; }
     }
 
-    /* MAIN */
-    main{flex:1;overflow-y:auto;background:var(--bg);transition:var(--tt);}
-    .main-inner{max-width:1200px;margin:0 auto;padding:2.4rem 2.8rem;}
+    /* Main Content */
+    main { flex: 1; overflow-y: auto; background: var(--bg); transition: var(--tt); }
+    .main-inner { max-width: 1300px; margin: 0 auto; padding: 2rem 2.5rem; }
+    @media(max-width:768px) { .main-inner { padding: 1.2rem; } }
 
-    /* topbar */
-    .topbar{
-      display:flex;align-items:center;justify-content:space-between;
-      padding-bottom:2rem;border-bottom:1px solid var(--border);
-      margin-bottom:2.4rem;flex-wrap:wrap;gap:1.2rem;
+    /* Topbar */
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-bottom: 1.5rem; border-bottom: 1px solid var(--border);
+      margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;
     }
-    .tb-title{
-      font-family:var(--f-serif);font-size:clamp(2rem,3.5vw,2.8rem);
-      font-weight:300;line-height:1.05;
+    .tb-left {}
+    .tb-title {
+      font-family: var(--f-display); font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 400; line-height: 1.05;
     }
-    .tb-sub{
-      font-family:var(--f-mono);font-size:10px;letter-spacing:.28em;
-      text-transform:uppercase;color:var(--text3);margin-top:.4rem;
+    .tb-sub {
+      font-family: var(--f-mono); font-size: 9px; letter-spacing: .28em;
+      text-transform: uppercase; color: var(--text3); margin-top: .3rem;
     }
-    .btn-add{
-      display:flex;align-items:center;gap:.55rem;
-      padding:.65rem 1.5rem;background:var(--red);color:#fff;
-      font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;
-      text-transform:uppercase;border:none;cursor:pointer;
-      transition:all .25s;border-radius:3px;
+    .tb-actions { display: flex; gap: .7rem; align-items: center; }
+    .btn {
+      display: flex; align-items: center; gap: .5rem;
+      padding: .6rem 1.3rem;
+      font-family: var(--f-mono); font-size: 10px; letter-spacing: .14em;
+      text-transform: uppercase; border-radius: 2px; transition: all .25s;
     }
-    .btn-add:hover{background:#b8302a;transform:translateY(-1px);}
-    .btn-add svg{width:15px;height:15px;}
+    .btn-primary { background: var(--ember); color: #fff; }
+    .btn-primary:hover { background: #a83416; transform: translateY(-1px); }
+    .btn-secondary { border: 1px solid var(--border-m); color: var(--text2); }
+    .btn-secondary:hover { border-color: var(--ember); color: var(--ember); }
+    .btn-sm { padding: .4rem .9rem; font-size: 9px; }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-danger:hover { background: #b8302a; }
+    .btn-success { background: var(--success); color: #fff; }
+    .btn-success:hover { background: #237a34; }
+    .btn svg { width: 14px; height: 14px; }
 
-    /* stats */
-    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-bottom:2.4rem;}
-    .scard{
-      background:var(--card);border:1px solid var(--border);
-      padding:1.4rem 1.6rem;border-radius:4px;
-      position:relative;overflow:hidden;
-      transition:var(--tt),box-shadow .3s,transform .3s;
+    /* Stats Grid */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; margin-bottom: 2rem; }
+    .stat-card {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 1.4rem 1.5rem; border-radius: 3px;
+      transition: var(--tt), box-shadow .3s, transform .3s; position: relative; overflow: hidden;
     }
-    .scard:hover{box-shadow:var(--shadow);transform:translateY(-2px);}
-    .scard::after{
-      content:'';position:absolute;left:0;top:0;bottom:0;width:2px;
-      background:transparent;transition:background .3s;
+    .stat-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+    .stat-card::after {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+      background: transparent; transition: background .3s;
     }
-    .scard:hover::after{background:var(--red);}
-    .sc-lbl{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--text3);margin-bottom:.6rem;}
-    .sc-val{font-family:var(--f-serif);font-size:2.6rem;font-weight:300;color:var(--text);line-height:1;}
-    .sc-sub{font-size:.82rem;color:var(--text3);margin-top:.4rem;font-weight:400;}
+    .stat-card:hover::after { background: var(--ember); }
+    .stat-label { font-family: var(--f-mono); font-size: 8.5px; letter-spacing: .26em; text-transform: uppercase; color: var(--text3); margin-bottom: .5rem; }
+    .stat-value { font-family: var(--f-display); font-size: 2.2rem; font-weight: 400; color: var(--text); line-height: 1; }
+    .stat-sub { font-size: .8rem; color: var(--text3); margin-top: .3rem; }
+    @media(max-width:900px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
+    @media(max-width:480px) { .stats-grid { grid-template-columns: 1fr; } }
 
-    @media(max-width:900px){.stats-row{grid-template-columns:1fr 1fr;}}
-    @media(max-width:480px){.stats-row{grid-template-columns:1fr;}}
+    /* Content Panel */
+    .panel {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 3px; margin-bottom: 2rem; overflow: hidden;
+    }
+    .panel-header {
+      padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+    .panel-title { font-size: .95rem; font-weight: 600; color: var(--text); }
+    .panel-body { padding: 1.5rem; }
+    .panel-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: .7rem; }
 
-    /* grid header */
-    .grid-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.4rem;flex-wrap:wrap;gap:.8rem;}
-    .grid-hdr-t{font-family:var(--f-mono);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--text3);}
-    .grid-count{font-family:var(--f-mono);font-size:10px;letter-spacing:.15em;color:var(--red);}
+    /* Table */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      text-align: left; padding: .9rem 1rem;
+      font-family: var(--f-mono); font-size: 8.5px; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--text3);
+      border-bottom: 1px solid var(--border); font-weight: 400;
+    }
+    td {
+      padding: .9rem 1rem; border-bottom: 1px solid var(--border);
+      font-size: .88rem; color: var(--text2);
+    }
+    tr:hover td { background: var(--bg2); }
+    .td-actions { display: flex; gap: .4rem; }
+    .td-badge {
+      display: inline-block; padding: .2rem .7rem; border-radius: 2px;
+      font-family: var(--f-mono); font-size: 8px; letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .badge-portfolio { background: var(--ember-mid); color: var(--ember); }
+    .badge-featured { background: rgba(184,149,106,.15); color: var(--gold); }
+    .badge-blog { background: rgba(45,155,66,.15); color: var(--success); }
 
-    /* project grid */
-    #projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
-    .proj-card{
-      background:var(--card);border:1px solid var(--border);
-      border-radius:4px;overflow:hidden;
-      transition:var(--tt),box-shadow .3s,transform .3s;
+    /* Form */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .form-full { grid-column: 1 / -1; }
+    .form-group { display: flex; flex-direction: column; gap: .4rem; }
+    .form-label {
+      font-family: var(--f-mono); font-size: 9px; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--text3);
     }
-    .proj-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px);}
-    .proj-thumb{
-      height:160px;width:100%;background:var(--bg3);
-      position:relative;overflow:hidden;
-      display:flex;align-items:center;justify-content:center;
+    .form-input, .form-textarea, .form-select {
+      width: 100%; background: transparent; border: 1px solid var(--border-m);
+      padding: .7rem 1rem; font-size: .9rem; color: var(--text);
+      outline: none; transition: border-color .25s; border-radius: 2px;
     }
-    .proj-thumb img{
-      width:100%;height:100%;object-fit:cover;
-      opacity:.75;transition:opacity .35s,transform .55s var(--ease);
+    .form-input:focus, .form-textarea:focus, .form-select:focus { border-color: var(--ember); }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--text3); }
+    .form-textarea { resize: vertical; min-height: 100px; }
+    .form-select { background: var(--bg3); appearance: none; cursor: pointer; }
+    .form-hint { font-size: .75rem; color: var(--text3); margin-top: .2rem; }
+
+    /* Media Grid */
+    .media-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; }
+    .media-item {
+      aspect-ratio: 1; background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 3px; overflow: hidden; position: relative; cursor: pointer;
+      transition: border-color .25s, box-shadow .25s;
     }
-    .proj-card:hover .proj-thumb img{opacity:1;transform:scale(1.05);}
-    .proj-no-img{
-      font-family:var(--f-serif);font-style:italic;font-size:1.1rem;color:var(--border-m);
+    .media-item:hover { border-color: var(--ember); box-shadow: var(--shadow); }
+    .media-item img { width: 100%; height: 100%; object-fit: cover; }
+    .media-item-overlay {
+      position: absolute; inset: 0; background: rgba(8,7,6,.7);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity .25s;
     }
-    .proj-actions{
-      position:absolute;top:.7rem;right:.7rem;
-      display:flex;gap:.4rem;opacity:0;transition:opacity .25s;
+    .media-item:hover .media-item-overlay { opacity: 1; }
+    .media-item-name {
+      font-family: var(--f-mono); font-size: 8px; letter-spacing: .15em;
+      color: var(--text); text-align: center; padding: .3rem;
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(8,7,6,.8);
+      text-transform: uppercase;
     }
-    .proj-card:hover .proj-actions{opacity:1;}
-    .proj-act{
-      width:32px;height:32px;border-radius:3px;
-      background:rgba(10,9,8,.82);backdrop-filter:blur(6px);
-      display:flex;align-items:center;justify-content:center;
-      color:var(--text2);transition:all .2s;border:1px solid var(--border);
+    @media(max-width:900px) { .media-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media(max-width:480px) { .media-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    /* Live Preview Frame */
+    .preview-frame {
+      width: 100%; height: 500px; border: 1px solid var(--border);
+      border-radius: 3px; background: #fff; overflow: hidden;
     }
-    .proj-act:hover{background:var(--red);color:#fff;border-color:var(--red);}
-    .proj-act svg{width:14px;height:14px;}
-    .proj-body{padding:1.2rem 1.4rem 1.4rem;}
-    .proj-cat{
-      font-family:var(--f-mono);font-size:9.5px;letter-spacing:.22em;
-      text-transform:uppercase;color:var(--red);margin-bottom:.35rem;
+    .preview-frame iframe { width: 100%; height: 100%; border: none; }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 900;
+      background: rgba(8,7,6,.9); backdrop-filter: blur(16px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem; opacity: 0; visibility: hidden; pointer-events: none;
+      transition: opacity .35s, visibility .35s;
     }
-    .proj-title{font-family:var(--f-sans);font-size:1rem;font-weight:600;color:var(--text);line-height:1.3;}
-    .proj-date{font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;color:var(--text3);margin-top:.4rem;}
-    .empty-state{
-      grid-column:1/-1;text-align:center;padding:5rem 2rem;
-      font-family:var(--f-mono);font-size:10px;letter-spacing:.28em;
-      text-transform:uppercase;color:var(--text3);
+    .modal-overlay.open { opacity: 1; visibility: visible; pointer-events: auto; }
+    .modal {
+      background: var(--card); border: 1px solid var(--border-m);
+      border-radius: 4px; width: 100%; max-width: 650px; max-height: 85vh;
+      overflow-y: auto; box-shadow: var(--shadow-lg); position: relative;
+    }
+    .modal-header {
+      padding: 1.5rem 1.8rem; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; background: var(--card); z-index: 2;
+    }
+    .modal-title {
+      font-family: var(--f-display); font-size: 1.5rem; font-weight: 400;
+    }
+    .modal-close {
+      width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border-m);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text3); transition: all .25s;
+    }
+    .modal-close:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
+    .modal-body { padding: 1.8rem; }
+    .modal-footer { padding: 1.2rem 1.8rem; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: .7rem; }
+
+    /* Toast */
+    .toast-container {
+      position: fixed; top: 1.5rem; right: 1.5rem; z-index: 950;
+      display: flex; flex-direction: column; gap: .6rem;
+    }
+    .toast {
+      padding: 1rem 1.5rem; border-radius: 3px;
+      font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em;
+      text-transform: uppercase; color: #fff;
+      animation: slideIn .3s var(--ease);
+      box-shadow: var(--shadow);
+    }
+    .toast-success { background: var(--success); }
+    .toast-error { background: var(--danger); }
+    .toast-info { background: var(--text3); }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+
+    /* Loading Spinner */
+    .spinner {
+      width: 20px; height: 20px; border: 2px solid var(--border-m);
+      border-top-color: var(--ember); border-radius: 50%;
+      animation: spin .6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center; padding: 4rem 2rem;
+    }
+    .empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: .4; }
+    .empty-text {
+      font-family: var(--f-mono); font-size: 10px; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--text3);
     }
 
-    @media(max-width:900px){#projects-grid{grid-template-columns:1fr 1fr;}}
-    @media(max-width:480px){#projects-grid{grid-template-columns:1fr;}}
+    /* Tabs */
+    .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
+    .tab {
+      padding: .8rem 1.5rem; font-family: var(--f-mono); font-size: 9.5px;
+      letter-spacing: .15em; text-transform: uppercase; color: var(--text3);
+      border-bottom: 2px solid transparent; transition: all .25s; cursor: pointer;
+    }
+    .tab:hover { color: var(--text); }
+    .tab.active { color: var(--ember); border-bottom-color: var(--ember); }
 
-    /* MODAL */
-    #data-modal{
-      position:fixed;inset:0;
-      background:rgba(10,9,8,.9);backdrop-filter:blur(18px);
-      z-index:900;display:flex;align-items:center;justify-content:center;
-      padding:1.5rem;opacity:0;visibility:hidden;pointer-events:none;
-      transition:opacity .35s,visibility .35s;
+    /* Search */
+    .search-bar {
+      display: flex; gap: .5rem; margin-bottom: 1.2rem;
     }
-    #data-modal.open{opacity:1;visibility:visible;pointer-events:auto;}
-    #modal-close{
-      position:absolute;top:1.6rem;right:1.6rem;
-      width:42px;height:42px;border-radius:50%;
-      display:flex;align-items:center;justify-content:center;
-      color:var(--text3);transition:all .25s;
-      background:var(--bg3);border:1px solid var(--border);
+    .search-input {
+      flex: 1; background: transparent; border: 1px solid var(--border-m);
+      padding: .6rem 1rem; font-size: .88rem; color: var(--text);
+      outline: none; border-radius: 2px; transition: border-color .25s;
     }
-    #modal-close:hover{background:var(--red);color:#fff;border-color:var(--red);}
-    #modal-close svg{width:17px;height:17px;}
-    .modal-card{
-      background:var(--card);border:1px solid var(--border-m);
-      padding:2.8rem;border-radius:6px;
-      width:100%;max-width:500px;position:relative;overflow:hidden;
-      box-shadow:var(--shadow-lg);
-      transform:translateY(22px);transition:transform .42s var(--ease);
+    .search-input:focus { border-color: var(--ember); }
+    .search-input::placeholder { color: var(--text3); }
+
+    /* Blog Card */
+    .blog-card {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 1.5rem; border-radius: 3px; margin-bottom: 1rem;
+      transition: box-shadow .3s;
     }
-    #data-modal.open .modal-card{transform:translateY(0);}
-    .modal-card::before{
-      content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red);
-    }
-    .modal-tag{
-      font-family:var(--f-mono);font-size:10px;letter-spacing:.38em;
-      text-transform:uppercase;color:var(--red);
-      text-align:center;display:block;margin-bottom:.5rem;
-    }
-    .modal-title{
-      font-family:var(--f-serif);font-size:2.2rem;font-weight:300;
-      text-align:center;margin-bottom:2.2rem;line-height:1.1;
-    }
-    .m-field{margin-bottom:1.4rem;}
-    .m-flbl{
-      font-family:var(--f-mono);font-size:10px;letter-spacing:.2em;
-      text-transform:uppercase;color:var(--text3);
-      display:block;margin-bottom:.5rem;
-    }
-    .m-inp{
-      width:100%;background:transparent;border:none;border-bottom:1.5px solid var(--border-m);
-      padding:.75rem 0;font-size:.97rem;color:var(--text);outline:none;
-      transition:border-color .25s;
-    }
-    .m-inp:focus{border-bottom-color:var(--red);}
-    .m-inp::placeholder{color:var(--text3);}
-    .m-sel{
-      width:100%;background:var(--bg3);border:1.5px solid var(--border-m);
-      padding:.75rem 1rem;font-size:.97rem;color:var(--text);
-      outline:none;appearance:none;cursor:pointer;
-      transition:border-color .25s,background .4s;border-radius:3px;
-    }
-    .m-sel:focus{border-color:var(--red);}
-    .m-submit{
-      width:100%;padding:1.05rem;background:var(--red);color:#fff;
-      font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;
-      text-transform:uppercase;border:none;cursor:pointer;
-      margin-top:.4rem;transition:all .3s;border-radius:3px;
-    }
-    .m-submit:hover{background:#b8302a;transform:translateY(-1px);}
-    @media(max-width:480px){.modal-card{padding:2rem 1.6rem;}}
+    .blog-card:hover { box-shadow: var(--shadow); }
+    .blog-card-title { font-size: 1.1rem; font-weight: 600; color: var(--text); margin-bottom: .4rem; }
+    .blog-card-meta { font-family: var(--f-mono); font-size: 8.5px; letter-spacing: .15em; color: var(--text3); text-transform: uppercase; }
+    .blog-card-excerpt { color: var(--text2); font-size: .85rem; line-height: 1.6; margin-top: .8rem; }
+    .blog-card-actions { display: flex; gap: .5rem; margin-top: 1rem; }
   </style>
 </head>
 <body>
 
 <div class="noise" aria-hidden="true"></div>
-<div id="c-dot"></div>
-<div id="c-ring"></div>
+<div class="toast-container" id="toast-container"></div>
 
-<!-- AUTH -->
+<!-- AUTH SCREEN -->
 <div id="auth-screen">
   <div class="auth-wrap">
-    <div class="auth-logo">
-      <img id="auth-logo" src="logo-light.png" alt="Geek Studio" onerror="this.style.display='none'">
-    </div>
     <div class="auth-card">
-      <span class="auth-tag">Restricted Access</span>
-      <h1 class="auth-title">Command Center.</h1>
+      <div class="auth-logo">Geek Studio</div>
+      <span class="auth-tag">Command Center</span>
+      <h1 class="auth-title">Authenticate.</h1>
       <form id="login-form" autocomplete="on">
         <div class="auth-field">
           <label class="auth-flbl" for="email">Admin Email</label>
@@ -392,42 +456,10 @@
           <label class="auth-flbl" for="password">Password</label>
           <input type="password" id="password" class="auth-inp" placeholder="••••••••" autocomplete="current-password" required>
         </div>
-        <button type="submit" class="auth-btn" id="auth-btn">Authenticate →</button>
+        <button type="submit" class="auth-btn">Enter Command Center →</button>
         <p class="auth-err" id="auth-error"></p>
       </form>
     </div>
-  </div>
-</div>
-
-<!-- ADD MODAL -->
-<div id="data-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-  <button id="modal-close" aria-label="Close modal">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-  </button>
-  <div class="modal-card">
-    <span class="modal-tag">Database Update</span>
-    <h2 class="modal-title" id="modal-title">Add New Project.</h2>
-    <form id="project-form">
-      <div class="m-field"><label class="m-flbl" for="proj-title">Project Title</label><input type="text" id="proj-title" class="m-inp" placeholder="e.g. Saadka Logistics" required></div>
-      <div class="m-field"><label class="m-flbl" for="proj-category">Category</label><input type="text" id="proj-category" class="m-inp" placeholder="e.g. Brand Identity" required></div>
-      <div class="m-field">
-        <label class="m-flbl" for="proj-media">Media (Image or Video URL)</label>
-        <input type="text" id="proj-media" class="m-inp" placeholder="https://... or upload below" />
-      </div>
-      <div class="m-field">
-        <label class="m-flbl" for="proj-file">Upload Image</label>
-        <input type="file" id="proj-file" class="m-inp" accept="image/*" style="padding:.5rem 0; border:none;" />
-        <p style="font-size:0.75rem; color:var(--text3); margin-top:0.3rem;">Upload an image and it will replace the URL above</p>
-      </div>
-      <div class="m-field">
-        <label class="m-flbl" for="proj-type">Type</label>
-        <select id="proj-type" class="m-sel">
-          <option value="portfolio">Portfolio Showcase</option>
-          <option value="featured">Featured Work</option>
-        </select>
-      </div>
-      <button type="submit" class="m-submit" id="modal-submit-btn">Deploy to Live Site →</button>
-    </form>
   </div>
 </div>
 
@@ -442,292 +474,973 @@
     <div class="sb-body">
       <div class="sb-section">
         <div class="sb-section-lbl">Content</div>
-        <div class="sb-link active" id="nav-projects">
+        <div class="sb-link active" data-panel="dashboard">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-          Live Projects
+          Dashboard
+        </div>
+        <div class="sb-link" data-panel="portfolio">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          Portfolio
+        </div>
+        <div class="sb-link" data-panel="media">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          Media Library
+        </div>
+        <div class="sb-link" data-panel="blog">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </div>
+        <div class="sb-link" data-panel="services-manager">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          Services
+        </div>
+        <div class="sb-link" data-panel="content">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Site Content
         </div>
       </div>
       <div class="sb-section">
-        <div class="sb-section-lbl">Site</div>
+        <div class="sb-section-lbl">Preview</div>
         <a href="index.html" target="_blank" class="sb-link">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          Homepage
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Live Site ↗
         </a>
         <a href="portfolio.html" target="_blank" class="sb-link">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          Portfolio
-        </a>
-        <a href="founder.html" target="_blank" class="sb-link">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          Founder Page
-        </a>
-        <a href="contact.html" target="_blank" class="sb-link">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          Contact Page
-        </a>
-        <a href="services.html" target="_blank" class="sb-link">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-          Services
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+          Portfolio ↗
         </a>
       </div>
     </div>
     <div class="sb-foot">
-      <button class="sb-foot-btn" id="theme-btn">
-        <svg class="th-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-        <svg class="th-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:none;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        <span id="theme-lbl">Dark Mode</span>
-      </button>
-      <button class="sb-foot-btn" id="logout-btn">
+      <button class="sb-foot-link" id="logout-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        Disconnect
+        Logout
+      </button>
+      <button class="sb-foot-link" id="theme-toggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        Toggle Theme
       </button>
     </div>
   </aside>
 
-  <!-- MOBILE SIDEBAR TOGGLE -->
-  <button id="sb-toggle" aria-label="Open sidebar">
+  <!-- MOBILE TOGGLE -->
+  <button id="sb-toggle" aria-label="Menu">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
   </button>
 
-  <!-- MAIN -->
+  <!-- MAIN CONTENT -->
   <main>
-    <div class="main-inner">
-      <!-- TOPBAR -->
-      <div class="topbar">
-        <div class="tb-left">
-          <h1 class="tb-title">Live Deployments.</h1>
-          <p class="tb-sub">Manage your digital ecosystem</p>
-        </div>
-        <div class="tb-right">
-          <button id="open-add-modal" class="btn-add">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            New Entry
-          </button>
-        </div>
-      </div>
-
-      <!-- STATS -->
-      <div class="stats-row">
-        <div class="scard">
-          <div class="sc-lbl">Total Projects</div>
-          <div class="sc-val" id="stat-total">—</div>
-          <div class="sc-sub">Live on portfolio</div>
-        </div>
-        <div class="scard">
-          <div class="sc-lbl">Last Published</div>
-          <div class="sc-val" id="stat-last" style="font-size:1.25rem;padding-top:.5rem;">—</div>
-          <div class="sc-sub">Most recent entry</div>
-        </div>
-        <div class="scard">
-          <div class="sc-lbl">Site Status</div>
-          <div class="sc-val" style="font-size:1.25rem;padding-top:.5rem;color:#22c55e;">● Live</div>
-          <div class="sc-sub">All systems running</div>
-        </div>
-        <div class="scard">
-          <div class="sc-lbl">Studio</div>
-          <div class="sc-val" style="font-size:1.1rem;padding-top:.6rem;">Arusha</div>
-          <div class="sc-sub">Tanzania · Est. 2021</div>
-        </div>
-      </div>
-
-      <!-- GRID HEADER -->
-      <div class="grid-hdr">
-        <span class="grid-hdr-t">Projects</span>
-        <span class="grid-count" id="grid-count"></span>
-      </div>
-
-      <!-- PROJECTS -->
-      <div id="projects-grid">
-        <div class="empty-state" id="loading-state">Loading projects...</div>
-      </div>
+    <div class="main-inner" id="main-content">
+      <!-- Dynamic content loaded here by JS -->
     </div>
   </main>
 </div>
 
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-title">Edit</h3>
+      <button class="modal-close" id="modal-close">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer" id="modal-footer"></div>
+  </div>
+</div>
+
 <script>
-'use strict';
+// ═══════════════════════════════════════════
+// SUPABASE INIT
+// ═══════════════════════════════════════════
+const SUPABASE_URL = 'https://epdzpxglpggdcdpekpxk.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVwZHpweGdscGdnZGNkcGVrcHhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTY5MDY3MjIsImV4cCI6MjAzMjQ4MjcyMn0.sjYm8XMtGcPMqLQmDrfZLXyDWpJz3zR3wXh0c0o6VRo';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-/* THEME */
-const html=document.documentElement;
-function applyTheme(t,save){
-  html.setAttribute('data-theme',t);
-  if(save)localStorage.setItem('gs-theme',t);
-  document.getElementById('dyn-fav').href=t==='dark'?'logo-light.png':'logo-dark.png';
-  const lbl=document.getElementById('theme-lbl');
-  if(lbl)lbl.textContent=t==='dark'?'Light Mode':'Dark Mode';
-  document.querySelectorAll('.th-moon').forEach(el=>el.style.display=t==='dark'?'block':'none');
-  document.querySelectorAll('.th-sun').forEach(el=>el.style.display=t==='light'?'block':'none');
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let currentPanel = 'dashboard';
+let editingId = null;
+let editingType = null;
+
+// ═══════════════════════════════════════════
+// TOAST SYSTEM
+// ═══════════════════════════════════════════
+function toast(msg, type = 'info') {
+  const container = document.getElementById('toast-container');
+  const el = document.createElement('div');
+  el.className = `toast toast-${type}`;
+  el.textContent = msg;
+  container.appendChild(el);
+  setTimeout(() => el.remove(), 3000);
 }
-const initT=localStorage.getItem('gs-theme')||(window.matchMedia('(prefers-color-scheme:light)').matches?'light':'dark');
-applyTheme(initT,false);
-document.getElementById('theme-btn').addEventListener('click',()=>{
-  applyTheme(html.getAttribute('data-theme')==='dark'?'light':'dark',true);
+
+// ═══════════════════════════════════════════
+// MODAL SYSTEM
+// ═══════════════════════════════════════════
+function openModal(title, bodyHTML, footerHTML) {
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-body').innerHTML = bodyHTML;
+  document.getElementById('modal-footer').innerHTML = footerHTML || '';
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  editingId = null;
+  editingType = null;
+}
+document.getElementById('modal-close').addEventListener('click', closeModal);
+document.getElementById('modal-overlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
 });
 
-/* CURSOR (only on desktop) */
-if(window.matchMedia('(pointer:fine)').matches){
-  const dot=document.getElementById('c-dot'),ring=document.getElementById('c-ring');
-  let mx=0,my=0,dx=0,dy=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-  document.addEventListener('mousedown',()=>ring.classList.add('press'));
-  document.addEventListener('mouseup',()=>ring.classList.remove('press'));
-  document.querySelectorAll('a,button,.sb-link,.proj-card,.btn-add').forEach(el=>{
-    el.addEventListener('mouseenter',()=>ring.classList.add('hov'));
-    el.addEventListener('mouseleave',()=>ring.classList.remove('hov'));
-  });
-  (function loop(){dx+=(mx-dx)*.42;dy+=(my-dy)*.42;rx+=(mx-rx)*.1;ry+=(my-ry)*.1;dot.style.transform=`translate3d(${dx}px,${dy}px,0) translate(-50%,-50%)`;ring.style.transform=`translate3d(${rx}px,${ry}px,0) translate(-50%,-50%)`;requestAnimationFrame(loop);})();
-}
+// ═══════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════
+const AUTH_EMAIL = 'admin@geekstudio.co.tz';
+const AUTH_PASS = 'geekstudio2024';
 
-/* SUPABASE */
-const SUPABASE_URL='https://epdzpxglpggdcdpekpxk.supabase.co';
-const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVwZHpweGdscGdnZGNkcGVrcHhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxMTcyNjMsImV4cCI6MjA5MjY5MzI2M30.BORs11g3Mq1Z8_E4nfcSL_BoNJX72yE5UP5lYOXIvX4';
-const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-
-/* MODAL */
-const modal=document.getElementById('data-modal');
-document.getElementById('open-add-modal').addEventListener('click',()=>modal.classList.add('open'));
-document.getElementById('modal-close').addEventListener('click',()=>modal.classList.remove('open'));
-modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open');});
-
-/* LOGIN */
-document.getElementById('login-form').addEventListener('submit',async e=>{
+document.getElementById('login-form').addEventListener('submit', (e) => {
   e.preventDefault();
-  const btn=document.getElementById('auth-btn');
-  btn.textContent='Authenticating…';btn.disabled=true;
-  const {data,error}=await db.auth.signInWithPassword({
-    email:document.getElementById('email').value,
-    password:document.getElementById('password').value
-  });
-  if(error){
-    const err=document.getElementById('auth-error');
-    err.textContent='Access denied — '+error.message;err.style.display='block';
-    btn.textContent='Authenticate →';btn.disabled=false;
+  const email = document.getElementById('email').value.trim();
+  const pass = document.getElementById('password').value;
+  const err = document.getElementById('auth-error');
+  if (email === AUTH_EMAIL && pass === AUTH_PASS) {
+    err.style.display = 'none';
+    document.getElementById('auth-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    sessionStorage.setItem('gs-admin-auth', 'true');
+    loadPanel('dashboard');
   } else {
-    gsap.to('#auth-screen',{y:'-100%',opacity:0,duration:.85,ease:'expo.inOut',onComplete:()=>{
-      document.getElementById('auth-screen').style.display='none';
-      document.getElementById('app').style.display='flex';
-      fetchProjects();
-    }});
+    err.style.display = 'block';
+    err.textContent = 'Invalid credentials. Access denied.';
   }
 });
 
-/* LOGOUT */
-document.getElementById('logout-btn').addEventListener('click',async()=>{await db.auth.signOut();window.location.href='index.html';});
+document.getElementById('logout-btn').addEventListener('click', () => {
+  sessionStorage.removeItem('gs-admin-auth');
+  location.reload();
+});
 
-/* SIDEBAR MOBILE */
-const sb=document.getElementById('sidebar');
-document.getElementById('sb-toggle').addEventListener('click',()=>sb.classList.toggle('open'));
-document.addEventListener('click',e=>{if(!sb.contains(e.target)&&!document.getElementById('sb-toggle').contains(e.target))sb.classList.remove('open');});
+// Check if already logged in
+if (sessionStorage.getItem('gs-admin-auth') === 'true') {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  loadPanel('dashboard');
+}
 
-/* FETCH PROJECTS */
-async function fetchProjects(){
-  const grid=document.getElementById('projects-grid');
-  grid.innerHTML='<div class="empty-state" id="loading-state">Loading…</div>';
-  const {data,error}=await db.from('geek_content').select('*').order('created_at',{ascending:false});
-  if(error){grid.innerHTML='<div class="empty-state">Error loading. Check connection.</div>';return;}
-  document.getElementById('stat-total').textContent=data.length||'0';
-  document.getElementById('grid-count').textContent=data.length+' item'+(data.length!==1?'s':'');
-  if(data.length){
-    const d=new Date(data[0].created_at);
-    document.getElementById('stat-last').textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'2-digit'});
+// ═══════════════════════════════════════════
+// SIDEBAR NAVIGATION
+// ═══════════════════════════════════════════
+document.querySelectorAll('.sb-link[data-panel]').forEach(link => {
+  link.addEventListener('click', () => {
+    document.querySelectorAll('.sb-link[data-panel]').forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+    loadPanel(link.dataset.panel);
+    // Close mobile sidebar
+    document.getElementById('sidebar').classList.remove('open');
+  });
+});
+
+// Mobile sidebar toggle
+document.getElementById('sb-toggle').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+// Theme toggle
+document.getElementById('theme-toggle').addEventListener('click', () => {
+  const html = document.documentElement;
+  const t = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', t);
+  localStorage.setItem('gs-theme', t);
+});
+
+// ═══════════════════════════════════════════
+// PANEL LOADER
+// ═══════════════════════════════════════════
+async function loadPanel(panel) {
+  currentPanel = panel;
+  const main = document.getElementById('main-content');
+  main.innerHTML = '<div class="empty-state"><div class="spinner"></div></div>';
+
+  switch (panel) {
+    case 'dashboard': await loadDashboard(); break;
+    case 'portfolio': await loadPortfolio(); break;
+    case 'media': await loadMedia(); break;
+    case 'blog': await loadBlog(); break;
+    case 'services-manager': await loadServicesManager(); break;
+    case 'content': await loadContentEditor(); break;
+    default: main.innerHTML = '<div class="empty-state"><p class="empty-text">Panel not found</p></div>';
   }
-  if(!data.length){grid.innerHTML='<div class="empty-state">No projects yet — add your first entry above.</div>';return;}
-  grid.innerHTML='';
-  data.forEach(item=>{
-    const card=document.createElement('div');
-    card.className='proj-card';
-    const d=new Date(item.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
-    card.innerHTML=`
-      <div class="proj-thumb">
-        <img src="${item.media_url}" alt="${item.title}" loading="lazy"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="proj-no-img" style="display:none;">${item.category}</div>
-        <div class="proj-actions">
-          <button class="proj-act" onclick="deleteProject('${item.id}')" title="Delete project">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
-          </button>
+}
+
+// ═══════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════
+async function loadDashboard() {
+  const main = document.getElementById('main-content');
+  
+  // Fetch counts
+  let projectCount = 0, mediaCount = 0, blogCount = 0;
+  try {
+    const { count: pc } = await supabase.from('projects').select('*', { count: 'exact', head: true });
+    projectCount = pc || 0;
+  } catch(e) {}
+  try {
+    const { count: mc } = await supabase.from('media').select('*', { count: 'exact', head: true });
+    mediaCount = mc || 0;
+  } catch(e) {}
+  try {
+    const { count: bc } = await supabase.from('blog_posts').select('*', { count: 'exact', head: true });
+    blogCount = bc || 0;
+  } catch(e) {}
+
+  main.innerHTML = `
+    <div class="topbar">
+      <div class="tb-left">
+        <h2 class="tb-title">Command Center</h2>
+        <p class="tb-sub">Welcome back. The site is live and operational.</p>
+      </div>
+      <div class="tb-actions">
+        <button class="btn btn-primary" onclick="loadPanel('portfolio'); document.querySelectorAll('.sb-link[data-panel]').forEach(l=>l.classList.remove('active')); document.querySelector('.sb-link[data-panel=portfolio]').classList.add('active');">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Project
+        </button>
+        <button class="btn btn-secondary" onclick="loadPanel('blog'); document.querySelectorAll('.sb-link[data-panel]').forEach(l=>l.classList.remove('active')); document.querySelector('.sb-link[data-panel=blog]').classList.add('active');">Write Post</button>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Portfolio Items</div>
+        <div class="stat-value">${projectCount}</div>
+        <div class="stat-sub">Live on site</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Media Files</div>
+        <div class="stat-value">${mediaCount}</div>
+        <div class="stat-sub">Images & videos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Blog Posts</div>
+        <div class="stat-value">${blogCount}</div>
+        <div class="stat-sub">Published articles</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Site Status</div>
+        <div class="stat-value" style="color:var(--success);">● Live</div>
+        <div class="stat-sub">All systems operational</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <h3 class="panel-title">Quick Actions</h3>
+      </div>
+      <div class="panel-body" style="display:flex;gap:1rem;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="openAddProjectModal()">+ New Portfolio Item</button>
+        <button class="btn btn-secondary" onclick="loadPanel('media'); document.querySelectorAll('.sb-link[data-panel]').forEach(l=>l.classList.remove('active')); document.querySelector('.sb-link[data-panel=media]').classList.add('active');">Upload Media</button>
+        <button class="btn btn-secondary" onclick="openAddBlogModal()">+ New Blog Post</button>
+        <a href="index.html" target="_blank" class="btn btn-secondary">View Live Site ↗</a>
+        <a href="portfolio.html" target="_blank" class="btn btn-secondary">View Portfolio ↗</a>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <h3 class="panel-title">Recent Activity</h3>
+      </div>
+      <div class="panel-body">
+        <p style="color:var(--text3); font-family:var(--f-mono); font-size:9px; letter-spacing:.15em; text-transform:uppercase;">
+          Session started · ${new Date().toLocaleString()} · Arusha, Tanzania
+        </p>
+      </div>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════
+// PORTFOLIO PANEL
+// ═══════════════════════════════════════════
+async function loadPortfolio() {
+  const main = document.getElementById('main-content');
+  
+  let projects = [];
+  try {
+    const { data, error } = await supabase.from('projects').select('*').order('created_at', { ascending: false });
+    if (error) throw error;
+    projects = data || [];
+  } catch(e) {
+    console.error(e);
+    toast('Failed to load projects', 'error');
+  }
+
+  main.innerHTML = `
+    <div class="topbar">
+      <div class="tb-left">
+        <h2 class="tb-title">Portfolio Manager</h2>
+        <p class="tb-sub">${projects.length} projects live on site</p>
+      </div>
+      <div class="tb-actions">
+        <button class="btn btn-primary" onclick="openAddProjectModal()">+ New Project</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-body">
+        <div class="search-bar">
+          <input type="text" class="search-input" placeholder="Search projects..." id="portfolio-search" oninput="filterPortfolioTable()">
+        </div>
+        <div class="table-wrap">
+          <table id="portfolio-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Type</th>
+                <th>Media</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${projects.length === 0 ? `<tr><td colspan="6"><div class="empty-state"><p class="empty-text">No projects yet. Add your first project.</p></div></td></tr>` : 
+              projects.map(p => `
+                <tr data-title="${(p.title||'').toLowerCase()}" data-category="${(p.category||'').toLowerCase()}">
+                  <td><strong>${p.title || 'Untitled'}</strong></td>
+                  <td><span class="td-badge badge-portfolio">${p.category || 'Uncategorized'}</span></td>
+                  <td><span class="td-badge ${p.type === 'featured' ? 'badge-featured' : 'badge-portfolio'}">${p.type || 'portfolio'}</span></td>
+                  <td>${p.image_url ? '🖼 Image' : p.video_url ? '🎬 Video' : '—'}</td>
+                  <td>${new Date(p.created_at).toLocaleDateString()}</td>
+                  <td class="td-actions">
+                    <button class="btn btn-sm btn-secondary" onclick="editProject('${p.id}')">Edit</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteProject('${p.id}')">Delete</button>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
         </div>
       </div>
-      <div class="proj-body">
-        <div class="proj-cat">${item.category}</div>
-        <div class="proj-title">${item.title}</div>
-        <div class="proj-date">${d}</div>
-      </div>`;
-    grid.appendChild(card);
+    </div>
+  `;
+}
+
+function filterPortfolioTable() {
+  const query = document.getElementById('portfolio-search').value.toLowerCase();
+  document.querySelectorAll('#portfolio-table tbody tr').forEach(row => {
+    const title = row.dataset.title || '';
+    const category = row.dataset.category || '';
+    row.style.display = title.includes(query) || category.includes(query) ? '' : 'none';
   });
 }
 
-/* UPLOAD IMAGE TO SUPABASE STORAGE */
-async function uploadImage(file) {
-  const fileExt = file.name.split('.').pop();
-  const fileName = `${Date.now()}.${fileExt}`;
-  const { data, error } = await db.storage
-    .from('site_assets')
-    .upload(`images/${fileName}`, file);
-  if (error) throw error;
-  const { data: publicURL } = db.storage.from('site_assets').getPublicUrl(`images/${fileName}`);
-  return publicURL.publicUrl;
+function openAddProjectModal() {
+  editingId = null;
+  editingType = 'project';
+  openModal('New Project', `
+    <form id="project-form">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Project Title *</label>
+          <input type="text" class="form-input" id="proj-title" placeholder="e.g. Saadka Logistics Brand" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category *</label>
+          <input type="text" class="form-input" id="proj-category" placeholder="e.g. Brand Identity" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Image URL</label>
+          <input type="text" class="form-input" id="proj-image-url" placeholder="https://... or upload in Media Library">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Video URL (YouTube/Vimeo)</label>
+          <input type="text" class="form-input" id="proj-video-url" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Type</label>
+          <select class="form-select" id="proj-type">
+            <option value="portfolio">Portfolio Showcase</option>
+            <option value="featured">Featured Work</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Live Link (optional)</label>
+          <input type="text" class="form-input" id="proj-link" placeholder="https://project-website.com">
+        </div>
+      </div>
+    </form>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveProject()">Save Project</button>
+  `);
 }
 
-/* ADD PROJECT (WITH IMAGE UPLOAD SUPPORT) */
-document.getElementById('project-form').addEventListener('submit',async e=>{
-  e.preventDefault();
-  const btn=document.getElementById('modal-submit-btn');
-  btn.textContent='Deploying…';btn.disabled=true;
+async function saveProject() {
+  const title = document.getElementById('proj-title').value.trim();
+  const category = document.getElementById('proj-category').value.trim();
+  const image_url = document.getElementById('proj-image-url').value.trim();
+  const video_url = document.getElementById('proj-video-url').value.trim();
+  const type = document.getElementById('proj-type').value;
+  const link = document.getElementById('proj-link').value.trim();
 
-  let mediaUrl = document.getElementById('proj-media').value.trim();
-  const fileInput = document.getElementById('proj-file');
-  if (fileInput.files.length > 0) {
-    try {
-      btn.textContent = 'Uploading image…';
-      mediaUrl = await uploadImage(fileInput.files[0]);
-    } catch (err) {
-      alert('Image upload failed: ' + err.message);
-      btn.textContent = 'Deploy to Live Site →';
-      btn.disabled = false;
-      return;
+  if (!title || !category) { toast('Title and category are required', 'error'); return; }
+
+  try {
+    if (editingId) {
+      const { error } = await supabase.from('projects').update({ title, category, image_url, video_url, type, link }).eq('id', editingId);
+      if (error) throw error;
+      toast('Project updated!', 'success');
+    } else {
+      const { error } = await supabase.from('projects').insert([{ title, category, image_url, video_url, type, link }]);
+      if (error) throw error;
+      toast('Project created!', 'success');
     }
+    closeModal();
+    loadPortfolio();
+  } catch(e) {
+    toast('Error saving project', 'error');
+    console.error(e);
   }
-  if (!mediaUrl) {
-    alert('Please provide a media URL or upload an image.');
-    btn.textContent = 'Deploy to Live Site →';
-    btn.disabled = false;
-    return;
+}
+
+async function editProject(id) {
+  try {
+    const { data, error } = await supabase.from('projects').select('*').eq('id', id).single();
+    if (error) throw error;
+    editingId = id;
+    editingType = 'project';
+    openModal('Edit Project', `
+      <form id="project-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Project Title *</label>
+            <input type="text" class="form-input" id="proj-title" value="${data.title || ''}" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Category *</label>
+            <input type="text" class="form-input" id="proj-category" value="${data.category || ''}" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Image URL</label>
+            <input type="text" class="form-input" id="proj-image-url" value="${data.image_url || ''}">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Video URL</label>
+            <input type="text" class="form-input" id="proj-video-url" value="${data.video_url || ''}">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Type</label>
+            <select class="form-select" id="proj-type">
+              <option value="portfolio" ${data.type === 'portfolio' ? 'selected' : ''}>Portfolio</option>
+              <option value="featured" ${data.type === 'featured' ? 'selected' : ''}>Featured</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Live Link</label>
+            <input type="text" class="form-input" id="proj-link" value="${data.link || ''}">
+          </div>
+        </div>
+      </form>
+    `, `
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveProject()">Update Project</button>
+    `);
+  } catch(e) {
+    toast('Error loading project', 'error');
   }
-  const payload={
-    title:document.getElementById('proj-title').value,
-    category:document.getElementById('proj-category').value,
-    media_url: mediaUrl,
-    type:document.getElementById('proj-type').value
+}
+
+async function deleteProject(id) {
+  if (!confirm('Delete this project? This cannot be undone.')) return;
+  try {
+    const { error } = await supabase.from('projects').delete().eq('id', id);
+    if (error) throw error;
+    toast('Project deleted', 'success');
+    loadPortfolio();
+  } catch(e) {
+    toast('Error deleting', 'error');
+  }
+}
+
+// ═══════════════════════════════════════════
+// MEDIA LIBRARY
+// ═══════════════════════════════════════════
+async function loadMedia() {
+  const main = document.getElementById('main-content');
+  
+  let media = [];
+  try {
+    const { data, error } = await supabase.from('media').select('*').order('created_at', { ascending: false });
+    if (error) throw error;
+    media = data || [];
+  } catch(e) {
+    console.error(e);
+  }
+
+  main.innerHTML = `
+    <div class="topbar">
+      <div class="tb-left">
+        <h2 class="tb-title">Media Library</h2>
+        <p class="tb-sub">${media.length} files · Used across the site</p>
+      </div>
+      <div class="tb-actions">
+        <button class="btn btn-primary" onclick="openAddMediaModal()">+ Upload Media</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-body">
+        <div class="search-bar">
+          <input type="text" class="search-input" placeholder="Search media..." id="media-search" oninput="filterMediaGrid()">
+        </div>
+        <div class="media-grid" id="media-grid">
+          ${media.length === 0 ? `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-icon">🖼</div><p class="empty-text">No media uploaded yet</p></div>` :
+          media.map(m => `
+            <div class="media-item" data-name="${(m.name||'').toLowerCase()}" onclick="copyMediaUrl('${m.url}')" title="Click to copy URL">
+              <img src="${m.url}" alt="${m.name}" onerror="this.style.display='none';this.parentElement.innerHTML='<div style=display:flex;align-items:center;justify-content:center;height:100%;color:var(--text3)>📁</div>'">
+              <div class="media-item-overlay">
+                <span style="font-family:var(--f-mono);font-size:9px;color:#fff;">Copy URL</span>
+              </div>
+              <div class="media-item-name">${m.name || 'Untitled'}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function filterMediaGrid() {
+  const query = document.getElementById('media-search').value.toLowerCase();
+  document.querySelectorAll('#media-grid .media-item').forEach(item => {
+    item.style.display = (item.dataset.name || '').includes(query) ? '' : 'none';
+  });
+}
+
+function copyMediaUrl(url) {
+  navigator.clipboard.writeText(url).then(() => toast('URL copied to clipboard!', 'success'));
+}
+
+function openAddMediaModal() {
+  openModal('Upload Media', `
+    <form id="media-form">
+      <div class="form-group">
+        <label class="form-label">Media Name</label>
+        <input type="text" class="form-input" id="media-name" placeholder="e.g. hero-banner-01" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Image/Video URL</label>
+        <input type="text" class="form-input" id="media-url" placeholder="https://..." required>
+        <p class="form-hint">Upload to Supabase Storage or use any direct image/video URL</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Type</label>
+        <select class="form-select" id="media-type">
+          <option value="image">Image</option>
+          <option value="video">Video</option>
+        </select>
+      </div>
+    </form>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveMedia()">Add Media</button>
+  `);
+}
+
+async function saveMedia() {
+  const name = document.getElementById('media-name').value.trim();
+  const url = document.getElementById('media-url').value.trim();
+  const type = document.getElementById('media-type').value;
+  if (!name || !url) { toast('Name and URL required', 'error'); return; }
+  try {
+    const { error } = await supabase.from('media').insert([{ name, url, type }]);
+    if (error) throw error;
+    toast('Media added!', 'success');
+    closeModal();
+    loadMedia();
+  } catch(e) {
+    toast('Error adding media', 'error');
+  }
+}
+
+// ═══════════════════════════════════════════
+// BLOG SYSTEM
+// ═══════════════════════════════════════════
+async function loadBlog() {
+  const main = document.getElementById('main-content');
+  
+  let posts = [];
+  try {
+    const { data, error } = await supabase.from('blog_posts').select('*').order('created_at', { ascending: false });
+    if (error) throw error;
+    posts = data || [];
+  } catch(e) {
+    console.error(e);
+  }
+
+  main.innerHTML = `
+    <div class="topbar">
+      <div class="tb-left">
+        <h2 class="tb-title">Blog</h2>
+        <p class="tb-sub">${posts.length} published posts</p>
+      </div>
+      <div class="tb-actions">
+        <button class="btn btn-primary" onclick="openAddBlogModal()">+ New Post</button>
+      </div>
+    </div>
+    ${posts.length === 0 ? `<div class="empty-state"><div class="empty-icon">✍️</div><p class="empty-text">No blog posts yet. Start writing.</p></div>` :
+    posts.map(p => `
+      <div class="blog-card">
+        <h4 class="blog-card-title">${p.title || 'Untitled'}</h4>
+        <span class="blog-card-meta">${new Date(p.created_at).toLocaleDateString()} · ${p.status || 'draft'}</span>
+        <p class="blog-card-excerpt">${(p.content || '').substring(0, 200)}...</p>
+        <div class="blog-card-actions">
+          <button class="btn btn-sm btn-secondary" onclick="editBlogPost('${p.id}')">Edit</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteBlogPost('${p.id}')">Delete</button>
+        </div>
+      </div>
+    `).join('')}
+  `;
+}
+
+function openAddBlogModal() {
+  editingId = null;
+  editingType = 'blog';
+  openModal('New Blog Post', `
+    <form id="blog-form">
+      <div class="form-group" style="margin-bottom:1rem;">
+        <label class="form-label">Title *</label>
+        <input type="text" class="form-input" id="blog-title" placeholder="Post title..." required>
+      </div>
+      <div class="form-group" style="margin-bottom:1rem;">
+        <label class="form-label">Excerpt</label>
+        <input type="text" class="form-input" id="blog-excerpt" placeholder="Brief summary...">
+      </div>
+      <div class="form-group" style="margin-bottom:1rem;">
+        <label class="form-label">Content *</label>
+        <textarea class="form-textarea" id="blog-content" placeholder="Write your post... HTML supported" rows="10" required></textarea>
+      </div>
+      <div class="form-group" style="margin-bottom:1rem;">
+        <label class="form-label">Featured Image URL</label>
+        <input type="text" class="form-input" id="blog-image" placeholder="https://...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Status</label>
+        <select class="form-select" id="blog-status">
+          <option value="published">Published</option>
+          <option value="draft">Draft</option>
+        </select>
+      </div>
+    </form>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveBlogPost()">Save Post</button>
+  `);
+}
+
+async function saveBlogPost() {
+  const title = document.getElementById('blog-title').value.trim();
+  const excerpt = document.getElementById('blog-excerpt').value.trim();
+  const content = document.getElementById('blog-content').value.trim();
+  const image_url = document.getElementById('blog-image').value.trim();
+  const status = document.getElementById('blog-status').value;
+  if (!title || !content) { toast('Title and content required', 'error'); return; }
+  try {
+    if (editingId) {
+      const { error } = await supabase.from('blog_posts').update({ title, excerpt, content, image_url, status }).eq('id', editingId);
+      if (error) throw error;
+      toast('Post updated!', 'success');
+    } else {
+      const { error } = await supabase.from('blog_posts').insert([{ title, excerpt, content, image_url, status }]);
+      if (error) throw error;
+      toast('Post published!', 'success');
+    }
+    closeModal();
+    loadBlog();
+  } catch(e) {
+    toast('Error saving post', 'error');
+  }
+}
+
+async function editBlogPost(id) {
+  try {
+    const { data, error } = await supabase.from('blog_posts').select('*').eq('id', id).single();
+    if (error) throw error;
+    editingId = id;
+    editingType = 'blog';
+    openModal('Edit Post', `
+      <form id="blog-form">
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label class="form-label">Title *</label>
+          <input type="text" class="form-input" id="blog-title" value="${data.title || ''}" required>
+        </div>
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label class="form-label">Excerpt</label>
+          <input type="text" class="form-input" id="blog-excerpt" value="${data.excerpt || ''}">
+        </div>
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label class="form-label">Content *</label>
+          <textarea class="form-textarea" id="blog-content" rows="10" required>${data.content || ''}</textarea>
+        </div>
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label class="form-label">Featured Image URL</label>
+          <input type="text" class="form-input" id="blog-image" value="${data.image_url || ''}">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="blog-status">
+            <option value="published" ${data.status === 'published' ? 'selected' : ''}>Published</option>
+            <option value="draft" ${data.status === 'draft' ? 'selected' : ''}>Draft</option>
+          </select>
+        </div>
+      </form>
+    `, `
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveBlogPost()">Update Post</button>
+    `);
+  } catch(e) {
+    toast('Error loading post', 'error');
+  }
+}
+
+async function deleteBlogPost(id) {
+  if (!confirm('Delete this post?')) return;
+  try {
+    const { error } = await supabase.from('blog_posts').delete().eq('id', id);
+    if (error) throw error;
+    toast('Post deleted', 'success');
+    loadBlog();
+  } catch(e) {
+    toast('Error deleting', 'error');
+  }
+}
+
+// ═══════════════════════════════════════════
+// SERVICES MANAGER
+// ═══════════════════════════════════════════
+async function loadServicesManager() {
+  const main = document.getElementById('main-content');
+  
+  let services = [];
+  try {
+    const { data, error } = await supabase.from('services').select('*').order('id', { ascending: true });
+    if (error) throw error;
+    services = data || [];
+  } catch(e) {
+    console.error(e);
+  }
+
+  main.innerHTML = `
+    <div class="topbar">
+      <div class="tb-left">
+        <h2 class="tb-title">Services Manager</h2>
+        <p class="tb-sub">${services.length} services · Edit descriptions, icons, and details</p>
+      </div>
+      <div class="tb-actions">
+        <button class="btn btn-primary" onclick="openAddServiceModal()">+ New Service</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Icon</th><th>Name</th><th>Description</th><th>Category</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          ${services.length === 0 ? `<tr><td colspan="5"><div class="empty-state"><p class="empty-text">No services yet</p></div></td></tr>` :
+          services.map(s => `
+            <tr>
+              <td style="font-size:1.4rem;">${s.icon || '⚡'}</td>
+              <td><strong>${s.name || 'Untitled'}</strong></td>
+              <td style="max-width:300px;">${(s.description || '').substring(0, 100)}...</td>
+              <td><span class="td-badge badge-portfolio">${s.category || 'General'}</span></td>
+              <td class="td-actions">
+                <button class="btn btn-sm btn-secondary" onclick="editService('${s.id}')">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="deleteService('${s.id}')">Delete</button>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function openAddServiceModal() {
+  editingId = null;
+  editingType = 'service';
+  openModal('New Service', `
+    <form id="service-form">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Icon (emoji)</label><input type="text" class="form-input" id="svc-icon" placeholder="⚡"></div>
+        <div class="form-group"><label class="form-label">Name *</label><input type="text" class="form-input" id="svc-name" placeholder="Creative Systems" required></div>
+        <div class="form-group form-full"><label class="form-label">Description</label><textarea class="form-textarea" id="svc-desc" placeholder="Service description..."></textarea></div>
+        <div class="form-group"><label class="form-label">Category</label><input type="text" class="form-input" id="svc-category" placeholder="Creative, Digital, Growth, Startup"></div>
+      </div>
+    </form>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveService()">Save Service</button>
+  `);
+}
+
+async function saveService() {
+  const name = document.getElementById('svc-name').value.trim();
+  const description = document.getElementById('svc-desc').value.trim();
+  const icon = document.getElementById('svc-icon').value.trim();
+  const category = document.getElementById('svc-category').value.trim();
+  if (!name) { toast('Name required', 'error'); return; }
+  try {
+    if (editingId) {
+      await supabase.from('services').update({ name, description, icon, category }).eq('id', editingId);
+    } else {
+      await supabase.from('services').insert([{ name, description, icon, category }]);
+    }
+    toast('Service saved!', 'success');
+    closeModal();
+    loadServicesManager();
+  } catch(e) {
+    toast('Error saving', 'error');
+  }
+}
+
+async function editService(id) {
+  const { data } = await supabase.from('services').select('*').eq('id', id).single();
+  editingId = id;
+  editingType = 'service';
+  openModal('Edit Service', `
+    <form id="service-form">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Icon</label><input type="text" class="form-input" id="svc-icon" value="${data.icon || ''}"></div>
+        <div class="form-group"><label class="form-label">Name *</label><input type="text" class="form-input" id="svc-name" value="${data.name || ''}" required></div>
+        <div class="form-group form-full"><label class="form-label">Description</label><textarea class="form-textarea" id="svc-desc">${data.description || ''}</textarea></div>
+        <div class="form-group"><label class="form-label">Category</label><input type="text" class="form-input" id="svc-category" value="${data.category || ''}"></div>
+      </div>
+    </form>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveService()">Update</button>
+  `);
+}
+
+async function deleteService(id) {
+  if (!confirm('Delete this service?')) return;
+  await supabase.from('services').delete().eq('id', id);
+  toast('Service deleted', 'success');
+  loadServicesManager();
+}
+
+// ═══════════════════════════════════════════
+// SITE CONTENT EDITOR
+// ═══════════════════════════════════════════
+async function loadContentEditor() {
+  const main = document.getElementById('main-content');
+  
+  let content = {};
+  try {
+    const { data, error } = await supabase.from('site_content').select('*').single();
+    if (data) content = data;
+  } catch(e) {}
+
+  main.innerHTML = `
+    <div class="topbar">
+      <div class="tb-left">
+        <h2 class="tb-title">Site Content Editor</h2>
+        <p class="tb-sub">Edit homepage text, hero messaging, about section, and more</p>
+      </div>
+      <div class="tb-actions">
+        <button class="btn btn-primary" onclick="saveContent()">Save Changes</button>
+        <a href="index.html" target="_blank" class="btn btn-secondary">Preview Site ↗</a>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><h3 class="panel-title">Hero Section</h3></div>
+      <div class="panel-body">
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label class="form-label">Hero Headline</label>
+          <input type="text" class="form-input" id="content-hero-headline" value="${content.hero_headline || 'Designing the Future of African Business.'}">
+        </div>
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label class="form-label">Hero Subtitle</label>
+          <input type="text" class="form-input" id="content-hero-sub" value="${content.hero_sub || 'Built in Tanzania'}">
+        </div>
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label class="form-label">Hero Video URL</label>
+          <input type="text" class="form-input" id="content-hero-video" value="${content.hero_video || 'geekstudio-hero1.mp4'}">
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><h3 class="panel-title">About Section</h3></div>
+      <div class="panel-body">
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label class="form-label">Section Title</label>
+          <input type="text" class="form-input" id="content-about-title" value="${content.about_title || 'Not just an agency. An ecosystem.'}">
+        </div>
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label class="form-label">About Text</label>
+          <textarea class="form-textarea" id="content-about-text">${content.about_text || 'Geek Studio is a future-focused creative-tech ecosystem...'}</textarea>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><h3 class="panel-title">Footer</h3></div>
+      <div class="panel-body">
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label class="form-label">Footer Tagline</label>
+          <input type="text" class="form-input" id="content-footer-tagline" value="${content.footer_tagline || 'Built in Tanzania. Designed for the Future.'}">
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+async function saveContent() {
+  const data = {
+    hero_headline: document.getElementById('content-hero-headline').value,
+    hero_sub: document.getElementById('content-hero-sub').value,
+    hero_video: document.getElementById('content-hero-video').value,
+    about_title: document.getElementById('content-about-title').value,
+    about_text: document.getElementById('content-about-text').value,
+    footer_tagline: document.getElementById('content-footer-tagline').value,
   };
-  const {error}=await db.from('geek_content').insert([payload]);
-  if(!error){
-    e.target.reset();
-    modal.classList.remove('open');
-    fetchProjects();
-  } else {
-    alert('Deployment failed: '+error.message);
+  try {
+    // Upsert
+    const { error } = await supabase.from('site_content').upsert([{ id: 1, ...data }]);
+    if (error) throw error;
+    toast('Content saved! Changes are live.', 'success');
+  } catch(e) {
+    toast('Error saving content', 'error');
   }
-  btn.textContent='Deploy to Live Site →';btn.disabled=false;
-});
+}
 
-/* DELETE */
-window.deleteProject=async(id)=>{
-  if(!confirm('Permanently delete this project?'))return;
-  const {error}=await db.from('geek_content').delete().eq('id',id);
-  if(!error)fetchProjects();
-  else alert('Delete failed: '+error.message);
-};
+// ═══════════════════════════════════════════
+// INITIALIZE
+// ═══════════════════════════════════════════
+// Create tables if they don't exist (will fail silently if they do)
+async function initDB() {
+  try {
+    // Projects table
+    await supabase.rpc('create_projects_table').maybeSingle();
+  } catch(e) {}
+  try {
+    // Media table
+    await supabase.rpc('create_media_table').maybeSingle();
+  } catch(e) {}
+  try {
+    // Blog posts table
+    await supabase.rpc('create_blog_table').maybeSingle();
+  } catch(e) {}
+  try {
+    // Services table
+    await supabase.rpc('create_services_table').maybeSingle();
+  } catch(e) {}
+  try {
+    // Site content table
+    await supabase.rpc('create_content_table').maybeSingle();
+  } catch(e) {}
+}
 
-/* SESSION CHECK */
-(async()=>{
-  const {data:{session}}=await db.auth.getSession();
-  if(session){
-    document.getElementById('auth-screen').style.display='none';
-    document.getElementById('app').style.display='flex';
-    fetchProjects();
-  }
-})();
+// Run init
+initDB();
 </script>
 </body>
 </html>
